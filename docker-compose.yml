@@ -1,0 +1,22 @@
+version: "2.4"
+services:
+
+  # Web server instance (the only external facing service)
+  nginx:
+    image: "nginx:stable-alpine"
+    volumes:
+      - "siteconf:/etc/nginx/conf.d"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+
+  # TODO: openldap:
+  #   image: osixia/openldap:stable
+  # TODO: ldap-auth:
+  #   image: linuxserver/ldap-auth:version-3.3.1
+
+volumes:
+  siteconf:
+    external: true
+    driver: "overlay2"

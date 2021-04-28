@@ -1,0 +1,11 @@
+[Unit]
+Description=Webservices
+After=docker.service network-online.target
+Requires=docker.service network-online.target
+
+[Service]
+WorkingDirectory=/usr/share/edtwardy-webservices
+ExecStart=/bin/start-webservices start
+
+[Install]
+WantedBy=multi-user.target
