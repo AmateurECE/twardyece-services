@@ -42,3 +42,23 @@ that don't belong to the current configuration.
    configuration management.
 4. (Ansible) Provide a script for machine configuration management and tracks
    versions of installed packages.
+
+# TODO: Private data archive
+This package requires private data. It's not clear how it should be installed
+(probably not as a dpkg dependency, though).
+
+# TODO: Even some of the data volumes should be version controlled
+Using the lock file
+
+# TODO: Add ${QUIET} cmd to shell scripts (docker-volume-manager)
+This is for the tar command.
+
+# TODO: postrm script
+This package should remove docker images and volumes when uninstalled.
+
+# TODO: docker-volume-manager --init-data <,volumes>
+The docker-volume-manager script should take an --init-data argument that
+accepts a comma-separated list of data volumes to initialize from images. This
+is to bootstrap data volumes upon first install.
+
+# TODO: Django project as packaged pip application

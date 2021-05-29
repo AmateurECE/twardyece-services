@@ -8,7 +8,7 @@
 #
 # CREATED:          05/01/2021
 #
-# LAST EDITED:      05/06/2021
+# LAST EDITED:      05/26/2021
 ###
 
 read -r -d '' USAGE <<EOF
@@ -22,9 +22,11 @@ set -e
 CONFIG_VOLUMES_DEF
 DATA_VOLUMES_DEF
 
-BUILD_IMAGE=alpine:latest
-HASH_FILE=/var/run/edtwardy-webservices.lock
-IMAGE_LOCATION='/usr/share/edtwardy-webservices'
+LOG_TAG='start-webservices'
+
+# Read the configuration file (with defaults set)
+volumeDirectory=/var/data/
+. /etc/edtwardy-webservices/docker-volume-manager.conf
 
 # join: Join a bash array by a delimiter
 join() {
@@ -34,102 +36,54 @@ join() {
     fi
 }
 
-# getVolumes: Obtain the volumes the Docker container knows about
-getVolumes() {
-    printf '%s\n' "$(docker volume ls | tail -n+2 | awk '{print $2}')"
-}
-
-# getExistingDataVolumes: Get subset of data volumes available on this system
-getExistingDataVolumes() {
-    pattern=$(join '|' ${DATA_VOLUMES[@]})
-    existingVolumes=($(getVolumes))
-    printf '%s\n' ${existingVolumes[@]//!($pattern)?( )}
-}
-
 # getConfigVolumesToCreate: Get subset of config volumes we need to create
-getConfigVolumesToCreate() {
-    pattern=$(join '|' ${CONFIG_VOLUMES[@]})
-    existingVolumes=($(getVolumes))
-    printf '%s\n' ${existingVolumes[@]//*($pattern)?( )}
+getVolumesToCreate() {
+    existingVolumes=($(docker volume ls | tail -n+2 | awk '{print $2}'))
+    pattern=$(join '|' ${existingVolumes[@]})
+    neededConfigVolumes=${CONFIG_VOLUMES[@]//*($pattern)?( )}
+    neededDataVolumes=${DATA_VOLUMES[@]//*($pattern)?( )}
+    printf '%s\n' "${neededConfigVolumes[@]} ${neededDataVolumes[@]}"
 }
 
-# getImageName: Obtain the name of the zipped image file for the volume
-getImageName() {
-    printf '%s-volume.tar.gz\n' "$1"
-}
-
-# backup: Back up a volume to a .tar.gz archive
-backup() {
-    local volumeName=$1
-    local containerName=$1-backup
-    mkdir -p $PWD/backup
-    docker run -d --rm --name $containerName \
-           -v $volumeName:/volume \
-           -v $PWD:/backup \
-           $BUILD_IMAGE /bin/sh
-    docker cp -a $PWD/$volumeName $containerName:/volume
-    docker exec $containerName tar czvf /backup/$(getImageName $volume) /volume
-    docker stop $containerName
-    rm -rf $PWD/backup
-}
-
-# restore: Restore the contents of a container from a .tar.gz archive
-restore() {
-    local volumeName=$1
-    local containerName=$1-populator
-    docker run --rm --name $containerName \
-	   -v $PWD:/backup \
-	   -v $volumeName:/volume \
-	   $BUILD_IMAGE /bin/sh
-    mkdir -p $PWD/volume
-    docker exec $containerName \
-	   tar xzvf /backup/$(getImageName $1) -C /backup/volume
-    docker exec $containerName \
-	   /bin/sh -c 'rm -rf /volume/* && cp -a /backup/volume/* /volume/'
-    docker stop $containerName
-    # TODO: Not a fan of the 'rm -rf'
-    rm -rf $PWD/volume
-}
-
-createNonexistentConfigVolumes() {
-    for volume in $(getConfigVolumesToCreate); do
+syncVolumes() {
+    # Create missing volumes, if any
+    printf ${LOG_TAG}': %s\n' "Checking for missing volumes"
+    for volume in $(getVolumesToCreate); do
+        printf ${LOG_TAG}': Creating volume %s\n' $volume
         docker volume create $volume
     done
-}
 
-restoreConfigs() {
-    createNonexistentConfigVolumes
-    incorrectHashes=(${CONFIG_VOLUMES[@]}) # Start with all of them
-    if [[ -f $HASH_FILE ]]; then
-        pattern=$(join '|' ${CONFIG_VOLUMES[@]})
-        incorrectHashes=($(sha256sum --quiet -c $HASH_FILE 2>&1 \
-                               | head -n-1 \
-                               | awk -F':' "/$pattern/"'{print $1}'))
+    # Perform set-up for docker-volume-manager
+    dataVolumeManifest=$volumeDirectory/data-volumes.manifest
+    if [[ ! -f $dataVolumeManifest ]]; then
+        printf ${LOG_TAG}': Creating %s\n' $dataVolumeManifest
+        mkdir -p $(dirname $dataVolumeManifest)
+        printf '%s\n' "${DATA_VOLUMES[@]}" > $dataVolumeManifest
     fi
-    sha256sum $IMAGE_LOCATION/*.tar.gz > $HASH_FILE
 
-    for volume in "${incorrectHashes[@]}"; do
-        restore $volume
+    # Spin up a docker container to synchronize all of the volumes
+    volumeSpec=""
+    for volume in "${CONFIG_VOLUMES[@]}"; do
+        volumeSpec="${volumeSpec} -v ${volume}:/${volume}"
     done
-}
 
-backupDataVolumes() {
-    for volume in ${DATA_VOLUMES[@]}; do
-        backup $volume
-    done
+    printf ${LOG_TAG}': %s\n' "Starting docker-volume-manager"
+    containerName='edtwardy-webservices_volumemanager'
+    trap "docker stop $containerName" EXIT
+    docker run -t --rm --name $containerName $volumeSpec \
+           -v $volumeStateDirectory:/state \
+           -v $dataVolumeDirectory:/datavolumes \
+           -v $configVolumeDirectory:/configvolumes \
+           edtwardy/volumemanager:latest
+    trap - EXIT
 }
 
 RC=0
 case $1 in
     start)
-        restoreConfigs
+        syncVolumes
+        printf ${LOG_TAG}': %s\n' "Starting docker services"
         docker-compose up
-        ;;
-    backupData)
-        backupDataVolumes
-        ;;
-    restoreConfigs)
-        restoreConfigs
         ;;
     *)
         >&2 printf '%s\n' "$USAGE"
