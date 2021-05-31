@@ -1,6 +1,6 @@
 #!/bin/bash
 ###############################################################################
-# NAME:             buildah-volumemanager.sh
+# NAME:             buildah-volumemanager.bash
 #
 # AUTHOR:           Ethan D. Twardy <edtwardy@mtu.edu>
 #
@@ -8,7 +8,7 @@
 #
 # CREATED:          05/22/2021
 #
-# LAST EDITED:      05/29/2021
+# LAST EDITED:      05/30/2021
 ###
 
 read -r -d '' USAGE<<EOF
@@ -34,8 +34,9 @@ build() {
     trap cleanup EXIT
 
     buildah from --name=$containerId registry.hub.docker.com/library/bash
-    buildah copy $containerId docker-volume-manager /bin/docker-volume-manager
-    buildah run $containerId chmod 744 /bin/docker-volume-manager
+    buildah copy $containerId docker-volume-manager.bash \
+            /bin/docker-volume-manager
+    buildah run $containerId chmod 544 /bin/docker-volume-manager
     buildah config \
             --entrypoint "/bin/docker-volume-manager" \
             --author "Ethan D. Twardy <ethan.twardy@gmail.com>" \
