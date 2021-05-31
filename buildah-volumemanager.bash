@@ -17,7 +17,6 @@ Usage: $0 <build | push-daemon | push-dockerhub>
 Commands:
   build             Build the image using buildah
   push-daemon       Push the image to the Docker Daemon
-  push-dockerhub    Push the image to Docker Hub
 EOF
 
 set -e
