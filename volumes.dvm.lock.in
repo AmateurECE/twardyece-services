@@ -5,3 +5,4 @@
 #
 # NAME      DIRECTION   HASH
 siteconf    upstream    <hash>
+letsencrypt downstream

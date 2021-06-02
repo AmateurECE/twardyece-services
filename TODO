@@ -1,0 +1,2 @@
+* Look into ROOT_URLCONF settings variable for Django?
+    This setting should be to change the web root of the Django application.

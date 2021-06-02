@@ -25,12 +25,27 @@
 #
 # CREATED:          05/22/2021
 #
-# LAST EDITED:      05/30/2021
+# LAST EDITED:      05/31/2021
 ###
+
+read -r -d '' USAGE<<EOF
+Usage: $0 [--init-downstream <downstreamVolumes>]
+
+Arguments:
+  --init-downstream <downstreamVolumes>
+     Takes a comma (,) separated list of names corresponding to downstream
+     volumes (specified in volumes.dvm.lock) to be initialized from their
+     archive images in VOLPATH.
+EOF
 
 set -e
 
 LOG_TAG='docker-volume-manager'
+INIT_DOWNSTREAM=()
+
+# TODO: Integrate tar --diff option
+#   This option compares the contents of the archive to the contents on disk.
+#   Use this to decide whether to invoke tar.
 
 processUpstream() {
     local name=$1 && shift
@@ -40,7 +55,7 @@ processUpstream() {
     local hash=$1
     if [[ "$hash" = "unlocked" ]]; then
         printf ${LOG_TAG}': %s\n' "Processing u/u voume: $name"
-        tar xzvf $volumeImage
+        tar xzvf $volumeImage >/dev/null
         return 0
     elif [[ -z $(printf '%s\n' "$hash" | grep 'sha256') ]]; then
         >&2 printf ${LOG_TAG}': %s\n' "Unknown hash type for volume $name."
@@ -49,8 +64,6 @@ processUpstream() {
 
     # Check the hash of the file
     printf ${LOG_TAG}': %s\n' "Checking hash for u/h volume: $name"
-    printf '%s\n' "$(awk -F: '{print $2}' <<<$hash)  $volumeImage"
-    printf '%s\n' "$(sha256sum $volumeImage)"
     printf '%s\n' "$(awk -F: '{print $2}' <<<$hash)  $volumeImage" |
         sha256sum -c -
     if [[ $? != 0 ]]; then
@@ -60,22 +73,22 @@ processUpstream() {
 
     # Finally, unzip it.
     printf ${LOG_TAG}': %s\n' "Unzipping u/h volume: $name"
-    tar xzvf $volumeImage
+    tar xzvf $volumeImage >/dev/null
 }
 
 processDownstream() {
     local name=$1 && shift
     local volumeImage=$1 && shift
 
-    if [[ -n $1 && $1 =~ "--init-downstream" && "$1 $2" =~ $name ]]; then
+    if [[ "${INIT_DOWNSTREAM[@]}" =~ $name ]]; then
         # We've been instructed to initialize this downstream volume from an
         # upstream image
         printf ${LOG_TAG}': %s\n' "Initializing d volume: $name"
-        tar xzvf $volumeImage
+        tar xzvf $volumeImage >/dev/null
     else
         # The rest of the time, downstream repos are easy--just archive them.
         printf ${LOG_TAG}': %s\n' "Archiving d volume: $name"
-        tar czvf $volumeImage /$name
+        tar czvf $volumeImage /$name >/dev/null
     fi
 }
 
@@ -113,6 +126,22 @@ processVolume() {
 ########
 # Main
 #
+
+# Parse the arguments. Since we only have the one (for now) don't iterate.
+if [[ "$1" =~ --init-downstream ]]; then
+    if [[ "$1" =~ "--init-downstream=" ]]; then
+        # 1. Either the volume list is concatenated with an '='
+        1=${1//--init-downstream=}
+        IFS=, read -ra INIT_DOWNSTREAM<<<"$1"
+    elif [[ -n "$2" ]]; then
+        # 2. Or the next argument is the volume list
+        IFS=, read -ra INIT_DOWNSTREAM<<<"$2"
+    else
+        >&2 printf ${LOG_TAG}': %s\n' "Malformed --init-downstream directive."
+        exit 1
+    fi
+    printf ${LOG_TAG}': %s\n' "INIT_DOWNSTREAM=${INIT_DOWNSTREAM[@]}"
+fi
 
 lockFile=/volumes.dvm.lock
 if [[ ! -f $lockFile ]]; then

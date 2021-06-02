@@ -5,7 +5,9 @@ services:
   nginx:
     image: "nginx:stable-alpine"
     volumes:
-      - "siteconf:/etc/nginx/conf.d"
+      - "siteconf:/etc/nginx/conf.d:ro"
+      - "letsencrypt:/etc/letsencrypt:ro"
+      - "acme-challenge:/var/www/certbot:ro"
     ports:
       - "80:80"
       - "443:443"
@@ -15,8 +17,14 @@ services:
   #   image: osixia/openldap:stable
   # TODO: ldap-auth:
   #   image: linuxserver/ldap-auth:version-3.3.1
+  # TODO: Django project as packaged pip application
 
+# TODO: persist container logs to volume
+#   certbot:/var/log/letsencrypt.log
+#   nginx:/var/log/nginx/{access,error}.log
 volumes:
   siteconf:
     external: true
-    driver: "overlay2"
+  letsencrypt:
+    external: true
+  acme-challenge: # No content in this by default.

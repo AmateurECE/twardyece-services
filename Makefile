@@ -7,7 +7,7 @@
 #
 # CREATED:	    04/26/2021
 #
-# LAST EDITED:	    05/30/2021
+# LAST EDITED:	    06/01/2021
 ###
 
 PACKAGE_NAME=edtwardy-webservices
@@ -48,6 +48,9 @@ install: $(configVolumeImages) volumes.dvm.lock
 	install -m744 start-webservices.bash $(DESTDIR)/bin/start-webservices
 	install -d $(DESTDIR)/etc/$(PACKAGE_NAME)
 	install -m644 dvm.conf $(DESTDIR)/etc/$(PACKAGE_NAME)
+	install -d $(DESTDIR)/etc/cron.daily
+	install -m544 renew-certificates.bash \
+		$(DESTDIR)/etc/cron.daily/renewcertificates
 
 clean:
 	-rm -f volumes.dvm.lock
@@ -74,6 +77,7 @@ package: $(zipArchive)
 reinstall:
 	dpkg --purge $(PACKAGE_NAME)
 	dpkg -i ../*.deb
+	systemctl restart $(PACKAGE_NAME)
 #------------------------------------------------------------------------------
 
 ###############################################################################

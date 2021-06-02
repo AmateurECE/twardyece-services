@@ -8,8 +8,16 @@
 #
 # CREATED:          05/01/2021
 #
-# LAST EDITED:      05/30/2021
+# LAST EDITED:      05/31/2021
 ###
+
+# TODO: Cron/certbot to renew certificate
+# TODO: postrm script
+#   This package should remove docker images and volumes when uninstalled.
+# TODO: Device a way to enable/disable whole locations/services at runtime?
+# TODO: Re-map user id of files within containers
+#   https://docs.docker.com/engine/security/userns-remap/
+# TODO: Set up non-root user with systemd.
 
 read -r -d '' USAGE <<EOF
 $(basename $0): Start Docker Web Services

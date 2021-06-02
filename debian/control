@@ -11,6 +11,6 @@ Rules-Requires-Root: no
 
 Package: edtwardy-webservices
 Architecture: amd64
-Depends: bash (>= 5.1-2+b1), coreutils (>= 8.32-4+b1), gawk, systemd, docker-compose, ${shlibs:Depends}, ${misc:Depends}
+Depends: bash (>= 5.1-2+b1), coreutils (>= 8.32-4+b1), gawk, systemd, docker-compose, cron, ${shlibs:Depends}, ${misc:Depends}
 Description: Docker infrastructure for my web services
  Docker infrastructure for my web services, as well as systemd triggers.
