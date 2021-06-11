@@ -8,19 +8,18 @@
 #
 # CREATED:          05/01/2021
 #
-# LAST EDITED:      05/31/2021
+# LAST EDITED:      06/07/2021
 ###
 
-# TODO: Cron/certbot to renew certificate
-# TODO: postrm script
-#   This package should remove docker images and volumes when uninstalled.
-# TODO: Device a way to enable/disable whole locations/services at runtime?
-# TODO: Re-map user id of files within containers
-#   https://docs.docker.com/engine/security/userns-remap/
-# TODO: Set up non-root user with systemd.
-
 read -r -d '' USAGE <<EOF
-$(basename $0): Start Docker Web Services
+$0 <command>
+
+Start Docker Web Services
+
+Commands:
+  start     Start the webservices daemon (runs until interrupted)
+  rm        Purge volumes and containers created by the daemon, leaving OCF
+            images and volume images untouched.
 EOF
 
 shopt -s extglob
@@ -30,6 +29,7 @@ PACKAGE_NAME=edtwardy-webservices
 DVM_LOCK=/usr/share/$PACKAGE_NAME/volumes.dvm.lock
 VOLUME_NAMES=($(awk '/^#/{next};NF==0{next};{print $1}' $DVM_LOCK))
 LOG_TAG='start-webservices'
+COMPOSE_FILE=/usr/share/$PACKAGE_NAME/docker-compose.yml
 
 # Read the configuration file (with defaults set)
 VOLPATH=/var/data/$PACKAGE_NAME
@@ -62,7 +62,8 @@ syncVolumes() {
 
     # Spin up a docker container to synchronize all of the volumes
     containerName='edtwardy-webservices_volumemanager'
-    command=edtwardy/volumemanager:latest
+    imageName=edtwardy/volumemanager:latest
+    arguments=()
 
     volumeSpec=()
     for volume in "${VOLUME_NAMES[@]}"; do
@@ -73,8 +74,9 @@ syncVolumes() {
     if [[ -n "${newVolumes[@]}" ]]; then
         upstreams=($(awk '/^[^#].*upstream/{print $1}' $DVM_LOCK))
         newDownstream=${newVolumes[@]//*($(join '|' "${upstreams[@]}"))?( )}
-        printf ${LOG_TAG}': %s\n' "Found downstreams to init: ${newVolumes[@]}"
-        command="${command} --init-downstream $(join , ${newDownstream[@]})"
+        printf ${LOG_TAG}': %s\n' \
+               "Found downstreams to init: $(join ' ' ${newVolumes[@]})"
+        arguments+=("--init-downstream" "$(join , ${newDownstream[@]})")
     fi
 
     # Pass volumes to search for images as env var
@@ -93,11 +95,12 @@ syncVolumes() {
     printf ${LOG_TAG}': %s\n' "Volumes: $(join ' ' ${volumeSpec[@]})"
     printf ${LOG_TAG}': %s\n' "Docker VOLPATH: $(join : ${dockerVolpath[@]})"
     printf ${LOG_TAG}': %s\n' "Starting docker-volume-manager"
+    printf ${LOG_TAG}': %s\n' "Arguments: $(join ' ' ${arguments[@]})"
     trap "docker stop $containerName" EXIT
     docker run -t --rm --name $containerName \
-           "${volumeSpec[@]}" \
+           $(join ' ' "${volumeSpec[@]}") \
            -e VOLPATH=$(join : "${dockerVolpath[@]}") \
-           $command
+           $imageName $(join ' ' "${arguments[@]}")
     trap - EXIT
 }
 
@@ -106,7 +109,12 @@ case $1 in
     start)
         syncVolumes
         printf ${LOG_TAG}': %s\n' "Starting docker services"
-        docker-compose up
+        docker-compose -f $COMPOSE_FILE up
+        ;;
+    rm)
+        printf ${LOG_TAG}': %s\n' "Purging Docker containers and volumes"
+        docker-compose -f $COMPOSE_FILE rm -fsv
+        docker volume rm $(join ' ' "${VOLUME_NAMES[@]}")
         ;;
     *)
         >&2 printf '%s\n' "$USAGE"

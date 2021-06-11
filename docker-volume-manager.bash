@@ -25,27 +25,26 @@
 #
 # CREATED:          05/22/2021
 #
-# LAST EDITED:      05/31/2021
+# LAST EDITED:      06/07/2021
 ###
 
 read -r -d '' USAGE<<EOF
-Usage: $0 [--init-downstream <downstreamVolumes>]
+Usage: $0 [--init-downstream <downstreamVolumes>] [--backup]
 
 Arguments:
   --init-downstream <downstreamVolumes>
      Takes a comma (,) separated list of names corresponding to downstream
      volumes (specified in volumes.dvm.lock) to be initialized from their
      archive images in VOLPATH.
+  --backup
+     Backs up the data volumes specified in volumes.dvm.lock.
 EOF
 
 set -e
 
 LOG_TAG='docker-volume-manager'
 INIT_DOWNSTREAM=()
-
-# TODO: Integrate tar --diff option
-#   This option compares the contents of the archive to the contents on disk.
-#   Use this to decide whether to invoke tar.
+BACKUP=n
 
 processUpstream() {
     local name=$1 && shift
@@ -85,8 +84,8 @@ processDownstream() {
         # upstream image
         printf ${LOG_TAG}': %s\n' "Initializing d volume: $name"
         tar xzvf $volumeImage >/dev/null
-    else
-        # The rest of the time, downstream repos are easy--just archive them.
+    elif [[ "$BACKUP" = "y" ]]; then
+        # We've been instructed to backup the volume to a tar archive.
         printf ${LOG_TAG}': %s\n' "Archiving d volume: $name"
         tar czvf $volumeImage /$name >/dev/null
     fi
@@ -127,21 +126,35 @@ processVolume() {
 # Main
 #
 
-# Parse the arguments. Since we only have the one (for now) don't iterate.
-if [[ "$1" =~ --init-downstream ]]; then
-    if [[ "$1" =~ "--init-downstream=" ]]; then
-        # 1. Either the volume list is concatenated with an '='
-        1=${1//--init-downstream=}
-        IFS=, read -ra INIT_DOWNSTREAM<<<"$1"
-    elif [[ -n "$2" ]]; then
-        # 2. Or the next argument is the volume list
-        IFS=, read -ra INIT_DOWNSTREAM<<<"$2"
-    else
-        >&2 printf ${LOG_TAG}': %s\n' "Malformed --init-downstream directive."
-        exit 1
-    fi
-    printf ${LOG_TAG}': %s\n' "INIT_DOWNSTREAM=${INIT_DOWNSTREAM[@]}"
-fi
+# TODO: This is being printed on multiple lines
+printf ${LOG_TAG}': Arguments: %s\n' "$@"
+
+while [[ -n "$1" ]]; do
+    case "$1" in
+        --init-downstream*)
+            if [[ -n "$2" ]]; then
+                # 1. Either the next argument is the volume list
+                IFS=, read -ra INIT_DOWNSTREAM<<<"$2" && shift
+            elif [[ "$1" =~ "--init-downstream=" ]]; then
+                # 2. Or the volume list is concatenated with an '='
+                1=${1//--init-downstream=}
+                IFS=, read -ra INIT_DOWNSTREAM<<<"$1"
+            else
+                >&2 printf ${LOG_TAG}': %s\n' \
+                    "Malformed --init-downstream directive."
+                exit 1
+            fi
+            # TODO: This is being printed on multiple lines.
+            printf ${LOG_TAG}': %s\n' "INIT_DOWNSTREAM=${INIT_DOWNSTREAM[@]}"
+            ;;
+        --backup)
+            BACKUP=y
+            ;;
+        *)
+            >&2 printf ${LOG_TAG}': %s\n' "Unknown argument: $1"
+    esac
+    shift
+done
 
 lockFile=/volumes.dvm.lock
 if [[ ! -f $lockFile ]]; then
@@ -149,11 +162,6 @@ if [[ ! -f $lockFile ]]; then
     exit 1
 fi
 
-# Must handle four cases:
-#  1. Upstream,versioned: check hash sum, run "Upstream,unversioned" routine
-#  2. Upstream,unversioned: decompress volume image
-#  3. Downstream: compress contents of directory into volume image
-#  4. Downstream,--init-downstream: decompress volume image
 printf ${LOG_TAG}': %s\n' "Parsing lock file"
 awk -f <(cat - <<EOF
 /^#/{next};

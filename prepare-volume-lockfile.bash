@@ -8,7 +8,7 @@
 #
 # CREATED:          05/29/2021
 #
-# LAST EDITED:      05/29/2021
+# LAST EDITED:      06/06/2021
 ###
 
 read -r -d '' USAGE<<EOF
@@ -72,12 +72,6 @@ if [[ -f $LOCK_FILE ]]; then
     rm -f $LOCK_FILE
 fi
 
-# Must handle four cases:
-#  1. Upstream,versioned,<hash>: verify volume image exists, calculate hash
-#     and print
-#  2. Upstream,versioned,hashed (TODO): print
-#  3. Upstream,unversioned (TODO): just print
-#  4. Downstream (TODO): verify hash is "unlocked" and print
 awk -f <(cat - <<EOF
 /^#/{next};
 NF == 0 {next};

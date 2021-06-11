@@ -1,2 +1,32 @@
 * Look into ROOT_URLCONF settings variable for Django?
     This setting should be to change the web root of the Django application.
+* README.md: Grab the size on disk (according to dpkg and Docker)
+* README.md: Grab memory requirements from systemd
+* postrm script to remove Docker volumes
+* Devise a way to enable/disable whole locations/services at runtime?
+* Re-map user id of files within containers
+    https://docs.docker.com/engine/security/userns-remap/
+* Set up non-root user with systemd.
+* docker-compose.yml: Django project as packaged pip application
+* docker-compose.yml: persist container logs to volume
+    certbot:/var/log/letsencrypt.log
+    nginx:/var/log/nginx/{access,error}.log
+* docker-volume-manager.bash: Integrate tar --diff option
+* Regularly restart the container to get regular backups (systemd or cron)
+* Verify all containers have the same timezone.
+* Cron to archive all backup images regularly and keep a few around
+* Add command to start-webservices instructing docker-volume-manager to backup
+* Rename start-webservices and add more commands
+    The start-webservices script could benefit from a "purge" command, that
+    e.g. deletes the stopped containers. Adding this functionality would
+    require renaming the script.
+* Document format/behavior of volumes.dvm.lock in README.md
+* Integrate tar --diff option
+    This option compares the contents of the volume to the contents on disk.
+    Useful to prevent unnecessarily changing the contents of disk.
+* Currently, data volumes backup archives are required to exist in VOLPATH,
+    even if we aren't initializing or backing them up. This is probably not the
+    best behavior.
+* backup command to start-webservices should mount a special backup location
+    to the docker-volume-manager container.
+* This repository doesn't really support testing "in-repository." It should.

@@ -6,3 +6,5 @@
 # NAME      DIRECTION   HASH
 siteconf    upstream    <hash>
 letsencrypt downstream
+slapd.d     downstream
+ldap        downstream

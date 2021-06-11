@@ -13,18 +13,26 @@ services:
       - "443:443"
       - "8080:8080"
 
-  # TODO: openldap:
-  #   image: osixia/openldap:stable
-  # TODO: ldap-auth:
-  #   image: linuxserver/ldap-auth:version-3.3.1
-  # TODO: Django project as packaged pip application
+  openldap:
+    image: "osixia/openldap:stable"
+    volumes:
+      - "ldap:/var/lib/ldap"
+      - "slapd.d:/etc/ldap/slapd.d"
 
-# TODO: persist container logs to volume
-#   certbot:/var/log/letsencrypt.log
-#   nginx:/var/log/nginx/{access,error}.log
+  ldap-auth:
+    image: "linuxserver/ldap-auth:version-3.3.1"
+
+  # TODO: Django project as packaged pip application
+  # TODO: Conan Server
+  # TODO: Mini-Dinstall
+
 volumes:
   siteconf:
     external: true
   letsencrypt:
     external: true
-  acme-challenge: # No content in this by default.
+  acme-challenge: # Use default volume
+  ldap:
+    external: true
+  slapd.d:
+    external: true

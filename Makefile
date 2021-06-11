@@ -7,7 +7,7 @@
 #
 # CREATED:	    04/26/2021
 #
-# LAST EDITED:	    06/01/2021
+# LAST EDITED:	    06/06/2021
 ###
 
 PACKAGE_NAME=edtwardy-webservices
@@ -16,7 +16,7 @@ configVolumes=siteconf
 configVolumeImages=$(addsuffix -volume.tar.gz,$(configVolumes))
 dataVolumes=
 
-all: $(configVolumeImages) volumes.dvm.lock
+all: $(configVolumeImages) volumes.dvm.lock image-build.out.lock
 
 #: Generate a .tar.gz archive from a directory
 siteconf-volume.tar.gz: $(shell find siteconf)
@@ -26,8 +26,8 @@ siteconf-volume.tar.gz: $(shell find siteconf)
 $(configVolumeImages): $(configVolumes)
 
 #: Generate the volumemanager docker image (a phony target)
-volumemanager:
-	./buildah-volumemanager.bash
+image-build.out.lock: docker-volume-manager.bash buildah-volumemanager.bash
+	./buildah-volumemanager.bash build
 
 #: Generate volumes.dvm.lock file
 volumes.dvm.lock: volumes.dvm.lock.in $(configVolumeImages)

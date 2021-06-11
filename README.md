@@ -53,6 +53,3 @@ automated on the host via cron (this is, naturally, distribution-specific).
    https://hub.docker.com/repository/docker/edtwardy/volumemanager)
 2. [nginx](https://hub.docker.com/_/nginx)
 3. [certbot/certbot](https://hub.docker.com/r/certbot/certbot)
-
-<!-- TODO: Grab the size on disk (according to dpkg and Docker) -->
-<!-- TODO: Grab memory requirements from systemd -->
