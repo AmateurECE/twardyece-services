@@ -29,3 +29,7 @@ https://docs.djangoproject.com/en/3.2/topics/auth/default/)
 * Timed wait between failed login attempts (Http Server)
 
 ## Session Fixation
+
+## Session Fixation (By compromise of Django SECRET_KEY)
+* Django SECRET_KEY is generated using a shell script every time the container
+  starts.

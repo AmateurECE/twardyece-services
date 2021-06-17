@@ -4,7 +4,7 @@ After=docker.service network-online.target
 Requires=docker.service network-online.target
 
 [Service]
-ExecStart=/bin/start-webservices start
+ExecStart=/bin/edtwardy-webservices start
 
 [Install]
 WantedBy=multi-user.target

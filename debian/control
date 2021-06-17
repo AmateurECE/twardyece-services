@@ -2,7 +2,7 @@ Source: edtwardy-webservices
 Section: contrib/web
 Priority: optional
 Maintainer: Ethan D. Twardy <ethan.twardy@gmail.com>
-Build-Depends: debhelper-compat (= 13), tar (>= 1.34), buildah (>= 1.19.6)
+Build-Depends: debhelper-compat (= 13), tar (>= 1.34), buildah (>= 1.19.6), docker.io (>= 20.10.5), make (>= 4.3)
 Standards-Version: 4.5.1
 Homepage: https://github.com/AmateurECE/edtwardy-webservices
 Vcs-Browser: https://github.com/AmateurECE/edtwardy-webservices

@@ -22,7 +22,12 @@ services:
   ldap-auth:
     image: "linuxserver/ldap-auth:version-3.3.1"
 
-  # TODO: Django project as packaged pip application
+  apps:
+    image: "edtwardy/apps:latest"
+    environment:
+      - DJANGO_HOSTNAME=edtwardy.hopto.org
+      - SCRIPT_NAME=/apps
+
   # TODO: Conan Server
   # TODO: Mini-Dinstall
 

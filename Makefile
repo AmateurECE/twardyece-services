@@ -7,7 +7,7 @@
 #
 # CREATED:	    04/26/2021
 #
-# LAST EDITED:	    06/06/2021
+# LAST EDITED:	    06/17/2021
 ###
 
 PACKAGE_NAME=edtwardy-webservices
@@ -16,7 +16,11 @@ configVolumes=siteconf
 configVolumeImages=$(addsuffix -volume.tar.gz,$(configVolumes))
 dataVolumes=
 
-all: $(configVolumeImages) volumes.dvm.lock image-build.out.lock
+buildahImages=volumemanager-build.lock apps-build.lock
+dockerHub=registry.hub.docker.com
+appsBaseImage=$(dockerHub)/library/python:3.8.10-alpine3.13
+
+all: $(configVolumeImages) volumes.dvm.lock $(buildahImages)
 
 #: Generate a .tar.gz archive from a directory
 siteconf-volume.tar.gz: $(shell find siteconf)
@@ -25,9 +29,19 @@ siteconf-volume.tar.gz: $(shell find siteconf)
 #: Generate volume images from the content in this repository
 $(configVolumeImages): $(configVolumes)
 
+apps-env:
+	docker run --rm -it -v "$(PWD)/apps:/apps" --name $@ $(appsBaseImage) \
+		/bin/sh -c \
+		"python3 -m pip install pip-tools && cd apps && pip-compile"
+
 #: Generate the volumemanager docker image (a phony target)
-image-build.out.lock: docker-volume-manager.bash buildah-volumemanager.bash
-	./buildah-volumemanager.bash build
+volumemanager-build.lock: export BASE_IMAGE=$(dockerHub)/library/bash
+volumemanager-build.lock: docker-volume-manager.bash buildah-images.bash
+	./buildah-images.bash volumemanager $@
+
+apps-build.lock: export BASE_IMAGE = $(appsBaseImage)
+apps-build.lock: buildah-images.bash $(shell find apps)
+	./buildah-images.bash apps $@
 
 #: Generate volumes.dvm.lock file
 volumes.dvm.lock: volumes.dvm.lock.in $(configVolumeImages)
@@ -45,7 +59,8 @@ install: $(configVolumeImages) volumes.dvm.lock
 	install -d $(DESTDIR)/lib/systemd/system
 	install -m644 $(PACKAGE_NAME).service $(DESTDIR)/lib/systemd/system
 	install -d $(DESTDIR)/bin
-	install -m744 start-webservices.bash $(DESTDIR)/bin/start-webservices
+	install -m744 edtwardy-webservices.bash \
+		$(DESTDIR)/bin/edtwardy-webservices
 	install -d $(DESTDIR)/etc/$(PACKAGE_NAME)
 	install -m644 dvm.conf $(DESTDIR)/etc/$(PACKAGE_NAME)
 	install -d $(DESTDIR)/etc/cron.daily
@@ -55,6 +70,7 @@ install: $(configVolumeImages) volumes.dvm.lock
 clean:
 	-rm -f volumes.dvm.lock
 	-buildah rmi volumemanager
+	-buildah rmi apps
 	-rm -f *-volume.tar.gz
 
 #------------------------------------------------------------------------------

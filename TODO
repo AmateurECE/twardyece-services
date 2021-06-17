@@ -11,15 +11,12 @@
 * docker-compose.yml: persist container logs to volume
     certbot:/var/log/letsencrypt.log
     nginx:/var/log/nginx/{access,error}.log
-* docker-volume-manager.bash: Integrate tar --diff option
-* Regularly restart the container to get regular backups (systemd or cron)
 * Verify all containers have the same timezone.
+* Cron to get regular backups of the images
 * Cron to archive all backup images regularly and keep a few around
-* Add command to start-webservices instructing docker-volume-manager to backup
-* Rename start-webservices and add more commands
-    The start-webservices script could benefit from a "purge" command, that
-    e.g. deletes the stopped containers. Adding this functionality would
-    require renaming the script.
+* Add command to edtwardy-webservices.bash instructing docker-volume-manager to
+  backup downstream volumes. This command should mount a special backup
+  location to prevent overwriting the running volumes
 * Document format/behavior of volumes.dvm.lock in README.md
 * Integrate tar --diff option
     This option compares the contents of the volume to the contents on disk.
@@ -27,6 +24,27 @@
 * Currently, data volumes backup archives are required to exist in VOLPATH,
     even if we aren't initializing or backing them up. This is probably not the
     best behavior.
-* backup command to start-webservices should mount a special backup location
-    to the docker-volume-manager container.
 * This repository doesn't really support testing "in-repository." It should.
+* Implement MAC using Nginx to remove auth/auth, identity mgmt. from apps.
+* apps: Store the SECRET_KEY in a Bash script, source the script at runtime.
+* We should be building the Debian package in Docker or a fakeroot to ensure
+  all dependencies are captured in the debian/control file. For example, we
+  probably rely on a Python package or two from PyPI, which can't be installed
+  via apt/dpkg.
+* This repository should provide an apt list once mini-dinstall is added.
+* We should be careful to remove apt/dpkg/apk from OCI images, or whatever
+  programs are unnecessary.
+* Currently, if any of the images assembled during the build process are
+  removed, but the build.lock file remains on the filesystem, the build system
+  will not attempt to rebuild the images.
+* We should create a git-hook that ensures images assembled during the build
+  are pushed up to docker hub and tagged appropriately.
+* Freeze ALL dependencies and dependencies of dependencies for Python apps.
+* Look into ways to make the Python applications faster. See the following
+  link: https://packaging.python.org/overview/
+* Some variables, like the port in the edtwardy/apps image, are speciied as
+  magic numbers in too many places.
+* The image could probably benefit from a layer containing the uwsgi wheels.
+* Create non-root user for uWSGI application
+* Connect Nginx and uWSGI using a Unix socket.
+* Do not build Docker containers when building make package target.

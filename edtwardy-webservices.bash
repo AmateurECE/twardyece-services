@@ -1,6 +1,6 @@
 #!/bin/bash
 ###############################################################################
-# NAME:             start-webservices.bash
+# NAME:             edtwardy-webservices.bash
 #
 # AUTHOR:           Ethan D. Twardy <edtwardy@mtu.edu>
 #
@@ -8,7 +8,7 @@
 #
 # CREATED:          05/01/2021
 #
-# LAST EDITED:      06/07/2021
+# LAST EDITED:      06/12/2021
 ###
 
 read -r -d '' USAGE <<EOF
@@ -28,7 +28,7 @@ set -e
 PACKAGE_NAME=edtwardy-webservices
 DVM_LOCK=/usr/share/$PACKAGE_NAME/volumes.dvm.lock
 VOLUME_NAMES=($(awk '/^#/{next};NF==0{next};{print $1}' $DVM_LOCK))
-LOG_TAG='start-webservices'
+LOG_TAG='edtwardy-webservices'
 COMPOSE_FILE=/usr/share/$PACKAGE_NAME/docker-compose.yml
 
 # Read the configuration file (with defaults set)
