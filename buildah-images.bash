@@ -8,7 +8,7 @@
 #
 # CREATED:          05/22/2021
 #
-# LAST EDITED:      06/17/2021
+# LAST EDITED:      06/21/2021
 ###
 
 read -r -d '' USAGE<<EOF
@@ -21,6 +21,7 @@ Arguments:
 EOF
 
 set -e
+set -x
 
 namespace=edtwardy
 
@@ -57,7 +58,7 @@ volumemanager() {
     local containerId=volumemanager
     local scriptFile=docker-volume-manager.bash
 
-    buildah from --name=$containerId $BASE_IMAGE
+    buildah from --name=$containerId "$BASE_IMAGE"
     trap "set +e; buildah rm $containerId" EXIT
 
     buildah copy $containerId $scriptFile /bin/docker-volume-manager
@@ -90,7 +91,7 @@ apps() {
     local uwsgiBuildDeps="build-base linux-headers"
     local uwsgiVersion="2.0.19.1"
     buildah run $containerId apk add --no-cache $uwsgiBuildDeps
-    buildah run $containerId python3 -m pip install \
+    buildah run $containerId python3 -m pip install --no-cache-dir \
             /root/$wheelsFile \
             uwsgi==$uwsgiVersion
     buildah run $containerId rm -f /root/$wheelsFile

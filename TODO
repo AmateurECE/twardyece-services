@@ -1,13 +1,10 @@
-* Look into ROOT_URLCONF settings variable for Django?
-    This setting should be to change the web root of the Django application.
 * README.md: Grab the size on disk (according to dpkg and Docker)
 * README.md: Grab memory requirements from systemd
 * postrm script to remove Docker volumes
 * Devise a way to enable/disable whole locations/services at runtime?
 * Re-map user id of files within containers
     https://docs.docker.com/engine/security/userns-remap/
-* Set up non-root user with systemd.
-* docker-compose.yml: Django project as packaged pip application
+* Set up non-root user with systemd, run rootless Docker
 * docker-compose.yml: persist container logs to volume
     certbot:/var/log/letsencrypt.log
     nginx:/var/log/nginx/{access,error}.log
@@ -21,12 +18,8 @@
 * Integrate tar --diff option
     This option compares the contents of the volume to the contents on disk.
     Useful to prevent unnecessarily changing the contents of disk.
-* Currently, data volumes backup archives are required to exist in VOLPATH,
-    even if we aren't initializing or backing them up. This is probably not the
-    best behavior.
 * This repository doesn't really support testing "in-repository." It should.
 * Implement MAC using Nginx to remove auth/auth, identity mgmt. from apps.
-* apps: Store the SECRET_KEY in a Bash script, source the script at runtime.
 * We should be building the Debian package in Docker or a fakeroot to ensure
   all dependencies are captured in the debian/control file. For example, we
   probably rely on a Python package or two from PyPI, which can't be installed
@@ -48,3 +41,28 @@
 * Create non-root user for uWSGI application
 * Connect Nginx and uWSGI using a Unix socket.
 * Do not build Docker containers when building make package target.
+* When the docker-volume-manager becomes feature-stable and meets all of my
+  use cases, rewrite in Rust, define requirements, write tests, documentation
+  and publish under an open source license.
+
+* How Tags work:
+  Tags lock downstream repositories to named versions--this way, they can still
+  change (e.g. a database may include more instances of a model between two
+  revisions, but it's only important to prevent loading a database with a
+  different schema), but they can be roughly versioned to named revisions. In
+  volumes.dvm.lock, the downstream volume's options field specifies a tag:
+
+        my-volume   downstream  tag:<any-text-here>
+
+  When the docker-volume-manager loads the lock file and discovers that the
+  volume is versioned to a tag, it:
+
+    1. Looks for a volume image in VOLPATH. If one cannot be found, it stops
+       processing this volume and reports an error
+    2. When it finds one, it looks for a file named `tags` in the same
+       directory as the volume image. This file contains entries of the form:
+
+         <volumeName>   <tagName>
+
+       The docker-volume-manager interprets <tagName> to be the current version
+       of <volumeName>. The volume is then versioned accordingly.

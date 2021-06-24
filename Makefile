@@ -7,7 +7,7 @@
 #
 # CREATED:	    04/26/2021
 #
-# LAST EDITED:	    06/17/2021
+# LAST EDITED:	    06/22/2021
 ###
 
 PACKAGE_NAME=edtwardy-webservices
@@ -17,8 +17,9 @@ configVolumeImages=$(addsuffix -volume.tar.gz,$(configVolumes))
 dataVolumes=
 
 buildahImages=volumemanager-build.lock apps-build.lock
-dockerHub=registry.hub.docker.com
+dockerHub=docker.io
 appsBaseImage=$(dockerHub)/library/python:3.8.10-alpine3.13
+volumemanagerBaseImage=$(dockerHub)/library/bash:5.1.8
 
 all: $(configVolumeImages) volumes.dvm.lock $(buildahImages)
 
@@ -35,7 +36,7 @@ apps-env:
 		"python3 -m pip install pip-tools && cd apps && pip-compile"
 
 #: Generate the volumemanager docker image (a phony target)
-volumemanager-build.lock: export BASE_IMAGE=$(dockerHub)/library/bash
+volumemanager-build.lock: export BASE_IMAGE=$(volumemanagerBaseImage)
 volumemanager-build.lock: docker-volume-manager.bash buildah-images.bash
 	./buildah-images.bash volumemanager $@
 

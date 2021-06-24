@@ -8,7 +8,7 @@
 #
 # CREATED:          05/01/2021
 #
-# LAST EDITED:      06/12/2021
+# LAST EDITED:      06/22/2021
 ###
 
 read -r -d '' USAGE <<EOF
@@ -51,33 +51,15 @@ getVolumesToCreate() {
     printf '%s\n' "${neededVolumes[@]}"
 }
 
-syncVolumes() {
-    # Create missing volumes, if any
-    printf ${LOG_TAG}': %s\n' "Checking for missing volumes"
-    newVolumes=($(getVolumesToCreate))
-    for volume in "${newVolumes[@]}"; do
-        printf ${LOG_TAG}': Creating volume %s\n' $volume
-        docker volume create $volume
-    done
-
+runDockerVolumeManager() {
     # Spin up a docker container to synchronize all of the volumes
     containerName='edtwardy-webservices_volumemanager'
     imageName=edtwardy/volumemanager:latest
-    arguments=()
 
     volumeSpec=()
     for volume in "${VOLUME_NAMES[@]}"; do
         volumeSpec+=("-v" "${volume}:/${volume}")
     done
-
-    # Pass --init-downstream for newly created downstream volumes
-    if [[ -n "${newVolumes[@]}" ]]; then
-        upstreams=($(awk '/^[^#].*upstream/{print $1}' $DVM_LOCK))
-        newDownstream=${newVolumes[@]//*($(join '|' "${upstreams[@]}"))?( )}
-        printf ${LOG_TAG}': %s\n' \
-               "Found downstreams to init: $(join ' ' ${newVolumes[@]})"
-        arguments+=("--init-downstream" "$(join , ${newDownstream[@]})")
-    fi
 
     # Pass volumes to search for images as env var
     IFS=: read -ra volpathComponents <<<"$VOLPATH"
@@ -95,13 +77,44 @@ syncVolumes() {
     printf ${LOG_TAG}': %s\n' "Volumes: $(join ' ' ${volumeSpec[@]})"
     printf ${LOG_TAG}': %s\n' "Docker VOLPATH: $(join : ${dockerVolpath[@]})"
     printf ${LOG_TAG}': %s\n' "Starting docker-volume-manager"
-    printf ${LOG_TAG}': %s\n' "Arguments: $(join ' ' ${arguments[@]})"
     trap "docker stop $containerName" EXIT
     docker run -t --rm --name $containerName \
            $(join ' ' "${volumeSpec[@]}") \
            -e VOLPATH=$(join : "${dockerVolpath[@]}") \
-           $imageName $(join ' ' "${arguments[@]}")
+           $imageName $(join ' ' "$@")
     trap - EXIT
+}
+
+syncVolumes() {
+    # Create missing volumes, if any
+    printf ${LOG_TAG}': %s\n' "Checking for missing volumes"
+    newVolumes=($(getVolumesToCreate))
+    for volume in "${newVolumes[@]}"; do
+        printf ${LOG_TAG}': Creating volume %s\n' $volume
+        docker volume create $volume
+    done
+
+    # Pass --init-downstream for newly created downstream volumes
+    arguments=()
+    if [[ -n "${newVolumes[@]}" ]]; then
+        upstreams=($(awk '/^[^#].*upstream/{print $1}' $DVM_LOCK))
+        newDownstream=${newVolumes[@]//*($(join '|' "${upstreams[@]}"))?( )}
+        printf ${LOG_TAG}': %s\n' \
+               "Found downstreams to init: $(join ' ' ${newVolumes[@]})"
+        arguments+=("--init-downstream" "$(join , ${newDownstream[@]})")
+    fi
+
+    runDockerVolumeManager sync "${arguments[@]}"
+}
+
+BACKUP_ALL=n
+BACKUP_VOLUMES=()
+backupVolumes() {
+    if [[ $BACKUP_ALL = "y" ]]; then
+        BACKUP_VOLUMES=("${VOLUME_NAMES[@]}")
+    fi
+
+    runDockerVolumeManager backup "${BACKUP_VOLUMES[@]}"
 }
 
 RC=0
@@ -115,6 +128,16 @@ case $1 in
         printf ${LOG_TAG}': %s\n' "Purging Docker containers and volumes"
         docker-compose -f $COMPOSE_FILE rm -fsv
         docker volume rm $(join ' ' "${VOLUME_NAMES[@]}")
+        ;;
+    backup)
+        if [[ -n "$2" ]]; then
+            printf ${LOG_TAG}': %s\n' "Backing up specified volumes"
+            IFS=, read -ra BACKUP_VOLUMES<<<"$2"
+        else
+            printf ${LOG_TAG}': %s\n' "Backing up all volumes"
+            BACKUP_ALL=y
+        fi
+        backupVolumes
         ;;
     *)
         >&2 printf '%s\n' "$USAGE"

@@ -25,26 +25,50 @@
 #
 # CREATED:          05/22/2021
 #
-# LAST EDITED:      06/07/2021
+# LAST EDITED:      06/24/2021
 ###
 
 read -r -d '' USAGE<<EOF
-Usage: $0 [--init-downstream <downstreamVolumes>] [--backup]
+Usage: $0 <command> [args]
+          [--backup [volumes,to,backup]]
 
 Arguments:
-  --init-downstream <downstreamVolumes>
-     Takes a comma (,) separated list of names corresponding to downstream
-     volumes (specified in volumes.dvm.lock) to be initialized from their
-     archive images in VOLPATH.
-  --backup
-     Backs up the data volumes specified in volumes.dvm.lock.
+  sync [--init-downstream <downstreamVolumes>]
+     Optionally takes a comma (,) separated list of names corresponding to
+     downstream volumes (specified in volumes.dvm.lock) to be initialized from
+     their archive images in VOLPATH.
+  backup [backup,these,volumes]
+     Backs up the downstream data volumes specified in volumes.dvm.lock. Or, if
+     specified, backs up the volumes in the supplied comma-separated list.
+EOF
+
+read -r -d '' ALL_VOLUMES_AWK_SCRIPT<<EOF
+/^#/{next};
+NF == 0 {next};
+NF < 2 {exit 1};
+NF == 2 {print \$LINE,""; next};
+{print}
 EOF
 
 set -e
 
 LOG_TAG='docker-volume-manager'
 INIT_DOWNSTREAM=()
-BACKUP=n
+BACKUP_ALL=n
+BACKUP_VOLUMES=()
+lockFile=/volumes.dvm.lock
+if [[ ! -f $lockFile ]]; then
+    printf ${LOG_TAG}': %s\n' "$lockFile not found; exiting"
+    exit 1
+fi
+
+# join: Join a bash array by a delimiter
+join() {
+    local d=${1-} f=${2-};
+    if shift 2; then
+        printf %s "$f" "${@/#/$d}"
+    fi
+}
 
 processUpstream() {
     local name=$1 && shift
@@ -82,44 +106,64 @@ processDownstream() {
     if [[ "${INIT_DOWNSTREAM[@]}" =~ $name ]]; then
         # We've been instructed to initialize this downstream volume from an
         # upstream image
-        printf ${LOG_TAG}': %s\n' "Initializing d volume: $name"
+        printf ${LOG_TAG}': %s %s\n' "Initializing downstream volume $name" \
+               "from $volumeImage"
         tar xzvf $volumeImage >/dev/null
-    elif [[ "$BACKUP" = "y" ]]; then
-        # We've been instructed to backup the volume to a tar archive.
-        printf ${LOG_TAG}': %s\n' "Archiving d volume: $name"
-        tar czvf $volumeImage /$name >/dev/null
     fi
 }
 
-processVolume() {
-    local name=$1 && shift
-    local type=$1 && shift
-    local arguments=$1
+sync() {
+    printf ${LOG_TAG}': %s\n' "Parsing lock file"
+    awk -f <(echo "$ALL_VOLUMES_AWK_SCRIPT") $lockFile |
+        while read name volumeType arguments; do
+            # Locate volume image file
+            local volumeImage=""
+            for location in $(printf '%s\n' "$VOLPATH" | tr ':' '\n'); do
+                if [[ -f "$location/$name-volume.tar.gz" ]]; then
+                    volumeImage="$location/$name-volume.tar.gz"
+                    break
+                fi
+            done
 
-    # Locate volume image file
-    local volumeImage
-    for location in $(printf '%s\n' "$VOLPATH" | tr ':' '\n'); do
-        if [[ -f "$location/$name-volume.tar.gz" ]]; then
-            volumeImage="$location/$name-volume.tar.gz"
-            break
-        fi
-    done
+            if [[ -z $volumeImage && "$volumeType" = "downstream" ]]; then
+                >&2 printf '%s %s\n' \
+                    "Warning: Couldn't find image for downstream" \
+                    "volume $name"
+                continue
+            elif [[ -z $volumeImage ]]; then
+                >&2 printf '%s\n' \
+                    "Error: Could not find image for volume $name"
+                continue
+            fi
 
-    if [[ -z $volumeImage ]]; then
-        >&2 printf '%s\n' "Error: Could not find image for volume $name"
+            case $volumeType in
+                upstream)
+                    processUpstream $name $volumeImage $arguments
+                    ;;
+                downstream)
+                    processDownstream $name $volumeImage $arguments
+                    ;;
+                *)
+                    >&2 printf ${LOG_TAG}': %s\n' \
+                        "Ignoring unknown type $volumeType for $name."
+            esac
+        done
+
+    if [[ "${PIPESTATUS[0]}" -eq 1 ]]; then
+        printf ${LOG_TAG}': %s\n' "error while parsing $lockFile"
         exit 1
     fi
+}
 
-    case $type in
-        upstream)
-            processUpstream $name $volumeImage $arguments
-            ;;
-        downstream)
-            processDownstream $name $volumeImage $arguments
-            ;;
-        *)
-            >&2 printf ${LOG_TAG}': %s\n' "Unknown type $volume. Exiting."
-    esac
+backup() {
+    if [[ BACKUP_ALL = "y" ]]; then
+        BACKUP_VOLUMES=($(awk '/^[^#].*downstream/{print $1}' $lockFile))
+    fi
+    for downstream in "${BACKUP_VOLUMES[@]}"; do
+        # We've been instructed to backup the volume to a tar archive.
+        printf ${LOG_TAG}': %s\n' "Archiving d volume: $name"
+        tar czvf $volumeImage /$name >/dev/null
+    done
 }
 
 ########
@@ -127,58 +171,38 @@ processVolume() {
 #
 
 # TODO: This is being printed on multiple lines
-printf ${LOG_TAG}': Arguments: %s\n' "$@"
+printf ${LOG_TAG}': Arguments: %s\n' "$(join ' ' $@)"
 
 while [[ -n "$1" ]]; do
     case "$1" in
-        --init-downstream*)
-            if [[ -n "$2" ]]; then
+        sync)
+            if [[ -n "$2" && -n "$3" ]]; then
                 # 1. Either the next argument is the volume list
-                IFS=, read -ra INIT_DOWNSTREAM<<<"$2" && shift
-            elif [[ "$1" =~ "--init-downstream=" ]]; then
-                # 2. Or the volume list is concatenated with an '='
-                1=${1//--init-downstream=}
-                IFS=, read -ra INIT_DOWNSTREAM<<<"$1"
-            else
+                IFS=, read -ra INIT_DOWNSTREAM<<<"$3" && shift && shift
+                printf ${LOG_TAG}': %s\n' \
+                       "INIT_DOWNSTREAM=$(join , ${INIT_DOWNSTREAM[@]})"
+            elif [[ -n "$2" ]]; then
                 >&2 printf ${LOG_TAG}': %s\n' \
                     "Malformed --init-downstream directive."
                 exit 1
             fi
-            # TODO: This is being printed on multiple lines.
-            printf ${LOG_TAG}': %s\n' "INIT_DOWNSTREAM=${INIT_DOWNSTREAM[@]}"
+            sync
             ;;
-        --backup)
-            BACKUP=y
+        backup)
+            if [[ -z "$2" ]]; then
+                # 1. Backup all
+                BACKUP_ALL=y
+            else
+                IFS=, read -ra BACKUP_VOLUMES<<<"$2" && shift
+            fi
+            printf ${LOG_TAG}': %s\n' "BACKUP_VOLUMES=${BACKUP_VOLUMES[@]}"
+            backup
             ;;
         *)
             >&2 printf ${LOG_TAG}': %s\n' "Unknown argument: $1"
     esac
     shift
 done
-
-lockFile=/volumes.dvm.lock
-if [[ ! -f $lockFile ]]; then
-    printf ${LOG_TAG}': %s\n' "$lockFile not found; exiting"
-    exit 1
-fi
-
-printf ${LOG_TAG}': %s\n' "Parsing lock file"
-awk -f <(cat - <<EOF
-/^#/{next};
-NF == 0 {next};
-NF < 2 {exit 1};
-NF == 2 {print \$LINE,""; next};
-{print}
-EOF
-        ) $lockFile |
-    while read name volumeType arguments; do
-        processVolume $name $volumeType $arguments
-    done
-
-if [[ "${PIPESTATUS[0]}" -eq 1 ]]; then
-    printf ${LOG_TAG}': %s\n' "error while parsing $lockFile"
-    exit 1
-fi
 
 printf ${LOG_TAG}': %s\n' "Finished."
 
