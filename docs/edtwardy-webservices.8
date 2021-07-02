@@ -1,0 +1,32 @@
+.TH edtwardy-webservices 8
+.SH NAME
+edtwardy-webservices - convenient Bash script for managing the containerized
+web services
+.SH SYNOPSIS
+.B edtwardy-webservices
+.IR command
+.SH DESCRIPTION
+.B edtwardy-webservices
+communicates with a Container Runtime Daemon to start, stop, or purge
+containers running web services from the system.
+
+The following commands are supported:
+.TP
+.BR start
+Start the webservices daemon (runs until interrupted)
+
+.TP
+.BR rm
+Purge volumes and containers created by the daemon, leaving OCF images and
+volume images untouched.
+
+.TP
+.B backup
+[\fB\-\-tag\fR \fItag\fR] [\fB\-\-location\fR \fIlocation\fR]
+[\fIvolumes,to,backup\fR]
+
+If \fItag\fR is specified, the images are tagged with the specified tag, and a
+tags file is created, if one does not already exist. If \fIlocation\fR is
+specified, this is the location that the volumes are backed up to (but only if
+they don't already exist in \fBVOLPATH\fR). A comma-separated list of volumes
+to backup can be specified. If one is not given, all volumes are backed up.
