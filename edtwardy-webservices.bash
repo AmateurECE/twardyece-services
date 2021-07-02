@@ -128,7 +128,7 @@ backupVolumes() {
         # VOLPATH for the container, and this is prone to breaking at next
         # refactor.
         args+=("--location" "/$(basename $BACKUP_LOCATION)-0")
-        volpathOverride="$BACKUP_LOCATION"
+        volpathOverride="$(realpath $BACKUP_LOCATION)"
     fi
 
     VOLPATH="$volpathOverride" runDockerVolumeManager backup \

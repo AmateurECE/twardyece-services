@@ -24,11 +24,16 @@ services:
 
   apps:
     image: "edtwardy/apps:latest"
+    volumes:
+      - "apps-database:/data/database"
+      - "apps-media:/data/media"
+      - "apps-static:/data/static:ro"
     environment:
       - DJANGO_HOSTNAME=edtwardy.hopto.org
       - SCRIPT_NAME=/apps
 
   # TODO: Conan Server
+  # TODO: PyPI Server
   # TODO: Mini-Dinstall
 
 volumes:
@@ -40,4 +45,10 @@ volumes:
   ldap:
     external: true
   slapd.d:
+    external: true
+  apps-database:
+    external: true
+  apps-media:
+    external: true
+  apps-static:
     external: true

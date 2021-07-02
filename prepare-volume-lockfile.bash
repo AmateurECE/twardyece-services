@@ -8,7 +8,7 @@
 #
 # CREATED:          05/29/2021
 #
-# LAST EDITED:      06/06/2021
+# LAST EDITED:      07/02/2021
 ###
 
 read -r -d '' USAGE<<EOF
@@ -44,17 +44,18 @@ prepareUpstream() {
 prepareDownstream() {
     local name=$1 && shift
 
-    if [[ ! -z $1 ]]; then
-        >&2 printf '%s\n' "Warning: ignoring unused arguments for downstream"
-        >&2 printf '%s\n' "\"$@\""
-    fi
-
     firstColumn=30
     firstPad=$(($firstColumn - ${#name}))
     if [[ ${#name} -ge $firstColumn ]]; then
         firstPad=1
     fi
-    printf '%s%*s\n' "$name" $firstPad "downstream"
+
+    if [[ -n "$1" ]]; then
+        # This volume has options
+        printf '%s%*s%80s\n' "$name" $firstPad "downstream" "$1"
+    else
+        printf '%s%*s\n' "$name" $firstPad "downstream"
+    fi
 }
 
 ########

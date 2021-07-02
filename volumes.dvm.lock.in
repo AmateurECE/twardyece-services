@@ -3,8 +3,11 @@
 #      hash is automatically filled in at build time.
 #   2. All other volumes and configurations are piped to the output file.
 #
-# NAME      DIRECTION   HASH
-siteconf    upstream    <hash>
-letsencrypt downstream
-slapd.d     downstream
-ldap        downstream
+# NAME          DIRECTION   OPTIONS
+siteconf        upstream    <hash>
+letsencrypt     downstream
+slapd.d         downstream
+ldap            downstream
+apps-database   downstream  tag:freshlymigrated-5d1ea9a0
+apps-static     downstream  tag:freshlymigrated-5d1ea9a0
+apps-media      downstream  tag:freshlymigrated-5d1ea9a0
