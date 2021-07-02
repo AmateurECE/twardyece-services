@@ -7,7 +7,7 @@
 #
 # CREATED:	    04/26/2021
 #
-# LAST EDITED:	    06/22/2021
+# LAST EDITED:	    06/28/2021
 ###
 
 PACKAGE_NAME=edtwardy-webservices
@@ -16,12 +16,8 @@ configVolumes=siteconf
 configVolumeImages=$(addsuffix -volume.tar.gz,$(configVolumes))
 dataVolumes=
 
-buildahImages=volumemanager-build.lock apps-build.lock
-dockerHub=docker.io
-appsBaseImage=$(dockerHub)/library/python:3.8.10-alpine3.13
-volumemanagerBaseImage=$(dockerHub)/library/bash:5.1.8
-
-all: $(configVolumeImages) volumes.dvm.lock $(buildahImages)
+all: $(configVolumeImages) volumes.dvm.lock
+containers: apps-build.lock volumemanager-build.lock
 
 #: Generate a .tar.gz archive from a directory
 siteconf-volume.tar.gz: $(shell find siteconf)
@@ -30,19 +26,28 @@ siteconf-volume.tar.gz: $(shell find siteconf)
 #: Generate volume images from the content in this repository
 $(configVolumeImages): $(configVolumes)
 
-apps-env:
-	docker run --rm -it -v "$(PWD)/apps:/apps" --name $@ $(appsBaseImage) \
-		/bin/sh -c \
-		"python3 -m pip install pip-tools && cd apps && pip-compile"
+updateTagsDir=ContainerVolumeManager/UpdateTags
+volumemanager-deps = \
+	$(shell find $(updateTagsDir)/src) \
+	$(updateTagsDir)/Cargo.toml \
+	docker-volume-manager.bash \
 
-#: Generate the volumemanager docker image (a phony target)
-volumemanager-build.lock: export BASE_IMAGE=$(volumemanagerBaseImage)
-volumemanager-build.lock: docker-volume-manager.bash buildah-images.bash
-	./buildah-images.bash volumemanager $@
+#: Generate the volumemanager docker image
+volumemanager-build.lock: Containerfile.volumemanager $(volumemanager-deps)
+	buildah bud --layers -f $< -t "volumemanager:latest"
+	touch $@
 
-apps-build.lock: export BASE_IMAGE = $(appsBaseImage)
-apps-build.lock: buildah-images.bash $(shell find apps)
-	./buildah-images.bash apps $@
+apps-deps = \
+	$(shell find apps/apps) \
+	apps/setup.py \
+	apps/entrypoint.sh \
+	apps/uwsgi.ini \
+	requirements.apps.txt
+
+#: Generate apps docker image
+apps-build.lock: Containerfile.apps $(apps-deps)
+	buildah bud --layers -f $< -t "apps:latest"
+	touch $@
 
 #: Generate volumes.dvm.lock file
 volumes.dvm.lock: volumes.dvm.lock.in $(configVolumeImages)

@@ -1,0 +1,15 @@
+# LABEL authors="Ethan D. Twardy <ethan.twardy@gmail.com>"
+FROM docker.io/library/python:3.8.10-alpine3.13 as builder
+
+COPY ContainerVolumeManager/UpdateTags /root/
+WORKDIR /root
+RUN apk add --no-cache rust cargo
+RUN cargo build --release && strip /root/target/release/update_tags
+
+FROM docker.io/library/bash:5.1.8
+RUN apk add --no-cache libgcc
+COPY docker-volume-manager.bash /bin/docker-volume-manager
+COPY --from=builder /root/target/release/update_tags /bin/update_tags
+
+ENTRYPOINT ["/bin/docker-volume-manager"]
+

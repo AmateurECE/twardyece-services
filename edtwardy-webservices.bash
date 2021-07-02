@@ -8,7 +8,7 @@
 #
 # CREATED:          05/01/2021
 #
-# LAST EDITED:      06/22/2021
+# LAST EDITED:      07/02/2021
 ###
 
 read -r -d '' USAGE <<EOF
@@ -20,6 +20,13 @@ Commands:
   start     Start the webservices daemon (runs until interrupted)
   rm        Purge volumes and containers created by the daemon, leaving OCF
             images and volume images untouched.
+  backup [--tag <tag>] [--location <location>] [volumes,to,backup]
+            If <tag> is specified, the images are tagged with the specified
+            tag, and a tags file is created, if one does not already exist. If
+            location is specified, this is the location that the volumes are
+            backed up to (but only if they don't already exist in VOLPATH). A
+            comma-separated list of volumes to backup can be specified. If one
+            is not given, all volumes are backed up.
 EOF
 
 shopt -s extglob
@@ -107,14 +114,25 @@ syncVolumes() {
     runDockerVolumeManager sync "${arguments[@]}"
 }
 
-BACKUP_ALL=n
-BACKUP_VOLUMES=()
+BACKUP_VOLUMES=""
+BACKUP_TAG=""
+BACKUP_LOCATION=""
 backupVolumes() {
-    if [[ $BACKUP_ALL = "y" ]]; then
-        BACKUP_VOLUMES=("${VOLUME_NAMES[@]}")
+    local args=()
+    local volpathOverride="$VOLPATH"
+    if [[ -n "$BACKUP_TAG" ]]; then
+        args+=("--tag" "$BACKUP_TAG")
+    fi
+    if [[ -n "$BACKUP_LOCATION" ]]; then
+        # TODO: This is bad; we know how runDockerVolumeManager constructs
+        # VOLPATH for the container, and this is prone to breaking at next
+        # refactor.
+        args+=("--location" "/$(basename $BACKUP_LOCATION)-0")
+        volpathOverride="$BACKUP_LOCATION"
     fi
 
-    runDockerVolumeManager backup "${BACKUP_VOLUMES[@]}"
+    VOLPATH="$volpathOverride" runDockerVolumeManager backup \
+           $(join ' ' "${args[@]}") "$BACKUP_VOLUMES"
 }
 
 RC=0
@@ -130,15 +148,22 @@ case $1 in
         docker volume rm $(join ' ' "${VOLUME_NAMES[@]}")
         ;;
     backup)
-        if [[ -n "$2" ]]; then
-            printf ${LOG_TAG}': %s\n' "Backing up specified volumes"
-            IFS=, read -ra BACKUP_VOLUMES<<<"$2"
-        else
-            printf ${LOG_TAG}': %s\n' "Backing up all volumes"
-            BACKUP_ALL=y
-        fi
-        backupVolumes
-        ;;
+        while [[ -n "$2" ]]; do
+            case "$2" in
+                --tag)
+                    if [[ -n "$3" ]]; then BACKUP_TAG="$3" && shift
+                    else >&2 printf ${LOG_TAG}': %s\n' "$USAGE" && return 1
+                    fi ;;
+                --location)
+                    if [[ -n "$3" ]]; then BACKUP_LOCATION="$3" && shift
+                    else >&2 printf ${LOG_TAG}': %s\n' "$USAGE" && return 1
+                    fi ;;
+                *)
+                    BACKUP_VOLUMES="$2"
+            esac
+            shift
+        done
+        backupVolumes ;;
     *)
         >&2 printf '%s\n' "$USAGE"
         RC=1

@@ -25,21 +25,25 @@
 #
 # CREATED:          05/22/2021
 #
-# LAST EDITED:      06/24/2021
+# LAST EDITED:      07/01/2021
 ###
 
 read -r -d '' USAGE<<EOF
-Usage: $0 <command> [args]
-          [--backup [volumes,to,backup]]
+Usage: $0 sync [--init-downstream <downstreamVolumes>]
+          backup [--tag <tag>] [--location <location>] [volumes,to,backup]
 
 Arguments:
   sync [--init-downstream <downstreamVolumes>]
      Optionally takes a comma (,) separated list of names corresponding to
      downstream volumes (specified in volumes.dvm.lock) to be initialized from
      their archive images in VOLPATH.
-  backup [backup,these,volumes]
+  backup [--tag <tag>] [--location <location>] [backup,these,volumes]
      Backs up the downstream data volumes specified in volumes.dvm.lock. Or, if
-     specified, backs up the volumes in the supplied comma-separated list.
+     specified, backs up the volumes in the supplied comma-separated list. If
+     tag is specified (with the "tag:" prefix!), a tags file is created (or the
+     existing tags file is modified) to specify the tag for the backup image.
+     If location is specified, it is the directory that the volumes are backed
+     up to. If specified, this directory must exist beforehand.
 EOF
 
 read -r -d '' ALL_VOLUMES_AWK_SCRIPT<<EOF
@@ -56,6 +60,8 @@ LOG_TAG='docker-volume-manager'
 INIT_DOWNSTREAM=()
 BACKUP_ALL=n
 BACKUP_VOLUMES=()
+BACKUP_TAG=""
+BACKUP_LOCATION=""
 lockFile=/volumes.dvm.lock
 if [[ ! -f $lockFile ]]; then
     printf ${LOG_TAG}': %s\n' "$lockFile not found; exiting"
@@ -70,9 +76,14 @@ join() {
     fi
 }
 
-processUpstream() {
+syncUpstream() {
     local name=$1 && shift
-    local volumeImage=$1 && shift
+
+    if [[ -z "$VOLUME_IMAGE" ]]; then
+        >&2 printf ${LOG_TAG}': %s %s\n' "Error: no volume image found for" \
+            "volume $name. Exiting."
+        return 1
+    fi
 
     # The first argument contains information about the hash
     local hash=$1
@@ -99,9 +110,36 @@ processUpstream() {
     tar xzvf $volumeImage >/dev/null
 }
 
-processDownstream() {
+syncDownstream() {
     local name=$1 && shift
-    local volumeImage=$1 && shift
+
+    local tag="$1"
+    if [[ -n "$tag" ]]; then
+        if [[ -z "$VOLUME_IMAGE" ]]; then
+            >&2 printf ${LOG_TAG}': %s %s\n' "Error: tag specified for" \
+                "volume $name, but no volume image found."
+            return 1
+        fi
+
+        local tagsFile="$(dirname $VOLUME_IMAGE)/tags"
+        if [[ ! -f "$tagsFile" ]]; then
+            >&2 printf ${LOG_TAG}': %s %s\n' "Error: tag specified for" \
+                "volume $name, but tags file does not exist."
+            return 2
+        fi
+
+        local thisTag=$(awk "/$name/{print $2}" "$tagsFile")
+        if [[ "$thisTag" != "${tag/#tag:}" ]]; then
+            >&2 printf ${LOG_TAG}': %s %s\n' "Error. Tag specified for $name" \
+                "does not match the tag in the tags file."
+            return 1
+        fi
+    elif [[ -z "$tag" && -z "$VOLUME_IMAGE" ]]; then
+        # Warn if there's no volume image
+        printf ${LOG_TAG}': %s %s\n' "Warning: No volume image found for" \
+               "volume $name"
+        return 0
+    fi
 
     if [[ "${INIT_DOWNSTREAM[@]}" =~ $name ]]; then
         # We've been instructed to initialize this downstream volume from an
@@ -138,10 +176,10 @@ sync() {
 
             case $volumeType in
                 upstream)
-                    processUpstream $name $volumeImage $arguments
+                    VOLUME_IMAGE="$volumeImage" syncUpstream $name $arguments
                     ;;
                 downstream)
-                    processDownstream $name $volumeImage $arguments
+                    VOLUME_IMAGE="$volumeImage" syncDownstream $name $arguments
                     ;;
                 *)
                     >&2 printf ${LOG_TAG}': %s\n' \
@@ -159,10 +197,15 @@ backup() {
     if [[ BACKUP_ALL = "y" ]]; then
         BACKUP_VOLUMES=($(awk '/^[^#].*downstream/{print $1}' $lockFile))
     fi
+
+    printf ${LOG_TAG}': %s\n' "BACKUP_VOLUMES=${BACKUP_VOLUMES[@]}"
     for downstream in "${BACKUP_VOLUMES[@]}"; do
         # We've been instructed to backup the volume to a tar archive.
-        printf ${LOG_TAG}': %s\n' "Archiving d volume: $name"
-        tar czvf $volumeImage /$name >/dev/null
+        local volumeImage="$BACKUP_LOCATION/$downstream-volume.tar.gz"
+        printf ${LOG_TAG}': %s %s\n' "Archiving volume $downstream to" \
+               "$volumeImage"
+        tar czvf $volumeImage /$downstream >/dev/null
+        update_tags $BACKUP_TAG $volumeImage
     done
 }
 
@@ -170,39 +213,45 @@ backup() {
 # Main
 #
 
-# TODO: This is being printed on multiple lines
 printf ${LOG_TAG}': Arguments: %s\n' "$(join ' ' $@)"
 
-while [[ -n "$1" ]]; do
-    case "$1" in
-        sync)
-            if [[ -n "$2" && -n "$3" ]]; then
-                # 1. Either the next argument is the volume list
-                IFS=, read -ra INIT_DOWNSTREAM<<<"$3" && shift && shift
-                printf ${LOG_TAG}': %s\n' \
-                       "INIT_DOWNSTREAM=$(join , ${INIT_DOWNSTREAM[@]})"
-            elif [[ -n "$2" ]]; then
-                >&2 printf ${LOG_TAG}': %s\n' \
-                    "Malformed --init-downstream directive."
-                exit 1
-            fi
-            sync
-            ;;
-        backup)
-            if [[ -z "$2" ]]; then
-                # 1. Backup all
-                BACKUP_ALL=y
-            else
-                IFS=, read -ra BACKUP_VOLUMES<<<"$2" && shift
-            fi
-            printf ${LOG_TAG}': %s\n' "BACKUP_VOLUMES=${BACKUP_VOLUMES[@]}"
-            backup
-            ;;
-        *)
-            >&2 printf ${LOG_TAG}': %s\n' "Unknown argument: $1"
-    esac
-    shift
-done
+case "$1" in
+    sync)
+        if [[ -n "$2" && -n "$3" ]]; then
+            # 1. Either the next argument is the volume list
+            IFS=, read -ra INIT_DOWNSTREAM<<<"$3" && shift && shift
+            printf ${LOG_TAG}': %s\n' \
+                   "INIT_DOWNSTREAM=$(join , ${INIT_DOWNSTREAM[@]})"
+        elif [[ -n "$2" ]]; then
+            >&2 printf ${LOG_TAG}': %s\n' \
+                "Malformed --init-downstream directive."
+            exit 1
+        fi
+        sync ;;
+
+    backup)
+        BACKUP_ALL=y
+        while [[ -n "$2" ]]; do
+            case "$2" in
+                --tag)
+                    if [[ -n "$3" ]]; then BACKUP_TAG="$3" && shift
+                    else >&2 printf ${LOG_TAG}': %s\n' "$USAGE" && return 1
+                    fi ;;
+                --location)
+                    if [[ -n "$3" ]]; then BACKUP_LOCATION="$3" && shift
+                    else >&2 printf ${LOG_TAG}': %s\n' "$USAGE" && return 1
+                    fi ;;
+                *)
+                    BACKUP_ALL=n
+                    IFS=, read -ra BACKUP_VOLUMES<<<"$2" ;;
+            esac
+            shift
+        done
+        backup ;;
+
+    *)
+        >&2 printf ${LOG_TAG}': %s\n' "Unknown argument: $1" ;;
+esac
 
 printf ${LOG_TAG}': %s\n' "Finished."
 
