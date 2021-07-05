@@ -7,7 +7,7 @@
 #
 # CREATED:	    04/26/2021
 #
-# LAST EDITED:	    06/28/2021
+# LAST EDITED:	    07/05/2021
 ###
 
 PACKAGE_NAME=edtwardy-webservices
@@ -99,7 +99,6 @@ package: $(zipArchive)
 reinstall:
 	dpkg --purge $(PACKAGE_NAME)
 	dpkg -i ../*.deb
-	systemctl restart $(PACKAGE_NAME)
 #------------------------------------------------------------------------------
 
 ###############################################################################
