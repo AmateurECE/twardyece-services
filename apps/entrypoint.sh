@@ -9,7 +9,7 @@
 #
 # CREATED:          06/14/2021
 #
-# LAST EDITED:      06/17/2021
+# LAST EDITED:      07/05/2021
 ###
 
 ENV_SUPPLEMENT=/data/environment.sh
@@ -21,6 +21,7 @@ fi
 export DJANGO_SECRET_KEY=$(head -c 4096 /dev/random | sha256sum |
                                awk '{print $1}')
 export DJANGO_HOSTNAME
-uwsgi --ini /etc/uwsgi.ini --mount $SCRIPT_NAME=apps.wsgi:application
+export SCRIPT_NAME
+uwsgi --ini /etc/uwsgi.ini
 
 ###############################################################################

@@ -1,7 +1,7 @@
 # LABEL author="Ethan D. Twardy <ethan.twardy@gmail.com>"
 FROM docker.io/library/python:3.8.10-alpine3.13 as builder
 
-RUN apk add --no-cache build-base linux-headers
+RUN apk add --no-cache build-base linux-headers pcre-dev
 COPY requirements.apps.txt /root/dist/requirements.txt
 WORKDIR /root/dist
 RUN python3 -m pip wheel -r requirements.txt
@@ -12,14 +12,20 @@ RUN python3 setup.py bdist_wheel
 
 FROM docker.io/library/python:3.8.10-alpine3.13
 COPY --from=builder /root/dist/*.whl /root/
-RUN python3 -m pip install --no-cache-dir --no-deps \
-    /root/*.whl
+RUN apk add --no-cache pcre \
+    && python3 -m pip install --no-cache-dir --no-deps \
+    /root/*.whl \
 # When this image is being built with buildah's --squash option, this actually
 # does reduce the size of the container!
 # RUN rm /root/*.whl
 
 COPY apps/entrypoint.sh /bin/entrypoint
 COPY apps/uwsgi.ini /etc/uwsgi.ini
+
+ARG uid=87651
+ARG user=uwsgi
+RUN addgroup -g $uid $user && adduser -DH -G $user -u $uid $user
+USER $user
 
 EXPOSE 8000
 ENTRYPOINT ["/bin/entrypoint"]
