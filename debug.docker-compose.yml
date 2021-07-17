@@ -1,0 +1,10 @@
+version: "2.4"
+services:
+  bind:
+    image: "resystit/bind9"
+    volumes:
+      - "./dns:/etc/bind:ro"
+    ports:
+      - "53:53"
+      - "53:53/udp"
+
