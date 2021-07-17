@@ -1,10 +1,17 @@
 # Security Architecture
 
 Previously, one shortcoming of this deployment was fragmentation of the
-access control and other security 
+access control and other security concerns. This deployment attempts to
+address those shortcomings by providing mitigations for security risks, and
+consolidating security implementations as locally as possible.
 
-[Default Django Auth Behavior](
-https://docs.djangoproject.com/en/3.2/topics/auth/default/)
+# Auth Behavior
+
+See this post describing the [Default Django Auth Behavior](
+https://docs.djangoproject.com/en/3.2/topics/auth/default/) for the currently
+used release of Django.
+
+All applications (including Nginx) authenticate to LDAP currently.
 
 # S.T.R.I.D.E.
 

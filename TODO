@@ -49,3 +49,6 @@
 * Add --auto-tag <description> parameter to edtwardy-webservices which appends
   salt to <description> and uses it as the tag for the backup operation. See
   docs/ContainerVolumeManager.md to see how I did it.
+* django-bookmarks should either expose the auth redirect url in settings, or
+  not perform a redirect, and just return an HTTP error.
+* Backing up an image without a tag doesn't work.
