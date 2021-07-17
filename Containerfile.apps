@@ -1,7 +1,12 @@
 # LABEL author="Ethan D. Twardy <ethan.twardy@gmail.com>"
 FROM docker.io/library/python:3.8.10-alpine3.13 as builder
 
-RUN apk add --no-cache build-base linux-headers pcre-dev
+RUN apk add --no-cache \
+    # Everything
+    build-base \
+    # uwsgi
+    linux-headers \
+    pcre-dev
 COPY requirements.apps.txt /root/dist/requirements.txt
 WORKDIR /root/dist
 RUN python3 -m pip wheel -r requirements.txt
@@ -21,11 +26,6 @@ RUN apk add --no-cache pcre \
 
 COPY apps/entrypoint.sh /bin/entrypoint
 COPY apps/uwsgi.ini /etc/uwsgi.ini
-
-ARG uid=87651
-ARG user=uwsgi
-RUN addgroup -g $uid $user && adduser -DH -G $user -u $uid $user
-USER $user
 
 EXPOSE 8000
 ENTRYPOINT ["/bin/entrypoint"]
