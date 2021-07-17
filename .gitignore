@@ -1,0 +1,5 @@
+django-sandbox/db.sqlite3
+django-sandbox/dist/
+django-sandbox/manage.py
+django-sandbox/sandbox/
+django-sandbox/templates/
