@@ -32,9 +32,17 @@ volumemanager-deps = \
 	$(updateTagsDir)/Cargo.toml \
 	docker-volume-manager.bash \
 
+ifdef SQUASH
+squash=--squash
+endif
+
+define buildahBud
+buildah bud --layers $(squash) -f $(1) -t "$(2):latest"
+endef
+
 #: Generate the volumemanager docker image
 volumemanager-build.lock: Containerfile.volumemanager $(volumemanager-deps)
-	buildah bud --layers -f $< -t "volumemanager:latest"
+	$(call buildahBud,$<,volumemanager)
 	touch $@
 
 apps-deps = \
@@ -47,7 +55,7 @@ apps-deps = \
 
 #: Generate apps docker image
 apps-build.lock: Containerfile.apps $(apps-deps)
-	buildah bud --layers -f $< -t "apps:latest"
+	$(call buildahBud,$<,apps)
 	touch $@
 
 #: Generate volumes.dvm.lock file
