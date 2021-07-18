@@ -52,3 +52,7 @@
 * django-bookmarks should either expose the auth redirect url in settings, or
   not perform a redirect, and just return an HTTP error.
 * Backing up an image without a tag doesn't work.
+* Create a route that redirects the website root '/' to an actual URL
+* Consider disabling referrals in django-auth-ldap?
+* Add StartTLS support to django-auth-ldap and openldap server
+* Create bind to further secure openldap server (retrieve passwd from env)

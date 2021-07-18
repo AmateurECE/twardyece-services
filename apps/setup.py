@@ -16,4 +16,5 @@ setuptools.setup(
     install_requires=[
         'Django==3.2.4',
     ],
+    include_package_data=True,
 )

@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 import os
 from pathlib import Path
+import ldap
+from django_auth_ldap.config import LDAPSearch, PosixGroupType
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -53,12 +55,40 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+LOGIN_URL = os.environ['SCRIPT_NAME'] + '/accounts/login/'
+
+# django-auth-ldap
+AUTH_LDAP_SERVER_URI = 'ldap://edtwardy-webservices_openldap_1'
+AUTHENTICATION_BACKENDS = [
+    'django_auth_ldap.backend.LDAPBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+AUTH_LDAP_BIND_DN = ""
+AUTH_LDAP_BIND_PASSWORD = ""
+AUTH_LDAP_USER_SEARCH = LDAPSearch(
+    'ou=people,dc=edtwardy,dc=hopto,dc=org',
+    ldap.SCOPE_SUBTREE,
+    '(uid=%(user)s)'
+)
+
+AUTH_LDAP_USER_ATTR_MAP = {'first_name': 'cn', 'last_name': 'sn'}
+AUTH_LDAP_FIND_GROUP_PERMS = True
+AUTH_LDAP_GROUP_TYPE = PosixGroupType()
+AUTH_LDAP_GROUP_SEARCH = LDAPSearch(
+    'ou=groups,dc=edtwardy,dc=hopto,dc=org',
+    ldap.SCOPE_SUBTREE,
+    '(objectClass=posixGroup)'
+)
+
 ROOT_URLCONF = 'apps.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'apps' / 'templates',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -127,6 +157,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = CONTAINER_STATE_ROOT / 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'apps' / 'static',
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

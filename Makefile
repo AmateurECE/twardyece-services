@@ -7,7 +7,7 @@
 #
 # CREATED:	    04/26/2021
 #
-# LAST EDITED:	    07/05/2021
+# LAST EDITED:	    07/17/2021
 ###
 
 PACKAGE_NAME=edtwardy-webservices
@@ -42,6 +42,7 @@ apps-deps = \
 	apps/setup.py \
 	apps/entrypoint.sh \
 	apps/uwsgi.ini \
+	apps/MANIFEST.in \
 	requirements.apps.txt
 
 #: Generate apps docker image

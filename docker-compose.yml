@@ -8,6 +8,8 @@ services:
       - "siteconf:/etc/nginx/conf.d:ro"
       - "letsencrypt:/etc/letsencrypt:ro"
       - "acme-challenge:/var/www/certbot:ro"
+      - "apps-media:/var/www/media:ro"
+      - "apps-static:/var/www/static:ro"
     ports:
       - "80:80"
       - "443:443"

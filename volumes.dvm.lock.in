@@ -8,6 +8,6 @@ siteconf        upstream    <hash>
 letsencrypt     downstream
 slapd.d         downstream
 ldap            downstream
-apps-database   downstream  tag:freshlymigrated-5d1ea9a0
-apps-static     downstream  tag:freshlymigrated-5d1ea9a0
-apps-media      downstream  tag:freshlymigrated-5d1ea9a0
+apps-database   downstream  tag:ldapauth-6727df1d
+apps-static     downstream  tag:ldapauth-6727df1d
+apps-media      downstream  tag:ldapauth-6727df1d
