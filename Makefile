@@ -7,7 +7,7 @@
 #
 # CREATED:	    04/26/2021
 #
-# LAST EDITED:	    07/17/2021
+# LAST EDITED:	    08/01/2021
 ###
 
 PACKAGE_NAME=edtwardy-webservices
@@ -45,6 +45,11 @@ volumemanager-build.lock: Containerfile.volumemanager $(volumemanager-deps)
 	$(call buildahBud,$<,volumemanager)
 	touch $@
 
+basicssoWheel = django-sandbox/dist/djangobasicsso-0.1.0-py3-none-any.whl
+
+$(basicssoWheel): $(shell find django-sandbox/basicsso) django-sandbox/setup.py
+	cd django-sandbox && python3 setup.py bdist_wheel
+
 apps-deps = \
 	$(shell find apps/apps) \
 	apps/setup.py \
@@ -54,7 +59,7 @@ apps-deps = \
 	requirements.apps.txt
 
 #: Generate apps docker image
-apps-build.lock: Containerfile.apps $(apps-deps)
+apps-build.lock: Containerfile.apps $(apps-deps) $(basicssoWheel)
 	$(call buildahBud,$<,apps)
 	touch $@
 

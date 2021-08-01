@@ -14,6 +14,11 @@ import os
 from pathlib import Path
 import ldap
 from django_auth_ldap.config import LDAPSearch, PosixGroupType
+import logging
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAuthenticated
+
+logger = logging.getLogger(__name__)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -37,6 +42,10 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'basicsso.apps.BasicssoConfig',
+    'bookmarks.apps.BookmarksConfig',
+    'rest_framework',
+    'rest_framework.authtoken',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -56,6 +65,11 @@ MIDDLEWARE = [
 ]
 
 LOGIN_URL = os.environ['SCRIPT_NAME'] + '/accounts/login/'
+
+# django-bookmarks
+BOOKMARKS_AUTH_CLASSES = [SessionAuthentication]
+BOOKMARKS_PERM_CLASSES = [IsAuthenticated]
+BOOKMARKS_AUTH_MIXIN = 'django.contrib.auth.mixins.LoginRequiredMixin'
 
 # django-auth-ldap
 AUTH_LDAP_SERVER_URI = 'ldap://edtwardy-webservices_openldap_1'
@@ -175,3 +189,27 @@ SESSION_COOKIE_SECURE = True
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = CONTAINER_STATE_ROOT / 'media/'
+
+# Logging (Uncomment for debugging)
+
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'handlers': {
+#         'console': {
+#             'level': 'INFO',
+#             'filters': None,
+#             'class': 'logging.StreamHandler',
+#         },
+#     },
+#     'root': {
+#             'handlers': ['console'],
+#             'level': 'INFO',
+#     },
+#     'loggers': {
+#         'django_auth_ldap': {
+#             'level': 'DEBUG',
+#             'handlers': ['console'],
+#         },
+#     },
+# }

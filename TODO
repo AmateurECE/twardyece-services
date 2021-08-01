@@ -56,3 +56,9 @@
 * Consider disabling referrals in django-auth-ldap?
 * Add StartTLS support to django-auth-ldap and openldap server
 * Create bind to further secure openldap server (retrieve passwd from env)
+* Could probably speed the build by building the wheels on the host and then
+  copying into the container...since we have to copy it into the container
+  anyways...
+* Subclass a login mixin to require group membership in "Bookmarks" group in
+  order to access bookmarks urls.
+* Version all OCI images to tags.

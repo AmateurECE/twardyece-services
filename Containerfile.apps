@@ -9,10 +9,14 @@ RUN apk add --no-cache \
     pcre-dev \
     # django-auth-ldap
     python3-dev \
-    openldap-dev
+    openldap-dev \
+    # Pillow (django-bookmarks) (also needs python3-dev)
+    zlib-dev \
+    jpeg-dev
 COPY requirements.apps.txt /root/dist/requirements.txt
 WORKDIR /root/dist
 RUN python3 -m pip wheel -r requirements.txt
+COPY django-sandbox/dist/djangobasicsso-0.1.0-py3-none-any.whl /root/dist/
 
 COPY apps /root/
 WORKDIR /root
@@ -20,13 +24,19 @@ RUN python3 setup.py bdist_wheel
 
 FROM docker.io/library/python:3.8.10-alpine3.13
 COPY --from=builder /root/dist/*.whl /root/
+
+ARG bookmarksReleases=https://github.com/AmateurECE/django-bookmarks/releases
 RUN apk add --no-cache \
     # uWSGI
     pcre \
     # django-auth-ldap
     libldap \
+    # Pillow (django-bookmarks)
+    zlib \
+    jpeg \
     && python3 -m pip install --no-cache-dir --no-deps \
-    /root/*.whl
+    /root/*.whl \
+    $bookmarksReleases/download/v2.0/django_bookmarks-2.0-py3-none-any.whl
 # When this image is being built with buildah's --squash option, this actually
 # does reduce the size of the container!
 RUN rm /root/*.whl

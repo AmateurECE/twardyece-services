@@ -5,6 +5,7 @@ docker run -d --name $CONTAINER \
        -v apps-static:/data/static \
        -e DJANGO_HOSTNAME=edtwardy.hopto.org \
        -e SCRIPT_NAME=/apps \
+       --network edtwardy-webservices_default \
        edtwardy/apps:latest
 docker cp apps/manage.py $CONTAINER:/root/
 

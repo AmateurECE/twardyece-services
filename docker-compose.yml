@@ -21,9 +21,6 @@ services:
       - "ldap:/var/lib/ldap"
       - "slapd.d:/etc/ldap/slapd.d"
 
-  ldap-auth:
-    image: "linuxserver/ldap-auth:version-3.3.1"
-
   apps:
     image: "edtwardy/apps:latest"
     volumes:
