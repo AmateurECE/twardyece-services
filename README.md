@@ -60,7 +60,6 @@ Containers utilizing custom images are listed below.
 2. [nginx](https://hub.docker.com/_/nginx)
 3. [certbot/certbot](https://hub.docker.com/r/certbot/certbot)
 4. [osixia/openldap:stable](https://hub.docker.com/r/osixia/openldap)
-5. [linuxserver/ldap-auth](https://hub.docker.com/r/linuxserver/ldap-auth)
 6. [edtwardy/apps:latest](
    https://hub.docker.com/repository/docker/edtwardy/apps) This container is
    built from a custom Docker image, built on the python base image. It runs a

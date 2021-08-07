@@ -1,0 +1,7 @@
+usr/share/edtwardy-webservices/docker-compose.yml
+usr/share/edtwardy-webservices/volumes.dvm.lock
+usr/share/edtwardy-webservices/volumes/siteconf-volume.tar.gz
+lib/systemd/system/edtwardy-webservices.service
+bin/edtwardy-webservices
+etc/edtwardy-webservices/dvm.conf
+etc/cron.daily/renewcertificates

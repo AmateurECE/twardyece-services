@@ -62,3 +62,9 @@
 * Subclass a login mixin to require group membership in "Bookmarks" group in
   order to access bookmarks urls.
 * Version all OCI images to tags.
+* make package target still includes build artifacts present in .gitignore
+* Fix email address in file headers
+* Currently, when adding new files to the package, we need to add them to the
+  Makefile and to the respective debian/*.install file. This process will get
+  even worse when we go to add *.spec files, PKGBUILD, or whatever files are
+  required to package for other distributions.

@@ -1,0 +1,50 @@
+version: "2.4"
+services:
+
+  # Plex media server
+  plex:
+    image: "plexinc/pms-docker:1.23.6.4881-e2e58f321"
+
+    volumes:
+      # Configuration/Workspace mount
+      # TODO: Store this data elsewhere?
+      - "/var/lib/plexmediaserver/Library/Application Support/Plex Media Server:/config/Library/Application Support/Plex Media Server"
+
+      # NOTE: This volume needs to accommodate ~30 GiB
+      # TODO: Must resize the LV for /tmp partition
+      - "/tmp/plex/transcode:/transcode"
+
+      # Media Libraries
+      - "/mnt/Library/Music:/mnt/Library/Music:ro"
+      - "/mnt/Library/Movies:/mnt/Library/Movies:ro"
+      - "/mnt/Library/AudiobooksByChapter:/mnt/Library/AudiobooksByChapter:ro"
+      - "/mnt/Library/Shows:/mnt/Library/Shows:ro"
+
+    ports:
+      # Access to the Plex Media Server (publicly exposed port)
+      - "32400:32400/tcp"
+
+      #
+      # The following ports should NOT be exposed through the firewall.
+      #
+
+      # Controlling Plex for Roku via Plex Companion
+      - "8324:8324/tcp"
+      - "3005:3005/tcp"
+
+      # DLNA server
+      - "1900:1900/udp"
+      - "32469:32469/tcp"
+
+      # Current GDM network discovery
+      - "32410:32410/udp"
+      - "32412:32412/udp"
+      - "32413:32413/udp"
+      - "32414:32414/udp"
+
+    environment:
+      - TZ=America/Chicago
+      - ADVERTISE_IP="http://192.168.1.60:32400"
+      - PLEX_UID=1000
+      - PLEX_GID=1000
+      - HOSTNAME=edtwardy.hopto.org

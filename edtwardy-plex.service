@@ -1,0 +1,10 @@
+[Unit]
+Description=Plex Media Server
+After=docker.service network-online.target
+Requires=docker.service network-online.target
+
+[Service]
+ExecStart=/bin/edtwardy-plex start
+
+[Install]
+WantedBy=multi-user.target

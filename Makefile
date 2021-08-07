@@ -7,7 +7,7 @@
 #
 # CREATED:	    04/26/2021
 #
-# LAST EDITED:	    08/01/2021
+# LAST EDITED:	    08/07/2021
 ###
 
 PACKAGE_NAME=edtwardy-webservices
@@ -69,6 +69,7 @@ volumes.dvm.lock: volumes.dvm.lock.in $(configVolumeImages)
 
 #: Install package files
 install: shareDirectory=$(DESTDIR)/usr/share/$(PACKAGE_NAME)
+install: plexShare=$(DESTDIR)/usr/share/edtwardy-plex
 install: configVolDir=$(shareDirectory)/volumes
 install: $(configVolumeImages) volumes.dvm.lock
 	install -d $(shareDirectory)
@@ -86,6 +87,12 @@ install: $(configVolumeImages) volumes.dvm.lock
 	install -d $(DESTDIR)/etc/cron.daily
 	install -m544 renew-certificates.bash \
 		$(DESTDIR)/etc/cron.daily/renewcertificates
+	: # edtwardy-plex
+	install -d $(plexShare)
+	install -m444 edtwardy-plex.docker-compose.yml \
+		$(plexShare)/docker-compose.yml
+	install -m644 edtwardy-plex.service $(DESTDIR)/lib/systemd/system
+	install -m744 edtwardy-plex.bash $(DESTDIR)/bin/edtwardy-plex
 
 clean:
 	-rm -f volumes.dvm.lock
@@ -105,14 +112,20 @@ zipArchive = ../$(PACKAGE_NAME)_$(DEB_VERSION).orig.tar.xz
 zip: $(zipArchive)
 
 $(zipArchive): fake
-	tar cJvf $(zipArchive) .
+	tar cJvf $(zipArchive) `ls | grep -v '^\.git$$'`
 
 package: $(zipArchive)
 	debuild -us -uc
 
+ifdef BINARY_PACKAGE
 reinstall:
-	dpkg --purge $(PACKAGE_NAME)
+	dpkg --purge edtwardy-$(BINARY_PACKAGE)
+	dpkg -i ../edtwardy-$(BINARY_PACKAGE)*.deb
+else
+reinstall:
+	dpkg --purge edtwardy-plex edtwardy-webservices
 	dpkg -i ../*.deb
+endif
 #------------------------------------------------------------------------------
 
 ###############################################################################

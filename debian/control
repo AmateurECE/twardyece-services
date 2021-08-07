@@ -11,6 +11,12 @@ Rules-Requires-Root: no
 
 Package: edtwardy-webservices
 Architecture: amd64
-Depends: bash (>= 5.1-2+b1), coreutils (>= 8.32-4+b1), gawk, systemd, docker-compose, cron, docker-ce (>= 5:20.10.7~3-0~debian-buster), ${shlibs:Depends}, ${misc:Depends}
+Depends: bash (>= 5.1-2+b1), coreutils (>= 8.32-4+b1), gawk, systemd, docker-compose, cron, docker-ce (>= 5:20.10.7~3-0~debian-buster), ${misc:Depends}
 Description: Docker infrastructure for my web services
- Docker infrastructure for my web services, as well as systemd triggers.
+ Docker infrastructure for my web services, as well as systemd unit.
+
+Package: edtwardy-plex
+Architecture: amd64
+Depends: bash (>= 5.1-2+b1), systemd, docker-compose, ${misc:Depends}
+Description: Docker infrastructure for Plex service
+ Docker infrastructure for Plex service, including systemd unit.
