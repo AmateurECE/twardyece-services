@@ -7,7 +7,7 @@
 #
 # CREATED:	    04/26/2021
 #
-# LAST EDITED:	    08/07/2021
+# LAST EDITED:	    08/08/2021
 ###
 
 PACKAGE_NAME=edtwardy-webservices
@@ -87,12 +87,16 @@ install: $(configVolumeImages) volumes.dvm.lock
 	install -d $(DESTDIR)/etc/cron.daily
 	install -m544 renew-certificates.bash \
 		$(DESTDIR)/etc/cron.daily/renewcertificates
+	:
 	: # edtwardy-plex
+	:
 	install -d $(plexShare)
-	install -m444 edtwardy-plex.docker-compose.yml \
+	install -m444 edtwardy-plex/docker-compose.yml \
 		$(plexShare)/docker-compose.yml
-	install -m644 edtwardy-plex.service $(DESTDIR)/lib/systemd/system
-	install -m744 edtwardy-plex.bash $(DESTDIR)/bin/edtwardy-plex
+	install -m644 edtwardy-plex/edtwardy-plex.service \
+		$(DESTDIR)/lib/systemd/system
+	install -m744 edtwardy-plex/edtwardy-plex.bash \
+		$(DESTDIR)/bin/edtwardy-plex
 
 clean:
 	-rm -f volumes.dvm.lock
