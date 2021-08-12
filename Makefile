@@ -7,17 +7,16 @@
 #
 # CREATED:	    04/26/2021
 #
-# LAST EDITED:	    08/08/2021
+# LAST EDITED:	    08/12/2021
 ###
 
 PACKAGE_NAME=edtwardy-webservices
 
 configVolumes=siteconf
 configVolumeImages=$(addsuffix -volume.tar.gz,$(configVolumes))
-dataVolumes=
 
 all: $(configVolumeImages) volumes.dvm.lock
-containers: apps-build.lock volumemanager-build.lock
+containers: apps-build.lock volumemanager-build.lock jenkins-agent-build.lock
 
 #: Generate a .tar.gz archive from a directory
 siteconf-volume.tar.gz: $(shell find siteconf)
@@ -57,6 +56,11 @@ apps-deps = \
 	apps/uwsgi.ini \
 	apps/MANIFEST.in \
 	requirements.apps.txt
+
+#: Generate jenkins-agent image
+jenkins-agent-build.lock: Containerfile.jenkins-agent
+	$(call buildahBud,$<,jenkins-agent)
+	touch $@
 
 #: Generate apps docker image
 apps-build.lock: Containerfile.apps $(apps-deps) $(basicssoWheel)

@@ -10,6 +10,7 @@ services:
       - "acme-challenge:/var/www/certbot:ro"
       - "apps-media:/var/www/media:ro"
       - "apps-static:/var/www/static:ro"
+      - "repository:/var/www/repository:ro"
     ports:
       - "80:80"
       - "443:443"
@@ -31,6 +32,24 @@ services:
       - DJANGO_HOSTNAME=edtwardy.hopto.org
       - SCRIPT_NAME=/apps
 
+  jenkins-controller:
+    image: "jenkins/jenkins:lts"
+    volumes:
+      - "jenkins:/var/jenkins_home"
+    environment:
+      - JENKINS_OPTS="--prefix=/jenkins"
+
+  jenkins-agent:
+    image: "edtwardy/jenkins-agent:latest"
+    init: true
+    depends_on:
+      - jenkins-controller
+    volumes:
+      - "repository:/home/jenkins/repository"
+      - "agent-secret:/secrets:ro"
+    environment:
+      - REPOSITORY_MOUNT=/home/jenkins/repository
+
   # TODO: Conan Server
   # TODO: PyPI Server
   # TODO: Mini-Dinstall
@@ -50,4 +69,9 @@ volumes:
   apps-media:
     external: true
   apps-static:
+    external: true
+  repository: # Use default volume
+  jenkins:
+    external: true
+  agent-secret:
     external: true

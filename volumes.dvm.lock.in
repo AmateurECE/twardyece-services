@@ -11,3 +11,5 @@ ldap            downstream
 apps-database   downstream  tag:bookmarks-5422db9c
 apps-static     downstream  tag:bookmarks-5422db9c
 apps-media      downstream  tag:bookmarks-5422db9c
+agent-secret    downstream  tag:jenkinsInit-8d7de861
+jenkins         downstream  tag:jenkinsInit-8d7de861

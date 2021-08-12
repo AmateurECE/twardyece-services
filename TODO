@@ -8,7 +8,8 @@
 * docker-compose.yml: persist container logs to volume
     certbot:/var/log/letsencrypt.log
     nginx:/var/log/nginx/{access,error}.log
-* Verify all containers have the same timezone.
+* Verify all containers have the same timezone (probably requires mounting
+  /etc/localtime into the container).
 * Cron to get regular backups of the images
 * Cron to archive all backup images regularly and keep a few around
 * Document format/behavior of volumes.dvm.lock in README.md
@@ -68,3 +69,7 @@
   Makefile and to the respective debian/*.install file. This process will get
   even worse when we go to add *.spec files, PKGBUILD, or whatever files are
   required to package for other distributions.
+* Probably some ways to optimize the apps containerfile further?
+* Put jenkins containers into a different docker-compose.yml and package them
+  separately, but list as a dependency in debian/control and systemd unit file.
+* Tag edtwardy images

@@ -54,13 +54,19 @@ For more information, see [Security](SecurityArchitecture.md)
 Containers utilizing custom images are listed below.
 
 1. [edtwardy/volumemanager:latest](
-   https://hub.docker.com/repository/docker/edtwardy/volumemanager)
-   This container is built from a custom Docker image, built on the Bash base
-   image and a custom Bash script.
+   https://hub.docker.com/repository/docker/edtwardy/volumemanager): This
+   container is built from a custom Docker image, built on the Bash base image
+   and a custom Bash script.
 2. [nginx](https://hub.docker.com/_/nginx)
 3. [certbot/certbot](https://hub.docker.com/r/certbot/certbot)
 4. [osixia/openldap:stable](https://hub.docker.com/r/osixia/openldap)
 6. [edtwardy/apps:latest](
-   https://hub.docker.com/repository/docker/edtwardy/apps) This container is
+   https://hub.docker.com/repository/docker/edtwardy/apps): This container is
    built from a custom Docker image, built on the python base image. It runs a
    series of Django applications served by uWSGI.
+7. [jenkins/jenkins:lts](https://hub.docker.com/r/jenkins/jenkins): The jenkins
+   image maintained by the authors of Jenkins CI
+8. [edtwardy/jenkins-agent:lts](
+   https://hub.docker.com/repository/docker/edtwardy/jenkins-agent): My own
+   image derived of the jenkins/agent base image, used in my self-hosted
+   pipelines.
