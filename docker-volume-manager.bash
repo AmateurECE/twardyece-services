@@ -25,7 +25,7 @@
 #
 # CREATED:          05/22/2021
 #
-# LAST EDITED:      07/02/2021
+# LAST EDITED:      08/12/2021
 ###
 
 read -r -d '' USAGE<<EOF
@@ -128,7 +128,7 @@ syncDownstream() {
             return 2
         fi
 
-        local thisTag=$(awk "/$name/"'{print $2}' "$tagsFile")
+        local thisTag=$(awk "/^$name/"'{print $2}' "$tagsFile")
         if [[ "$thisTag" != "${tag/#tag:}" ]]; then
             >&2 printf ${LOG_TAG}': %s %s %s\n' "Error. Tag specified for" \
                 "$name does not match the tag in the tags file." \
