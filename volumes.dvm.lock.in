@@ -5,7 +5,7 @@
 #
 # NAME          DIRECTION   OPTIONS
 siteconf        upstream    <hash>
-letsencrypt     downstream
+letsencrypt     downstream  tag:renewal-20210825
 slapd.d         downstream
 ldap            downstream
 apps-database   downstream  tag:compilations-19e613ac

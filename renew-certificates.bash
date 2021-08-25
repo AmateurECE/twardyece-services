@@ -8,35 +8,30 @@
 #
 # CREATED:          05/31/2021
 #
-# LAST EDITED:      06/01/2021
+# LAST EDITED:      08/24/2021
 ###
 
 set -e
 
-# Make sure nginx is running
-systemctl is-active --quiet edtwardy-webservices.service ||
-    {>&2 printf '%s\n' "edtwardy-webservices is not running."; exit 1;}
+PACKAGE_NAME=edtwardy-webservices
 
+printf '%s\n' "Checking for certificate renewal..."
 CERT_PATH=/etc/letsencrypt/live/edtwardy.hopto.org/cert.pem
 # Check certificate renewal status, renew if necessary
-docker run -t --rm --name edtwardy-webservices_certbot_1 \
+docker run -t --rm --name ${PACKAGE_NAME}_certbot_1 \
        -v letsencrypt:/etc/letsencrypt \
-       -v acme-challenge:/var/www/certbot \
+       -v ${PACKAGE_NAME}_acme-challenge:/var/www/certbot \
+       -v ${PACKAGE_NAME}_letsencrypt-logs:/var/log/letsencrypt \
        certbot/certbot certonly \
        -d edtwardy.hopto.org \
        --webroot \
        -w /var/www/certbot \
-       -n \
-       --renew-hook "date +%s -r $CERT_PATH" |
-    tail -n1 |
-    read certLastModTime
+       -n
 
-currentDate=$(date +%s)
-timeDelta=$((currentDate-certLastModTime))
-tenMinutes=600
-if [[ $timeDelta -le $tenMinutes ]]; then
-    # Certificate has been renewed, so reload Nginx
-    docker exec -t edtwardy-webservices_nginx_1 nginx -s reload
+systemctl is-active --quiet $PACKAGE_NAME.service
+if [[ "$?" = 0 ]]; then
+    printf '%s\n' "Restarting active Nginx config (just in case)"
+    docker exec -t ${PACKAGE_NAME}_nginx_1 nginx -s reload
 fi
 
 ###############################################################################
