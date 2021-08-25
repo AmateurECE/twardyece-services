@@ -26,6 +26,7 @@ FROM docker.io/library/python:3.8.10-alpine3.13
 COPY --from=builder /root/dist/*.whl /root/
 
 ARG bookmarksReleases=https://github.com/AmateurECE/django-bookmarks/releases
+ARG compReleases=https://github.com/AmateurECE/django-compilations/releases
 RUN apk add --no-cache \
     # uWSGI
     pcre \
@@ -36,7 +37,8 @@ RUN apk add --no-cache \
     jpeg \
     && python3 -m pip install --no-cache-dir --no-deps \
     /root/*.whl \
-    $bookmarksReleases/download/v2.0/django_bookmarks-2.0-py3-none-any.whl
+    $bookmarksReleases/download/v2.0/django_bookmarks-2.0-py3-none-any.whl \
+    $compReleases/download/v0.1.0/django_compilations-0.1.0-py3-none-any.whl
 # When this image is being built with buildah's --squash option, this actually
 # does reduce the size of the container!
 RUN rm /root/*.whl

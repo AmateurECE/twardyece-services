@@ -42,6 +42,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'compilations.apps.CompilationsConfig',
     'basicsso.apps.BasicssoConfig',
     'bookmarks.apps.BookmarksConfig',
     'rest_framework',
@@ -189,6 +190,10 @@ SESSION_COOKIE_SECURE = True
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = CONTAINER_STATE_ROOT / 'media/'
+
+# Compilations
+COMPILATIONS_FILTERS_LOCATION = CONTAINER_STATE_ROOT \
+    / 'secrets/compilations/filters.py'
 
 # Logging (Uncomment for debugging)
 

@@ -8,8 +8,9 @@ siteconf        upstream    <hash>
 letsencrypt     downstream
 slapd.d         downstream
 ldap            downstream
-apps-database   downstream  tag:bookmarks-5422db9c
-apps-static     downstream  tag:bookmarks-5422db9c
-apps-media      downstream  tag:bookmarks-5422db9c
+apps-database   downstream  tag:compilations-19e613ac
+apps-static     downstream  tag:compilations-19e613ac
+apps-media      downstream  tag:compilations-19e613ac
 agent-secret    downstream  tag:jenkinsInit-8d7de861
 jenkins         downstream  tag:jenkinsInit-8d7de861
+apps-secrets    downstream  tag:compilations-19e613ac

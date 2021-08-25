@@ -28,6 +28,7 @@ services:
       - "apps-database:/data/database"
       - "apps-media:/data/media"
       - "apps-static:/data/static:ro"
+      - "apps-secrets:/data/secrets:ro"
     environment:
       - DJANGO_HOSTNAME=edtwardy.hopto.org
       - SCRIPT_NAME=/apps
@@ -74,4 +75,6 @@ volumes:
   jenkins:
     external: true
   agent-secret:
+    external: true
+  apps-secrets:
     external: true
