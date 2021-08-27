@@ -1,0 +1,29 @@
+
+flush ruleset
+
+table ip filter {
+    chain inbound {
+        type filter hook input priority 0; policy drop;
+        ct state vmap { established: accept, related: accept, invalid: drop }
+        iifname {{vps_interface}} th dport { {{listen_port}}, 22 } accept
+        iifname {{server_interface}} accept
+        icmp type echo-request limit rate 5/second accept
+    }
+
+    chain prerouting {
+        type nat hook prerouting priority -100;
+        iifname {{vps_interface}} tcp dport { 80, 443 } dnat to \
+            {{client_address}}
+    }
+
+    chain postrouting {
+        type nat hook postrouting priority 100;
+        oifname {{server_interface}} masquerade
+    }
+
+    # Uncomment this chain to be able to trace all packets that traverse the
+    # firewall with the command "nft monitor trace"
+    # chain trace_chain {
+    #     meta nftrace set 1
+    # }
+}

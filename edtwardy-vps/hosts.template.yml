@@ -1,0 +1,5 @@
+linode:
+  hosts:
+    {{vps_address}}:
+      ansible_python_interpreter: "/usr/bin/python3.9"
+      ansible_user: "root"

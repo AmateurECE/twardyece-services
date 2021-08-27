@@ -7,7 +7,7 @@
 #
 # CREATED:	    04/26/2021
 #
-# LAST EDITED:	    08/12/2021
+# LAST EDITED:	    08/26/2021
 ###
 
 PACKAGE_NAME=edtwardy-webservices
@@ -101,6 +101,10 @@ install: $(configVolumeImages) volumes.dvm.lock
 		$(DESTDIR)/lib/systemd/system
 	install -m744 edtwardy-plex/edtwardy-plex.bash \
 		$(DESTDIR)/bin/edtwardy-plex
+	:
+	: # edtwardy-vps
+	:
+	$(MAKE) -C edtwardy-vps install
 
 clean:
 	-rm -f volumes.dvm.lock

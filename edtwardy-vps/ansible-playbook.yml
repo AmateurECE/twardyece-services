@@ -1,0 +1,54 @@
+---
+- name: Linode Setup
+  hosts: 172.105.97.217
+  tasks:
+    - name: Install WireGuard
+      ansible.builtin.package:
+        name: wireguard-tools
+        state: latest
+    - name: Load wireguard.ko for this boot
+      modprobe:
+        name: wireguard
+        state: present
+    - name: Load wireguard.ko on boot
+      ansible.builtin.lineinfile:
+        path: /etc/modules
+        regexp: '^wireguard'
+        line: 'wireguard'
+    - name: Copy wg0.conf to node
+      ansible.builtin.copy:
+        src: "{{ wg_conf_vps }}"
+        dest: /etc/wireguard/wg0.conf
+        owner: root
+        group: root
+        mode: '0400'
+    - name: Copy wireguard publickey to node
+      ansible.builtin.copy:
+        src: "{{ wg_publickey_vps }}"
+        dest: /etc/wireguard/publickey
+        owner: root
+        group: root
+        mode: '0400'
+    - name: Install wireguard-tools-wg
+      ansible.builtin.package:
+        name: wireguard-tools-wg
+        state: latest
+    - name: Install nftables
+      ansible.builtin.package:
+        name: nftables
+        state: latest
+    - name: Copy nftables ruleset
+      ansible.builtin.copy:
+        src: /usr/share/edtwardy-vps/firewall.nft
+        dest: /etc/nftables.nft
+        owner: root
+        group: root
+        mode: '0644'
+    - name: Enable ipv4 forwarding in sysctl.conf
+      ansible.posix.sysctl:
+        name: net.ipv4.ip_forward
+        value: '1'
+        sysctl_file: /etc/sysctl.conf
+        sysctl_set: yes
+        state: present
+        reload: yes

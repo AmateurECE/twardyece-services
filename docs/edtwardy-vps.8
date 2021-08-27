@@ -1,0 +1,17 @@
+.TH edtwardy-vps 8
+.SH NAME
+edtwardy-vps - convenient sh script to manage the VPS instance
+.SH SYNOPSIS
+.B edtwardy-vps
+.SH DESCRIPTION
+.B edtwardy-vps
+Connects to a managed node over SSH and controls configuration of the node to a
+versioned state (using Ansible).
+
+It's very important to note that this script, which runs \fBansible-playbook\fR
+requires that this server contain a private SSH key, and that the public key
+matching is installed on the managed node.
+
+Additionally, it's helpful when the private key is installed to a running
+instance of \fBssh-agent\fR. If this is not the case, \fBansible-playbook\fR
+should request a passphrase directly from the user.
