@@ -8,8 +8,9 @@ RUN apt-get update \
 USER jenkins
 ENV PATH="/home/jenkins/.local/bin:$PATH"
 RUN python3 -m pip install setuptools wheel \
-    && python3 -m pip install mkdocs-material
+    && python3 -m pip install mkdocs-material \
+    && mkdir /home/jenkins/repository
+VOLUME /home/jenkins/repository
 
-USER root
 COPY jenkins-agent-cmd.sh /bin/jenkins-agent-cmd
 CMD ["/bin/jenkins-agent-cmd"]
