@@ -74,3 +74,16 @@
   separately, but list as a dependency in debian/control and systemd unit file.
 * Tag edtwardy images
 * edtwardy/jenkins-agent image creates two unnamed shared volumes.
+* Mini-dinstall instance
+* Pypi server
+* Git server
+* Web status dashboard (landing page and status/log viewer)
+* RSS viewer
+* Disk monitor
+* VPN server
+* Self-hosted spreadsheet app, like Google Docs
+* Add edtwardy-hostinfrastructure package--includes SSH/firewall configs, etc.,
+  and installs fail2ban and other packages by dependency
+* SFTP server with pam_ldap.so, integrated with Jenkins for Yocto SSTATE mirror
+* Self-hosted photo album
+* systemd service for edtwardy-vps to ensure wireguard server is running

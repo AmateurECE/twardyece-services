@@ -1,0 +1,11 @@
+[Unit]
+Description=Jellyfin docker container
+After=edtwardy-webservices.service
+Requires=edtwardy-webservices.service
+
+[Service]
+WorkingDirectory=/usr/share/edtwardy-jellyfin
+ExecStart=/usr/bin/docker-compose up
+
+[Install]
+WantedBy=multi-user.target

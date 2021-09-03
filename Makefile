@@ -7,7 +7,7 @@
 #
 # CREATED:	    04/26/2021
 #
-# LAST EDITED:	    08/26/2021
+# LAST EDITED:	    08/28/2021
 ###
 
 PACKAGE_NAME=edtwardy-webservices
@@ -105,6 +105,10 @@ install: $(configVolumeImages) volumes.dvm.lock
 	: # edtwardy-vps
 	:
 	$(MAKE) -C edtwardy-vps install
+	:
+	: # edtwardy-jellyfin
+	:
+	$(MAKE) -C edtwardy-jellyfin install
 
 clean:
 	-rm -f volumes.dvm.lock

@@ -5,7 +5,7 @@
 #
 # NAME          DIRECTION   OPTIONS
 siteconf        upstream    <hash>
-letsencrypt     downstream  tag:renewal-20210825
+letsencrypt     downstream  tag:renewal-20210901
 slapd.d         downstream
 ldap            downstream
 apps-database   downstream  tag:compilations-19e613ac
@@ -14,3 +14,4 @@ apps-media      downstream  tag:compilations-19e613ac
 agent-secret    downstream  tag:jenkinsInit-8d7de861
 jenkins         downstream  tag:jenkinsInit-8d7de861
 apps-secrets    downstream  tag:compilations-19e613ac
+jellyfin        downstream  tag:init-6ecae84e
