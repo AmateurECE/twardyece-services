@@ -87,3 +87,10 @@
 * SFTP server with pam_ldap.so, integrated with Jenkins for Yocto SSTATE mirror
 * Self-hosted photo album
 * systemd service for edtwardy-vps to ensure wireguard server is running
+* Jellyfin depends on the edtwardy-webservices_default network, which, if CVM
+  is still populating the volumes from the images when the
+  edtwardy-jellyfin.service starts, doesn't exist.
+* Jellyfin takes a long, long time to start??
+* The Jellyfin desktop app available in flathub does not support connecting to
+  servers served at a sub-url. Perhaps I should make it a separate vhost on
+  port 8096, behind an Nginx reverse proxy for SSL?

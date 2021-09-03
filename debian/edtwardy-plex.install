@@ -1,3 +1,0 @@
-lib/systemd/system/edtwardy-plex.service
-bin/edtwardy-plex
-usr/share/edtwardy-plex/docker-compose.yml

@@ -15,12 +15,6 @@ Depends: bash (>= 5.1-2+b1), coreutils (>= 8.32-4+b1), gawk, systemd, docker-com
 Description: Docker infrastructure for my web services
  Docker infrastructure for my web services, as well as systemd unit.
 
-Package: edtwardy-plex
-Architecture: amd64
-Depends: bash (>= 5.1-2+b1), systemd, docker-compose, ${misc:Depends}
-Description: Docker infrastructure for Plex service
- Docker infrastructure for Plex service, including systemd unit.
-
 Package: edtwardy-vps
 Architecture: all
 Depends: ansible (>= 2.10.7+merged+base+2.10.8+dfsg-1), wireguard-tools (>= 1.0.20210223-1), bash (>= 5.1-2+b1), renderbars (>= 0.2.1-1), ${misc:Depends}
