@@ -1,10 +1,10 @@
 [Unit]
-Description=Webservices
+Description=TFTP Server
 After=docker.service network-online.target
 Requires=docker.service network-online.target
 
 [Service]
-ExecStart=/bin/edtwardy-webservices start
+ExecStart=/bin/docker-compose -f /usr/share/edtwardy-webservices/tftp.docker-compose.yml up
 
 [Install]
 WantedBy=multi-user.target

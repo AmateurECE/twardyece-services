@@ -1,0 +1,9 @@
+version: "2.4"
+services:
+  tftp:
+    image: taskinen/tftp
+    ports:
+      - "69:69/udp"
+    volumes:
+      - "/mnt/Serve/tftp:/var/tftpboot:ro"
+    restart: unless-stopped

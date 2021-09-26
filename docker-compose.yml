@@ -11,6 +11,7 @@ services:
       - "apps-media:/var/www/media:ro"
       - "apps-static:/var/www/static:ro"
       - "repository:/var/www/repository:ro"
+      - "/mnt/Serve/yocto/sstate-cache:/data/yocto/sstate-cache:ro"
     ports:
       - "80:80"
       - "443:443"

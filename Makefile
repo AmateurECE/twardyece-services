@@ -7,7 +7,7 @@
 #
 # CREATED:	    04/26/2021
 #
-# LAST EDITED:	    09/02/2021
+# LAST EDITED:	    09/17/2021
 ###
 
 PACKAGE_NAME=edtwardy-webservices
@@ -90,6 +90,8 @@ install: $(configVolumeImages) volumes.dvm.lock
 	install -d $(DESTDIR)/etc/cron.daily
 	install -m544 renew-certificates.bash \
 		$(DESTDIR)/etc/cron.daily/renewcertificates
+	install -m444 tftp.docker-compose.yml $(shareDirectory)
+	install -m644 edtwardy-tftp.service $(DESTDIR)/lib/systemd/system
 	:
 	: # edtwardy-vps
 	:
