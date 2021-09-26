@@ -38,7 +38,7 @@ RUN apk add --no-cache \
     && python3 -m pip install --no-cache-dir --no-deps \
     /root/*.whl \
     $bookmarksReleases/download/v2.0/django_bookmarks-2.0-py3-none-any.whl \
-    $compReleases/download/v0.1.0/django_compilations-0.1.0-py3-none-any.whl
+    $compReleases/download/v0.2.0/django_compilations-0.2.0-py3-none-any.whl
 # When this image is being built with buildah's --squash option, this actually
 # does reduce the size of the container!
 RUN rm /root/*.whl

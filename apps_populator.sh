@@ -1,6 +1,7 @@
 #!/bin/bash
 CONTAINER=apps_populator
 docker run -d --name $CONTAINER \
+       -v apps-secrets:/data/secrets \
        -v apps-database:/data/database \
        -v apps-static:/data/static \
        -e DJANGO_HOSTNAME=edtwardy.hopto.org \
