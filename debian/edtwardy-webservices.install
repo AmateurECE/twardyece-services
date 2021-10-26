@@ -9,3 +9,4 @@ etc/cron.daily/renewcertificates
 usr/share/edtwardy-jellyfin/docker-compose.yml
 lib/systemd/system/edtwardy-jellyfin.service
 lib/systemd/system/edtwardy-tftp.service
+lib/systemd/system/mnt-Serve-tftp.mount

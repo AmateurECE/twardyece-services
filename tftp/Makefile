@@ -15,5 +15,6 @@ compose=docker-compose.yml
 install:
 	install -m444 $(compose) $(shareDirectory)/tftp.$(compose)
 	install -m644 edtwardy-tftp.service $(DESTDIR)/lib/systemd/system
+	install -m444 mnt-Serve-tftp.mount $(DESTDIR)/lib/systemd/system
 
 ###############################################################################
