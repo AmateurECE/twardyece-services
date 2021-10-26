@@ -1,7 +1,15 @@
 [Unit]
 Description=Webservices
-After=docker.service network-online.target
-Requires=docker.service network-online.target
+After=\
+    docker.service \
+    network-online.target \
+    mnt-Serve-yocto-sstate\x2dcache.mount \
+    mnt-Serve-yocto-esdk.mount
+Requires=\
+    docker.service \
+    network-online.target \
+    mnt-Serve-yocto-sstate\x2dcache.mount \
+    mnt-Serve-yocto-esdk.mount
 
 [Service]
 ExecStart=/bin/edtwardy-webservices start

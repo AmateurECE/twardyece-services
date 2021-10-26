@@ -92,6 +92,10 @@ install: $(configVolumeImages) volumes.dvm.lock
 	install -m544 renew-certificates.bash \
 		$(DESTDIR)/etc/cron.daily/renewcertificates
 	:
+	: # edtwardy-webservices
+	:
+	$(MAKE) -C edtwardy-webservices install
+	:
 	: # edtwardy-tftp
 	:
 	$(MAKE) -C edtwardy-tftp install

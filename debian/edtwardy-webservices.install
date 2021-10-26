@@ -10,3 +10,5 @@ usr/share/edtwardy-jellyfin/docker-compose.yml
 lib/systemd/system/edtwardy-jellyfin.service
 lib/systemd/system/edtwardy-tftp.service
 lib/systemd/system/mnt-Serve-tftp.mount
+lib/systemd/system/mnt-Serve-yocto-sstate\x2dcache.mount
+lib/systemd/system/mnt-Serve-yocto-esdk.mount
