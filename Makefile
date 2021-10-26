@@ -94,7 +94,7 @@ install: $(configVolumeImages) volumes.dvm.lock
 	:
 	: # edtwardy-tftp
 	:
-	$(MAKE) -C tftp install
+	$(MAKE) -C edtwardy-tftp install
 	:
 	: # edtwardy-vps
 	:
