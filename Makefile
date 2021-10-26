@@ -7,7 +7,7 @@
 #
 # CREATED:	    04/26/2021
 #
-# LAST EDITED:	    09/17/2021
+# LAST EDITED:	    10/25/2021
 ###
 
 PACKAGE_NAME=edtwardy-webservices
@@ -72,8 +72,9 @@ volumes.dvm.lock: volumes.dvm.lock.in $(configVolumeImages)
 	./prepare-volume-lockfile.bash $<
 
 #: Install package files
-install: shareDirectory=$(DESTDIR)/usr/share/$(PACKAGE_NAME)
-install: configVolDir=$(shareDirectory)/volumes
+shareDirectory=$(DESTDIR)/usr/share/$(PACKAGE_NAME)
+export shareDirectory
+configVolDir=$(shareDirectory)/volumes
 install: $(configVolumeImages) volumes.dvm.lock
 	install -d $(shareDirectory)
 	install -m444 docker-compose.yml $(shareDirectory)
@@ -90,8 +91,10 @@ install: $(configVolumeImages) volumes.dvm.lock
 	install -d $(DESTDIR)/etc/cron.daily
 	install -m544 renew-certificates.bash \
 		$(DESTDIR)/etc/cron.daily/renewcertificates
-	install -m444 tftp.docker-compose.yml $(shareDirectory)
-	install -m644 edtwardy-tftp.service $(DESTDIR)/lib/systemd/system
+	:
+	: # edtwardy-tftp
+	:
+	$(MAKE) -C tftp install
 	:
 	: # edtwardy-vps
 	:
