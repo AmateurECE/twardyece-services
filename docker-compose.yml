@@ -51,7 +51,6 @@ services:
       - "agent-secret:/secrets:ro"
     environment:
       - REPOSITORY_MOUNT=/home/jenkins/repository
-    restart: unless-stopped
 
   # TODO: Conan Server
   # TODO: PyPI Server
