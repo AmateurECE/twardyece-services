@@ -2,7 +2,7 @@
 Description=Mount for Serving Yocto eSDK updates over HTTP(S)
 
 [Mount]
-What=/home/edtwardy/Git/Yocto/build/tmp/deploy/sdk
+What=/home/edtwardy/Git/Yocto/build/tmp/deploy/esdk-update
 Where=/mnt/Serve/yocto/esdk
 Type=none
 Options=bind

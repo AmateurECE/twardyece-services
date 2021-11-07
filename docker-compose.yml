@@ -12,6 +12,7 @@ services:
       - "apps-static:/var/www/static:ro"
       - "repository:/var/www/repository:ro"
       - "/mnt/Serve/yocto/sstate-cache:/data/yocto/sstate-cache:ro"
+      - "/mnt/Serve/yocto/esdk:/data/yocto/esdk:ro"
     ports:
       - "80:80"
       - "443:443"
