@@ -21,3 +21,12 @@ Depends: ansible (>= 2.10.7+merged+base+2.10.8+dfsg-1), wireguard-tools (>= 1.0.
 Description: Ansible configuration for controller node
  This package provides ansible configuration for the controller node (e.g. this
  Debian server) to manage a VPS node.
+
+Package: edtwardy-dns
+Architecture: all
+Depends: bash (>= 5.1-2+b1), coreutils (>= 8.32-4+b1), systemd, docker-compose, docker-ce (>= 5:20.10.7~3-0~debian-buster), ${misc:Depends}
+Description: Bind9 configuration for an authoritative DNS server
+ This DNS server is not publicly accessible, of course, but it does allow me
+ to set up split-horizon DNS for my owned hostname. This allows me to resolve
+ my public hostname to the link local address of my boxes, instead of the
+ public IP address of my Linode instance.

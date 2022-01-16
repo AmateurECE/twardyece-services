@@ -1,0 +1,3 @@
+lib/systemd/system/edtwardy-dns.service
+usr/share/edtwardy-dns/bind.tar.gz
+usr/share/edtwardy-dns/docker-compose.yml

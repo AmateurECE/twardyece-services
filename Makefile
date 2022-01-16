@@ -7,7 +7,7 @@
 #
 # CREATED:	    04/26/2021
 #
-# LAST EDITED:	    10/25/2021
+# LAST EDITED:	    01/16/2022
 ###
 
 PACKAGE_NAME=edtwardy-webservices
@@ -91,22 +91,31 @@ install: $(configVolumeImages) volumes.dvm.lock
 	install -d $(DESTDIR)/etc/cron.daily
 	install -m544 renew-certificates.bash \
 		$(DESTDIR)/etc/cron.daily/renewcertificates
+
 	:
 	: # edtwardy-webservices
 	:
 	$(MAKE) -C edtwardy-webservices install
+
 	:
 	: # edtwardy-tftp
 	:
 	$(MAKE) -C edtwardy-tftp install
+
 	:
 	: # edtwardy-vps
 	:
 	$(MAKE) -C edtwardy-vps install
+
 	:
 	: # edtwardy-jellyfin
 	:
 	$(MAKE) -C edtwardy-jellyfin install
+
+	:
+	: # edtwardy-dns
+	:
+	$(MAKE) -C edtwardy-dns install
 
 clean:
 	-rm -f volumes.dvm.lock
