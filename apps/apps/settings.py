@@ -34,10 +34,7 @@ SECRET_KEY = os.environ['DJANGO_SECRET_KEY']
 
 DEBUG = False
 
-ALLOWED_HOSTS = [
-    os.environ['DJANGO_HOSTNAME'],
-]
-
+ALLOWED_HOSTS = os.environ['DJANGO_HOSTNAME'].split(':')
 
 # Application definition
 
