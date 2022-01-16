@@ -1,5 +1,6 @@
 # LABEL author="Ethan D. Twardy <ethan.twardy@gmail.com>"
 FROM docker.io/library/python:3.8.10-alpine3.13 as builder
+ARG buildDir
 
 RUN apk add --no-cache \
     # Everything
@@ -16,7 +17,7 @@ RUN apk add --no-cache \
 COPY requirements.apps.txt /root/dist/requirements.txt
 WORKDIR /root/dist
 RUN python3 -m pip wheel -r requirements.txt
-COPY django-sandbox/dist/djangobasicsso-0.1.0-py3-none-any.whl /root/dist/
+COPY $buildDir/dist/djangobasicsso-0.1.0-py3-none-any.whl /root/dist/
 
 COPY apps /root/
 WORKDIR /root

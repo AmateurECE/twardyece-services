@@ -11,19 +11,18 @@
 ###
 
 PACKAGE_NAME=edtwardy-webservices
+BUILD_DIR = build
+B := $(shell pwd)/$(BUILD_DIR)
 
-configVolumes=siteconf
-configVolumeImages=$(addsuffix -volume.tar.gz,$(configVolumes))
+$(shell mkdir -p build)
 
-all: $(configVolumeImages) volumes.dvm.lock
-containers: apps-build.lock volumemanager-build.lock jenkins-agent-build.lock
+all: $(B)/siteconf-volume.tar.gz $(B)/volumes.dvm.lock
+containers: $(B)/apps-build.lock $(B)/volumemanager-build.lock \
+	$(B)/jenkins-agent-build.lock
 
 #: Generate a .tar.gz archive from a directory
-siteconf-volume.tar.gz: $(shell find siteconf)
+$(B)/siteconf-volume.tar.gz: $(shell find siteconf)
 	tar czvf $@ $<
-
-#: Generate volume images from the content in this repository
-$(configVolumeImages): $(configVolumes)
 
 updateTagsDir=ContainerVolumeManager/UpdateTags
 volumemanager-deps = \
@@ -36,18 +35,19 @@ squash=--squash
 endif
 
 define buildahBud
-buildah bud --layers $(squash) -f $(1) -t "$(2):latest"
+buildah bud --build-arg buildDir=$(BUILD_DIR) --layers $(squash) -f $(1) \
+    -t "$(2):latest"
 endef
 
 #: Generate the volumemanager docker image
-volumemanager-build.lock: Containerfile.volumemanager $(volumemanager-deps)
+$(B)/volumemanager-build.lock: Containerfile.volumemanager $(volumemanager-deps)
 	$(call buildahBud,$<,volumemanager)
 	touch $@
 
-basicssoWheel = django-sandbox/dist/djangobasicsso-0.1.0-py3-none-any.whl
+basicssoWheel = $(B)/dist/djangobasicsso-0.1.0-py3-none-any.whl
 
 $(basicssoWheel): $(shell find django-sandbox/basicsso) django-sandbox/setup.py
-	cd django-sandbox && python3 setup.py bdist_wheel
+	cd $(B) && SOURCE_DIR=$(PWD)/django-sandbox python3 $(PWD)/django-sandbox/setup.py bdist_wheel
 
 apps-deps = \
 	$(shell find apps/apps) \
@@ -58,29 +58,41 @@ apps-deps = \
 	requirements.apps.txt
 
 #: Generate jenkins-agent image
-jenkins-agent-build.lock: Containerfile.jenkins-agent
+$(B)/jenkins-agent-build.lock: Containerfile.jenkins-agent
 	$(call buildahBud,$<,jenkins-agent)
 	touch $@
 
 #: Generate apps docker image
-apps-build.lock: Containerfile.apps $(apps-deps) $(basicssoWheel)
+$(B)/apps-build.lock: Containerfile.apps $(apps-deps) $(basicssoWheel)
 	$(call buildahBud,$<,apps)
 	touch $@
 
 #: Generate volumes.dvm.lock file
-volumes.dvm.lock: volumes.dvm.lock.in $(configVolumeImages)
-	./prepare-volume-lockfile.bash $<
+$(B)/volumes.dvm.lock: volumes.dvm.lock.in $(B)/siteconf-volume.tar.gz
+	./prepare-volume-lockfile.bash $< $@ $(B)
+
+subdirs = \
+	webservices \
+	tftp \
+	vps \
+	jellyfin \
+	dns
+
+define subdirInvoke
+$(MAKE) -C edtwardy-$(1) $(2);
+endef
 
 #: Install package files
 shareDirectory=$(DESTDIR)/usr/share/$(PACKAGE_NAME)
 export shareDirectory
+export B
 configVolDir=$(shareDirectory)/volumes
-install: $(configVolumeImages) volumes.dvm.lock
+install: $(configVolumeImages) $(B)/volumes.dvm.lock
 	install -d $(shareDirectory)
 	install -m444 docker-compose.yml $(shareDirectory)
-	install -m444 volumes.dvm.lock $(shareDirectory)
+	install -m444 $(B)/volumes.dvm.lock $(shareDirectory)
 	install -d $(configVolDir)
-	$(foreach i,$(configVolumeImages),install -m444 $(i) $(configVolDir))
+	install -m444 $(B)/siteconf-volume.tar.gz $(configVolDir)
 	install -d $(DESTDIR)/lib/systemd/system
 	install -m644 $(PACKAGE_NAME).service $(DESTDIR)/lib/systemd/system
 	install -d $(DESTDIR)/bin
@@ -91,37 +103,14 @@ install: $(configVolumeImages) volumes.dvm.lock
 	install -d $(DESTDIR)/etc/cron.daily
 	install -m544 renew-certificates.bash \
 		$(DESTDIR)/etc/cron.daily/renewcertificates
-
-	:
-	: # edtwardy-webservices
-	:
-	$(MAKE) -C edtwardy-webservices install
-
-	:
-	: # edtwardy-tftp
-	:
-	$(MAKE) -C edtwardy-tftp install
-
-	:
-	: # edtwardy-vps
-	:
-	$(MAKE) -C edtwardy-vps install
-
-	:
-	: # edtwardy-jellyfin
-	:
-	$(MAKE) -C edtwardy-jellyfin install
-
-	:
-	: # edtwardy-dns
-	:
-	$(MAKE) -C edtwardy-dns install
+	$(foreach subdir,$(subdirs),$(call subdirInvoke,$(subdir),install))
 
 clean:
 	-rm -f volumes.dvm.lock
 	-buildah rmi volumemanager
 	-buildah rmi apps
 	-rm -f *-volume.tar.gz
+	$(foreach subdir,$(subdirs),$(call subdirInvoke,$(subdir),clean))
 
 #------------------------------------------------------------------------------
 # These rules are related to packaging, and aren't used except for testing.

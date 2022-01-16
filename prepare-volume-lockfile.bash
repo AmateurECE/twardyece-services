@@ -8,13 +8,14 @@
 #
 # CREATED:          05/29/2021
 #
-# LAST EDITED:      07/02/2021
+# LAST EDITED:      01/16/2022
 ###
 
 read -r -d '' USAGE<<EOF
-Usage: $0 <lock.in>
+Usage: $0 <lock.in> <lockfile> <volume-dir>
 
-Prepares volumes.dvm.lock using the file at the patch <lock.in>
+Prepares <lockfile> using the file at the path <lock.in> and the volumes
+in <volume-dir>
 EOF
 
 set -e
@@ -25,12 +26,14 @@ Error: $name configured as upstream but no image found."
 prepareUpstream() {
     local name=$1 && shift
     local hash=$1 && shift
+    local build=$1 && shift
 
-    if [[ ! -f "$name-volume.tar.gz" && "$hash" = "<hash>" ]]; then
+    local volume="$build/$name-volume.tar.gz"
+    if [[ ! -f "$volume" && "$hash" = "<hash>" ]]; then
         >&2 printf '%s\n' "$NO_VOLUME_IMAGE_FOR_UPSTREAM"
         return 1
     elif [[ "$hash" = "<hash>" ]]; then
-        hash="sha256:$(sha256sum "$name-volume.tar.gz" | awk '{print $1}')"
+        hash="sha256:$(sha256sum "$volume" | awk '{print $1}')"
     fi
 
     firstColumn=30
@@ -62,12 +65,13 @@ prepareDownstream() {
 # Main
 #
 
-if [[ -z $1 ]]; then
+if [[ -z $1 || -z $2 || -z $3 ]]; then
     >&2 printf '%s\n' "$USAGE"
     exit 1
 fi
 
-LOCK_FILE=volumes.dvm.lock
+LOCK_FILE=$2
+BUILD=$3
 
 if [[ -f $LOCK_FILE ]]; then
     rm -f $LOCK_FILE
@@ -84,7 +88,7 @@ EOF
     while read name type arguments; do
         case $type in
             upstream)
-                prepareUpstream "$name" "$arguments" >> $LOCK_FILE
+                prepareUpstream "$name" "$arguments" "$BUILD" >> $LOCK_FILE
                 ;;
             downstream)
                 prepareDownstream "$name" "$arguments" >> $LOCK_FILE
