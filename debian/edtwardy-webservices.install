@@ -1,14 +1,9 @@
 usr/share/edtwardy-webservices/docker-compose.yml
-usr/share/edtwardy-webservices/volumes.dvm.lock
-usr/share/edtwardy-webservices/volumes/siteconf-volume.tar.gz
-usr/share/edtwardy-webservices/tftp.docker-compose.yml
+usr/share/edtwardy-webservices/siteconf-volume.tar.gz
 lib/systemd/system/edtwardy-webservices.service
 bin/edtwardy-webservices
-etc/edtwardy-webservices/dvm.conf
 etc/cron.daily/renewcertificates
 usr/share/edtwardy-jellyfin/docker-compose.yml
 lib/systemd/system/edtwardy-jellyfin.service
-lib/systemd/system/edtwardy-tftp.service
-lib/systemd/system/mnt-Serve-tftp.mount
 lib/systemd/system/mnt-Serve-yocto-sstate\x2dcache.mount
 lib/systemd/system/mnt-Serve-yocto-esdk.mount
