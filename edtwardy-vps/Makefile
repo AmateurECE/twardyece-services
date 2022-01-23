@@ -7,15 +7,16 @@
 #
 # CREATED:	    08/25/2021
 #
-# LAST EDITED:	    01/16/2022
+# LAST EDITED:	    01/23/2022
 ###
 
 PACKAGE_NAME=edtwardy-vps
-buildArtifacts = \
-	$(B)/firewall.nft \
-	$(B)/hosts \
-	$(B)/wireguard-client.conf \
-	$(B)/wireguard-server.conf
+
+BUILD_TARGETS += $(B)/firewall.nft
+BUILD_TARGETS += $(B)/hosts
+BUILD_TARGETS += $(B)/wireguard-client.conf
+BUILD_TARGETS += $(B)/wireguard-server.conf
+include ../declarations.mk
 
 $(B)/firewall.nft: firewall.template.nft vps-keys.conf
 	renderbars -f vps-keys.conf $< $@
@@ -37,7 +38,7 @@ $(B)/wireguard-server.conf: wireguard-server.template.conf vps-keys.conf
 
 install: shareDir=$(DESTDIR)/usr/share/$(PACKAGE_NAME)
 install: binDir=$(DESTDIR)/bin
-install: $(buildArtifacts)
+install: build
 	install -d $(DESTDIR)/etc/ansible
 	install -m444 $(B)/hosts $(DESTDIR)/etc/ansible
 	install -d $(shareDir)

@@ -7,11 +7,14 @@
 #
 # CREATED:	    01/16/2022
 #
-# LAST EDITED:	    01/16/2022
+# LAST EDITED:	    01/23/2022
 ###
 
+BUILD_TARGETS += $(B)/bind-volume.tar.gz
+include ../declarations.mk
+
 $(B)/bind-volume.tar.gz: $(shell find bind)
-	tar czvf $@ -C bind/ .
+	tar czvf $@ -C $< .
 
 install: $(B)/bind-volume.tar.gz docker-compose.yml edtwardy-dns.service
 	: # systemd service

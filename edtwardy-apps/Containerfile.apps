@@ -1,6 +1,5 @@
 # LABEL author="Ethan D. Twardy <ethan.twardy@gmail.com>"
 FROM docker.io/library/python:3.8.10-alpine3.13 as builder
-ARG buildDir
 
 RUN apk add --no-cache \
     # Everything
@@ -17,11 +16,8 @@ RUN apk add --no-cache \
 COPY requirements.apps.txt /root/dist/requirements.txt
 WORKDIR /root/dist
 RUN python3 -m pip wheel -r requirements.txt
-COPY $buildDir/dist/djangobasicsso-0.1.0-py3-none-any.whl /root/dist/
-
-COPY apps /root/
-WORKDIR /root
-RUN python3 setup.py bdist_wheel
+COPY dist/djangobasicsso-0.1.0-py3-none-any.whl /root/dist/
+COPY dist/edtwardy_apps-0.1.0-py3-none-any.whl /root/dist/
 
 FROM docker.io/library/python:3.8.10-alpine3.13
 COPY --from=builder /root/dist/*.whl /root/
@@ -44,8 +40,8 @@ RUN apk add --no-cache \
 # does reduce the size of the container!
 RUN rm /root/*.whl
 
-COPY apps/entrypoint.sh /bin/entrypoint
-COPY apps/uwsgi.ini /etc/uwsgi.ini
+COPY entrypoint.sh /bin/entrypoint
+COPY uwsgi.ini /etc/uwsgi.ini
 
 EXPOSE 8000
 ENTRYPOINT ["/bin/entrypoint"]

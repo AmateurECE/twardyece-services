@@ -3,11 +3,11 @@ services:
   bind:
     image: "resystit/bind9"
     volumes:
-      - "dns:/etc/bind:ro"
+      - "bind:/etc/bind:ro"
     ports:
       - "53:53"
       - "53:53/udp"
 
 volumes:
-  dns:
+  bind:
     external: true

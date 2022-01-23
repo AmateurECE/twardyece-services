@@ -4,7 +4,7 @@ After=docker.service network-online.target mnt-Serve-tftp.mount
 Requires=docker.service network-online.target mnt-Serve-tftp.mount
 
 [Service]
-ExecStart=/bin/docker-compose -f /usr/share/edtwardy-webservices/tftp.docker-compose.yml up
+ExecStart=/bin/docker-compose -f /usr/share/edtwardy-tftp/docker-compose.yml up
 
 [Install]
 WantedBy=multi-user.target

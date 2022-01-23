@@ -7,14 +7,16 @@
 #
 # CREATED:	    08/28/2021
 #
-# LAST EDITED:	    08/28/2021
+# LAST EDITED:	    01/23/2022
 ###
+
+include ../declarations.mk
 
 PACKAGE_NAME=edtwardy-jellyfin
 
 install: shareDir=$(DESTDIR)/usr/share/$(PACKAGE_NAME)
 install: serviceDir=$(DESTDIR)/lib/systemd/system
-install:
+install: build
 	install -d $(shareDir)
 	install -m644 docker-compose.yml $(shareDir)
 	install -d $(serviceDir)

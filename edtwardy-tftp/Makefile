@@ -7,13 +7,15 @@
 #
 # CREATED:	    10/25/2021
 #
-# LAST EDITED:	    10/25/2021
+# LAST EDITED:	    01/23/2022
 ###
 
-compose=docker-compose.yml
+include ../declarations.mk
 
-install:
-	install -m444 $(compose) $(shareDirectory)/tftp.$(compose)
+install: build
+	install -d $(DESTDIR)/usr/share/edtwardy-tftp
+	install -m444 docker-compose.yml $(DESTDIR)/usr/share/edtwardy-tftp
+	install -d $(DESTDIR)/lib/systemd/system
 	install -m644 edtwardy-tftp.service $(DESTDIR)/lib/systemd/system
 	install -m444 mnt-Serve-tftp.mount $(DESTDIR)/lib/systemd/system
 
