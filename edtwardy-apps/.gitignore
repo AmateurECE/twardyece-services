@@ -3,3 +3,6 @@ django-sandbox/dist/
 django-sandbox/manage.py
 django-sandbox/sandbox/
 django-sandbox/templates/
+apps/edtwardy_apps.egg-info
+django-sandbox/djangoauthtest.egg-info
+django-sandbox/djangobasicsso.egg-info

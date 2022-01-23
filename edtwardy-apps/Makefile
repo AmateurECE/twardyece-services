@@ -45,4 +45,9 @@ $(B)/apps-build.lock: $(B)/Containerfile.apps $(B)/build.lock
 
 containers: $(B)/apps-build.lock
 
+clean:
+	rm -rf apps/edtwardy_apps.egg-info
+	rm -rf django-sandbox/djangoauthtest.egg-info
+	rm -rf django-sandbox/djangobasicsso.egg-info
+
 ###############################################################################

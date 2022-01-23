@@ -61,5 +61,6 @@ containers-subdirs: build
 
 containers:
 install:
+clean:
 
 ###############################################################################
