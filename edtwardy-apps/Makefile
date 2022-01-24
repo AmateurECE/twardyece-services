@@ -45,6 +45,10 @@ $(B)/apps-build.lock: $(B)/Containerfile.apps $(B)/build.lock
 
 containers: $(B)/apps-build.lock
 
+install:
+	install -d $(DESTDIR)/etc/volumetric/volumes.d
+	install -m444 edtwardy-apps.yaml $(DESTDIR)/etc/volumetric/volumes.d
+
 clean:
 	rm -rf apps/edtwardy_apps.egg-info
 	rm -rf django-sandbox/djangoauthtest.egg-info

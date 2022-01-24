@@ -1,0 +1,38 @@
+version: 1.0
+volumes:
+
+  siteconf:
+    archive:
+      name: siteconf
+      url: /usr/share/edtwardy-webservices/siteconf-volume.tar.gz
+      md5: fde0a6b65ac05741df3afb0b46c7f86c
+
+  agent-secret:
+    archive:
+      name: agent-secret
+      url: /mnt/Library/DockerVolumes/agent-secret-volume.tar.gz
+      md5: bdea8f74de0c274bda5ef181e9a91010
+
+  ldap:
+    archive:
+      name: ldap
+      url: /mnt/Library/DockerVolumes/ldap-volume.tar.gz
+      md5: b1248554dffc00958d4149f035af0601
+
+  slapd.d:
+    archive:
+      name: slapd.d
+      url: /mnt/Library/DockerVolumes/slapd.d-volume.tar.gz
+      md5: 2c7718f8b353cfa5fd2fe328dfcff2d1
+
+  letsencrypt:
+    archive:
+      name: letsencrypt
+      url: /mnt/Library/DockerVolumes/letsencrypt-volume.tar.gz
+      md5: 6fb308ac207dca7a054e8922bbac146f
+
+  jenkins:
+    archive:
+      name: jenkins
+      url: /mnt/Library/DockerVolumes/jenkins-volume.tar.gz
+      md5: 7027df907c99ef230aaf719f962d07cf

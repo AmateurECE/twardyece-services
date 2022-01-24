@@ -1,0 +1,26 @@
+version: 1.0
+volumes:
+
+  apps-database:
+    archive:
+      name: apps-database
+      url: /mnt/Library/DockerVolumes/apps-database-volume.tar.gz
+      md5: 47b4a71757696e469535b7e50f67caa9
+
+  apps-media:
+    archive:
+      name: apps-media
+      url: /mnt/Library/DockerVolumes/apps-media-volume.tar.gz
+      md5: 255d7042d32e0105ef7e3d6d27f21f3f
+
+  apps-static:
+    archive:
+      name: apps-static
+      url: /mnt/Library/DockerVolumes/apps-static-volume.tar.gz
+      md5: c648d59fc3a23518cbcda1ce2f083b93
+
+  apps-secrets:
+    archive:
+      name: apps-secrets
+      url: /mnt/Library/DockerVolumes/apps-secrets-volume.tar.gz
+      md5: a6ffee04cb3b708679c489a2a467fe8c

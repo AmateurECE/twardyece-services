@@ -11,7 +11,7 @@ Rules-Requires-Root: no
 
 Package: edtwardy-webservices
 Architecture: amd64
-Depends: bash (>= 5.1-2+b1), coreutils (>= 8.32-4+b1), gawk, systemd, docker-compose, cron, docker-ce (>= 5:20.10.7~3-0~debian-buster), ${misc:Depends}
+Depends: bash (>= 5.1-2+b1), coreutils (>= 8.32-4+b1), gawk, systemd, docker-compose, cron, docker-ce (>= 5:20.10.7~3-0~debian-buster), volumetric, ${misc:Depends}
 Description: Docker infrastructure for my web services
  Docker infrastructure for my web services, as well as systemd unit.
 
@@ -31,7 +31,7 @@ Description: Ansible configuration for controller node
 
 Package: edtwardy-dns
 Architecture: all
-Depends: bash (>= 5.1-2+b1), coreutils (>= 8.32-4+b1), systemd, docker-compose, docker-ce (>= 5:20.10.7~3-0~debian-buster), ${misc:Depends}
+Depends: bash (>= 5.1-2+b1), coreutils (>= 8.32-4+b1), systemd, docker-compose, docker-ce (>= 5:20.10.7~3-0~debian-buster), volumetric, ${misc:Depends}
 Description: Bind9 configuration for an authoritative DNS server
  This DNS server is not publicly accessible, of course, but it does allow me
  to set up split-horizon DNS for my owned hostname. This allows me to resolve

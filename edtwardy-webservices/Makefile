@@ -24,7 +24,7 @@ include ../declarations.mk
 
 #: Generate a .tar.gz archive from a directory
 $(B)/siteconf-volume.tar.gz: $(shell find siteconf)
-	tar czvf $@ $<
+	tar czvf $@ -C $< .
 
 install: build
 	: # Docker compose and volumes
@@ -32,6 +32,9 @@ install: build
 	install -m444 docker-compose.yml $(DESTDIR)/usr/share/$(PACKAGE_NAME)
 	install -m444 $(B)/siteconf-volume.tar.gz \
 		$(DESTDIR)/usr/share/$(PACKAGE_NAME)
+	install -d $(DESTDIR)/etc/volumetric/volumes.d
+	install -m444 edtwardy-webservices.yaml \
+		$(DESTDIR)/etc/volumetric/volumes.d
 	:
 	: # Start/stop script
 	install -d $(DESTDIR)/bin

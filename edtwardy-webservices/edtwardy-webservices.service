@@ -1,18 +1,20 @@
 [Unit]
-Description=Webservices
+Description=Ethan Twardy's Web-based Services
 After=\
     docker.service \
     network-online.target \
     mnt-Serve-yocto-sstate\x2dcache.mount \
-    mnt-Serve-yocto-esdk.mount
+    mnt-Serve-yocto-esdk.mount \
+    volumetric.service
 Requires=\
     docker.service \
     network-online.target \
     mnt-Serve-yocto-sstate\x2dcache.mount \
-    mnt-Serve-yocto-esdk.mount
+    mnt-Serve-yocto-esdk.mount \
+    volumetric.service
 
 [Service]
-ExecStart=/bin/edtwardy-webservices start
+ExecStart=/bin/docker-compose -f /usr/share/edtwardy-webservices/docker-compose.yml up
 
 [Install]
 WantedBy=multi-user.target

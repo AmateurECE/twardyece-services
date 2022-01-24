@@ -14,12 +14,13 @@ include ../declarations.mk
 
 PACKAGE_NAME=edtwardy-jellyfin
 
-install: shareDir=$(DESTDIR)/usr/share/$(PACKAGE_NAME)
-install: serviceDir=$(DESTDIR)/lib/systemd/system
 install: build
-	install -d $(shareDir)
-	install -m644 docker-compose.yml $(shareDir)
-	install -d $(serviceDir)
-	install -m644 $(PACKAGE_NAME).service $(serviceDir)
+	install -d $(DESTDIR)/usr/share/$(PACKAGE_NAME)
+	install -m644 docker-compose.yml $(DESTDIR)/usr/share/$(PACKAGE_NAME)
+	install -d $(DESTDIR)/lib/systemd/system
+	install -m644 $(PACKAGE_NAME).service $(DESTDIR)/lib/systemd/system
+	install -d $(DESTDIR)/etc/volumetric/volumes.d
+	install -m444 edtwardy-jellyfin.yaml \
+		$(DESTDIR)/etc/volumetric/volumes.d
 
 ###############################################################################
