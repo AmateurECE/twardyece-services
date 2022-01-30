@@ -8,7 +8,6 @@ setuptools.setup(
     author_email="ethan.twardy@gmail.com",
     description="Django Web Applications for edtwardy-webservices",
     url="https://github.com/AmateurECE/edtwardy-webservices",
-    package_dir={'': os.environ['SOURCE_DIR']},
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",

@@ -10,7 +10,6 @@ setuptools.setup(
     author_email="ethan.twardy@gmail.com",
     description="Django Web Applications for edtwardy-webservices",
     url="https://github.com/AmateurECE/edtwardy-webservices",
-    package_dir={'': os.environ['SOURCE_DIR']},
     packages=['authtest'],
     classifiers=[
         "Programming Language :: Python :: 3",
@@ -34,7 +33,6 @@ setuptools.setup(
     author_email="ethan.twardy@gmail.com",
     description="Django Basic SSO making use of default Django auth system",
     url="https://github.com/AmateurECE/edtwardy-webservices",
-    package_dir={'': os.environ['SOURCE_DIR']},
     packages=['basicsso'],
     classifiers=[
         "Programming Language :: Python :: 3",
