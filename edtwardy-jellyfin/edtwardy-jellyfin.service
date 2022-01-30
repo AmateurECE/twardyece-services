@@ -1,7 +1,6 @@
 [Unit]
 Description=Jellyfin docker container
-After=edtwardy-webservices.service
-Requires=edtwardy-webservices.service
+Before=edtwardy-webservices.service
 
 [Service]
 WorkingDirectory=/usr/share/edtwardy-jellyfin

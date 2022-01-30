@@ -5,13 +5,15 @@ After=\
     network-online.target \
     mnt-Serve-yocto-sstate\x2dcache.mount \
     mnt-Serve-yocto-esdk.mount \
-    volumetric.service
+    volumetric.service \
+    edtwardy-jellyfin.service
 Requires=\
     docker.service \
     network-online.target \
     mnt-Serve-yocto-sstate\x2dcache.mount \
     mnt-Serve-yocto-esdk.mount \
-    volumetric.service
+    volumetric.service \
+    edtwardy-jellyfin.service
 
 [Service]
 ExecStart=/bin/docker-compose -f /usr/share/edtwardy-webservices/docker-compose.yml up
