@@ -7,7 +7,7 @@
 #
 # CREATED:	    04/26/2021
 #
-# LAST EDITED:	    01/23/2022
+# LAST EDITED:	    02/02/2022
 ###
 
 # Setup for build directory
@@ -62,6 +62,12 @@ VERSION=1.0
 DEB_VERSION=1
 zipArchive = ../$(PACKAGE_NAME)_$(DEB_VERSION).orig.tar.xz
 
+PACKAGES = \
+	edtwardy-webservices \
+	edtwardy-dns \
+	edtwardy-vps \
+	edtwardy-tftp
+
 .PHONY: fake
 
 zip: $(zipArchive)
@@ -78,7 +84,7 @@ reinstall:
 	dpkg -i ../edtwardy-$(BINARY_PACKAGE)*.deb
 else
 reinstall:
-	dpkg --purge edtwardy-plex edtwardy-webservices
+	dpkg --purge $(PACKAGES)
 	dpkg -i ../*.deb
 endif
 #------------------------------------------------------------------------------
