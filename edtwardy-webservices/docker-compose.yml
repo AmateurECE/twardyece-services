@@ -33,7 +33,7 @@ services:
       - "apps-static:/data/static:ro"
       - "apps-secrets:/data/secrets:ro"
     environment:
-      - DJANGO_HOSTNAME=edtwardy.hopto.org:twardyece.com
+      - DJANGO_HOSTNAME=www.twardyece.com:twardyece.com
       - SCRIPT_NAME=/apps
 
   jenkins-controller:

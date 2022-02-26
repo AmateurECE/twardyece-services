@@ -8,7 +8,7 @@
 #
 # CREATED:	    10/25/2021
 #
-# LAST EDITED:	    02/17/2022
+# LAST EDITED:	    02/26/2022
 ###
 
 PACKAGE_NAME=edtwardy-webservices
@@ -40,6 +40,7 @@ install: build
 	install -d $(DESTDIR)/bin
 	install -m744 edtwardy-webservices.bash \
 		$(DESTDIR)/bin/edtwardy-webservices
+	install -m755 webservices-certbot.sh $(DESTDIR)/bin/webservices-certbot
 	:
 	: # Certificate renewal cron
 	install -d $(DESTDIR)/etc/cron.daily

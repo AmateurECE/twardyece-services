@@ -2,6 +2,7 @@ usr/share/edtwardy-webservices/docker-compose.yml
 usr/share/edtwardy-webservices/siteconf-volume.tar.gz
 lib/systemd/system/edtwardy-webservices.service
 bin/edtwardy-webservices
+bin/webservices-certbot
 etc/cron.daily/renewcertificates
 usr/share/edtwardy-jellyfin/docker-compose.yml
 lib/systemd/system/edtwardy-jellyfin.service

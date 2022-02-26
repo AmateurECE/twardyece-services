@@ -4,7 +4,7 @@ docker run -d --name $CONTAINER \
        -v apps-secrets:/data/secrets \
        -v apps-database:/data/database \
        -v apps-static:/data/static \
-       -e DJANGO_HOSTNAME=edtwardy.hopto.org \
+       -e DJANGO_HOSTNAME=twardyece.com \
        -e SCRIPT_NAME=/apps \
        --network edtwardy-webservices_default \
        edtwardy/apps:latest
