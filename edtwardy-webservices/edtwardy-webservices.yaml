@@ -29,7 +29,7 @@ volumes:
     archive:
       name: letsencrypt
       url: /mnt/Library/DockerVolumes/letsencrypt-volume.tar.gz
-      md5: 6fb308ac207dca7a054e8922bbac146f
+      md5: d61740e26c11395abaafa57ba7cf80e6
 
   jenkins:
     archive:
