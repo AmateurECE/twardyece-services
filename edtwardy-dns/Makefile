@@ -7,7 +7,7 @@
 #
 # CREATED:	    01/16/2022
 #
-# LAST EDITED:	    01/23/2022
+# LAST EDITED:	    02/28/2022
 ###
 
 BUILD_TARGETS += $(B)/bind-volume.tar.gz
@@ -16,7 +16,12 @@ include ../declarations.mk
 $(B)/bind-volume.tar.gz: $(shell find bind)
 	tar czvf $@ -C $< .
 
-install: $(B)/bind-volume.tar.gz docker-compose.yml edtwardy-dns.service
+dependencies = \
+	edtwardy-dns.service \
+	docker-compose.yml \
+	edtwardy-dns.yaml
+
+install: $(B)/bind-volume.tar.gz $(dependencies)
 	: # systemd service
 	install -d $(DESTDIR)/lib/systemd/system
 	install -m644 edtwardy-dns.service $(DESTDIR)/lib/systemd/system
@@ -25,5 +30,9 @@ install: $(B)/bind-volume.tar.gz docker-compose.yml edtwardy-dns.service
 	install -d $(DESTDIR)/usr/share/edtwardy-dns
 	install -m644 $(B)/bind-volume.tar.gz $(DESTDIR)/usr/share/edtwardy-dns
 	install -m644 docker-compose.yml $(DESTDIR)/usr/share/edtwardy-dns
+
+	: # Volumetric project file
+	install -d $(DESTDIR)/etc/volumetric/volumes.d
+	install -m644 edtwardy-dns.yaml $(DESTDIR)/etc/volumetric/volumes.d
 
 ###############################################################################

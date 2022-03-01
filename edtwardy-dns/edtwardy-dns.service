@@ -1,0 +1,10 @@
+[Unit]
+Description=DNS Server
+After=docker.service network-online.target
+Requires=docker.service network-online.target
+
+[Service]
+ExecStart=/bin/docker-compose -f /usr/share/edtwardy-dns/docker-compose.yml up
+
+[Install]
+WantedBy=multi-user.target
