@@ -9,15 +9,15 @@
 #
 # CREATED:          02/26/2022
 #
-# LAST EDITED:      02/26/2022
+# LAST EDITED:      05/27/2022
 ###
 
 PACKAGE_NAME=edtwardy-webservices
-docker run -t --rm --name ${PACKAGE_NAME}_certbot_1 \
+podman run -t --rm --name ${PACKAGE_NAME}_certbot_1 \
        -e 'TZ=America/Chicago' \
        -v letsencrypt:/etc/letsencrypt \
        -v ${PACKAGE_NAME}_acme-challenge:/var/www/certbot \
        -v ${PACKAGE_NAME}_letsencrypt-logs:/var/log/letsencrypt \
-       certbot/certbot $@
+       docker.io/certbot/certbot $@
 
 ###############################################################################

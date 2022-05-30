@@ -35,7 +35,7 @@ start an agent using the base image, the following Docker CLI invocation can be
 used:
 
 ```
-docker run \
+podman run \
     --network edtwardy-webservices_default \
     --init jenkins/agent \
     java -jar /usr/share/jenkins/agent.jar \

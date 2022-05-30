@@ -8,7 +8,7 @@
 #
 # CREATED:          05/31/2021
 #
-# LAST EDITED:      02/26/2022
+# LAST EDITED:      05/25/2022
 ###
 
 set -e
@@ -21,7 +21,7 @@ webservices-certbot renew --webroot -w /var/www/certbot -n
 systemctl is-active --quiet $PACKAGE_NAME.service
 if [[ "$?" = 0 ]]; then
     printf '%s\n' "Restarting active Nginx config (just in case)"
-    docker exec -t ${PACKAGE_NAME}_nginx_1 nginx -s reload
+    podman exec -t ${PACKAGE_NAME}_nginx_1 nginx -s reload
 fi
 
 ###############################################################################

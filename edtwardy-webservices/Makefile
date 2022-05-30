@@ -8,7 +8,7 @@
 #
 # CREATED:	    10/25/2021
 #
-# LAST EDITED:	    02/26/2022
+# LAST EDITED:	    05/29/2022
 ###
 
 PACKAGE_NAME=edtwardy-webservices
@@ -36,10 +36,8 @@ install: build
 	install -m444 edtwardy-webservices.yaml \
 		$(DESTDIR)/etc/volumetric/volumes.d
 	:
-	: # Start/stop script
+	: # Utility script for certbot debugging
 	install -d $(DESTDIR)/bin
-	install -m744 edtwardy-webservices.bash \
-		$(DESTDIR)/bin/edtwardy-webservices
 	install -m755 webservices-certbot.sh $(DESTDIR)/bin/webservices-certbot
 	:
 	: # Certificate renewal cron
@@ -54,6 +52,10 @@ install: build
 		$(DESTDIR)/lib/systemd/system
 	install -m644 mnt-Serve-yocto-esdk.mount $(DESTDIR)/lib/systemd/system
 	install -m644 jenkins-builder.service $(DESTDIR)/lib/systemd/system
+	:
+	: # CNI network configuration file for the webservices
+	install -d $(DESTDIR)/etc/cni/net.d
+	install -m644 edtwardy-webservices_front_net.conflist $(DESTDIR)/etc/cni/net.d
 
 $(B)/jenkins-agent-cmd.sh: jenkins-agent-cmd.sh; cp $< $@
 $(B)/Containerfile.jenkins-agent: Containerfile.jenkins-agent; cp $< $@

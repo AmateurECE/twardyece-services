@@ -3,7 +3,7 @@ services:
 
   # Web server instance (the only external facing service)
   nginx:
-    image: "nginx:stable-alpine"
+    image: "docker.io/library/nginx:stable-alpine"
     volumes:
       - "siteconf:/etc/nginx/conf.d:ro"
       - "letsencrypt:/etc/letsencrypt:ro"
@@ -20,13 +20,13 @@ services:
       - "8080:8080"
 
   openldap:
-    image: "osixia/openldap:stable"
+    image: "docker.io/osixia/openldap:stable"
     volumes:
       - "ldap:/var/lib/ldap"
       - "slapd.d:/etc/ldap/slapd.d"
 
   apps:
-    image: "edtwardy/apps:latest"
+    image: "docker.io/edtwardy/apps:latest"
     volumes:
       - "apps-database:/data/database"
       - "apps-media:/data/media"
@@ -37,14 +37,17 @@ services:
       - SCRIPT_NAME=/apps
 
   jenkins-controller:
-    image: "jenkins/jenkins:lts"
+    image: "docker.io/jenkins/jenkins:lts"
     volumes:
       - "jenkins:/var/jenkins_home"
     environment:
       - JENKINS_OPTS="--prefix=/jenkins"
+      # TODO: This is a security risk, but is necessary in order for this container to
+      # be able to bind to the LDAP server at ldap://edtwardy-webservices_openldap_1
+      - JENKINS_JAVA_OPTS=-Dcom.sun.jndi.ldapURLParsing="legacy"
 
   jenkins-agent:
-    image: "edtwardy/jenkins-agent:latest"
+    image: "docker.io/edtwardy/jenkins-agent:latest"
     init: true
     depends_on:
       - jenkins-controller
@@ -55,9 +58,10 @@ services:
     environment:
       - REPOSITORY_MOUNT=/home/jenkins/repository
 
-  # TODO: Conan Server
-  # TODO: PyPI Server
-  # TODO: Mini-Dinstall
+networks:
+  default:
+    external:
+      name: edtwardy-webservices_front_net
 
 volumes:
   siteconf:

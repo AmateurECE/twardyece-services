@@ -14,8 +14,6 @@ services:
       - "/mnt/Library/Shows:/data/Shows:ro"
       - "/mnt/Library/Music:/data/Music:ro"
       - "/mnt/Library/Audiobooks:/data/Audiobooks:ro"
-    networks:
-      - edtwardy-webservices_default
     # These ports may some day be useful:
     # ports:
     #   - "8096:8096"
@@ -30,5 +28,6 @@ volumes:
 
 # Must connect to edtwardy-webservices network to communicate with slapd
 networks:
-  edtwardy-webservices_default:
-    external: true
+  default:
+    external:
+      name: edtwardy-webservices_front_net

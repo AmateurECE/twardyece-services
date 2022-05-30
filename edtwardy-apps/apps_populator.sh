@@ -1,6 +1,6 @@
 #!/bin/bash
 CONTAINER=apps_populator
-docker run -d --name $CONTAINER \
+podman run -d --name $CONTAINER \
        -v apps-secrets:/data/secrets \
        -v apps-database:/data/database \
        -v apps-static:/data/static \
@@ -8,7 +8,7 @@ docker run -d --name $CONTAINER \
        -e SCRIPT_NAME=/apps \
        --network edtwardy-webservices_default \
        edtwardy/apps:latest
-docker cp apps/manage.py $CONTAINER:/root/
+podman cp apps/manage.py $CONTAINER:/root/
 
 read -r -d '' NO_SCRIPT<<'EOF'
 export $(tr "\0" "\n" </proc/$(pgrep uwsgi | head -n1)/environ); cd && sh
@@ -19,7 +19,7 @@ export $(tr "\0" "\n" </proc/$(pgrep uwsgi | head -n1)/environ);
 cd;
 EOF
 if [[ -z "$1" ]]; then
-    docker exec -it $CONTAINER /bin/sh -c "$NO_SCRIPT"
+    podman exec -it $CONTAINER /bin/sh -c "$NO_SCRIPT"
 else
-    docker exec -it $CONTAINER /bin/sh -c "$SCRIPT $1"
+    podman exec -it $CONTAINER /bin/sh -c "$SCRIPT $1"
 fi

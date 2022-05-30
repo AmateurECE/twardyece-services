@@ -3,6 +3,7 @@ Description=Jellyfin docker container
 Before=edtwardy-webservices.service
 
 [Service]
+Environment=DOCKER_HOST=unix://run/podman/podman.sock
 WorkingDirectory=/usr/share/edtwardy-jellyfin
 ExecStart=/usr/bin/docker-compose up
 

@@ -46,7 +46,7 @@ For more information, see [Security](SecurityArchitecture.md)
 
 * Currently, only systems utilizing `dpkg` are supported.
 * Only `systemd` is supported.
-* Docker is required, as well as `docker-compose`.
+* Podman is required, as well as `docker-compose`.
 * Bash is required on the host, as well as `cron` and `grep`.
 
 # Open Container Images Used in this Package

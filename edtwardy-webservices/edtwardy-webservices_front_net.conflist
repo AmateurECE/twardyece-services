@@ -1,0 +1,49 @@
+{
+   "cniVersion": "0.4.0",
+   "name": "edtwardy-webservices_front_net",
+   "plugins": [
+      {
+         "type": "bridge",
+         "bridge": "cni-podman3",
+         "isGateway": true,
+         "ipMasq": true,
+         "hairpinMode": true,
+         "ipam": {
+            "type": "host-local",
+            "routes": [
+               {
+                  "dst": "0.0.0.0/0"
+               }
+            ],
+            "ranges": [
+               [
+                  {
+                     "subnet": "10.88.5.0/24",
+                     "gateway": "10.88.5.1"
+                  }
+               ]
+            ]
+         }
+      },
+      {
+         "type": "portmap",
+         "capabilities": {
+            "portMappings": true
+         }
+      },
+      {
+         "type": "firewall",
+         "backend": ""
+      },
+      {
+         "type": "tuning"
+      },
+      {
+         "type": "dnsname",
+         "domainName": "edtwardy-webservices.local",
+         "capabilities": {
+            "aliases": true
+         }
+      }
+   ]
+}

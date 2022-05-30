@@ -1,7 +1,6 @@
 usr/share/edtwardy-webservices/docker-compose.yml
 usr/share/edtwardy-webservices/siteconf-volume.tar.gz
 lib/systemd/system/edtwardy-webservices.service
-bin/edtwardy-webservices
 bin/webservices-certbot
 etc/cron.daily/renewcertificates
 usr/share/edtwardy-jellyfin/docker-compose.yml
@@ -12,3 +11,4 @@ lib/systemd/system/mnt-Serve-yocto-esdk.mount
 etc/volumetric/volumes.d/edtwardy-webservices.yaml
 etc/volumetric/volumes.d/edtwardy-apps.yaml
 etc/volumetric/volumes.d/edtwardy-jellyfin.yaml
+etc/cni/net.d/edtwardy-webservices_front_net.conflist
