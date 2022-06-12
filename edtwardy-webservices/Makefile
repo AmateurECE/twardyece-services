@@ -8,14 +8,12 @@
 #
 # CREATED:	    10/25/2021
 #
-# LAST EDITED:	    05/29/2022
+# LAST EDITED:	    06/11/2022
 ###
 
 PACKAGE_NAME=edtwardy-webservices
 
 BUILD_TARGETS += $(B)/siteconf-volume.tar.gz
-BUILD_TARGETS += $(B)/Containerfile.jenkins-agent
-BUILD_TARGETS += $(B)/jenkins-agent-cmd.sh
 
 MAKEFILE_PATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 S := $(PWD)/$(notdir $(patsubst %/,%,$(dir $(MAKEFILE_PATH))))
@@ -55,15 +53,7 @@ install: build
 	:
 	: # CNI network configuration file for the webservices
 	install -d $(DESTDIR)/etc/cni/net.d
-	install -m644 edtwardy-webservices_front_net.conflist $(DESTDIR)/etc/cni/net.d
-
-$(B)/jenkins-agent-cmd.sh: jenkins-agent-cmd.sh; cp $< $@
-$(B)/Containerfile.jenkins-agent: Containerfile.jenkins-agent; cp $< $@
-
-$(B)/jenkins-agent-build.lock: $(B)/Containerfile.jenkins-agent $(B)/build.lock
-	$(call buildahBud,$<,jenkins-agent)
-	touch $@
-
-containers: $(B)/jenkins-agent-build.lock
+	install -m644 edtwardy-webservices_front_net.conflist \
+		$(DESTDIR)/etc/cni/net.d
 
 ###############################################################################
