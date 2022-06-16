@@ -4,14 +4,14 @@ After=\
     podman.service \
     network-online.target \
     mnt-Serve-yocto-sstate\x2dcache.mount \
-    mnt-Serve-yocto-esdk.mount \
+    mnt-Serve-yocto-deploy.mount \
     volumetric.service \
     edtwardy-jellyfin.service
 Requires=\
     podman.service \
     network-online.target \
     mnt-Serve-yocto-sstate\x2dcache.mount \
-    mnt-Serve-yocto-esdk.mount \
+    mnt-Serve-yocto-deploy.mount \
     volumetric.service \
     edtwardy-jellyfin.service
 

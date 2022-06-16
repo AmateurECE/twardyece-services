@@ -8,7 +8,7 @@
 #
 # CREATED:	    10/25/2021
 #
-# LAST EDITED:	    06/11/2022
+# LAST EDITED:	    06/16/2022
 ###
 
 PACKAGE_NAME=edtwardy-webservices
@@ -48,7 +48,8 @@ install: build
 	install -m644 $(PACKAGE_NAME).service $(DESTDIR)/lib/systemd/system
 	install -m644 mnt-Serve-yocto-sstate\\x2dcache.mount \
 		$(DESTDIR)/lib/systemd/system
-	install -m644 mnt-Serve-yocto-esdk.mount $(DESTDIR)/lib/systemd/system
+	install -m644 mnt-Serve-yocto-deploy.mount \
+		$(DESTDIR)/lib/systemd/system
 	install -m644 jenkins-builder.service $(DESTDIR)/lib/systemd/system
 	:
 	: # CNI network configuration file for the webservices
