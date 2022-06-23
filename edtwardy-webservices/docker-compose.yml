@@ -60,6 +60,11 @@ services:
       - REPOSITORY_MOUNT=/home/jenkins/repository
       - AGENT_NAME=docker-agent
 
+  compilations:
+    image: "docker.io/edtwardy/compilations:1.0.0"
+    volumes:
+      - "compilations-secret:/data:ro"
+
 networks:
   default:
     external:
@@ -85,6 +90,8 @@ volumes:
   agent-secret:
     external: true
   apps-secrets:
+    external: true
+  compilations-secret:
     external: true
 
   # The following volumes are ephemeral "default" volumes.

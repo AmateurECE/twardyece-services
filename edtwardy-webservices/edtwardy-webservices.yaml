@@ -5,7 +5,7 @@ volumes:
     archive:
       name: siteconf
       url: /usr/share/edtwardy-webservices/siteconf-volume.tar.gz
-      md5: fde0a6b65ac05741df3afb0b46c7f86c
+      md5: 6046821d3fa224899a345b151c01f6b6
 
   agent-secret:
     archive:
@@ -36,3 +36,9 @@ volumes:
       name: jenkins
       url: /mnt/Library/DockerVolumes/jenkins-volume.tar.gz
       md5: 7027df907c99ef230aaf719f962d07cf
+
+  compilations-secret:
+    archive:
+      name: compilations-secret
+      url: /mnt/Library/DockerVolumes/compilations-secret-volume.tar.gz
+      md5: 87c31943a122d39b642f80d12c48edd6
