@@ -16,7 +16,7 @@ Requires=\
     edtwardy-jellyfin.service
 
 [Service]
-Environment=DOCKER_HOST=unix://run/podman/podman.sock
+Environment=DOCKER_HOST=unix:///var/run/podman/podman.sock
 ExecStart=/bin/docker-compose -f /usr/share/edtwardy-webservices/docker-compose.yml up
 
 [Install]
