@@ -7,7 +7,7 @@
 #
 # CREATED:	    01/16/2022
 #
-# LAST EDITED:	    02/28/2022
+# LAST EDITED:	    06/26/2022
 ###
 
 BUILD_TARGETS += $(B)/bind-volume.tar.gz
@@ -24,7 +24,9 @@ dependencies = \
 install: $(B)/bind-volume.tar.gz $(dependencies)
 	: # systemd service
 	install -d $(DESTDIR)/lib/systemd/system
-	install -m644 edtwardy-dns.service $(DESTDIR)/lib/systemd/system
+	: # install -m644 edtwardy-dns.service $(DESTDIR)/lib/systemd/system
+	cd $(DESTDIR)/lib/systemd/system \
+		&& ln -s /dev/null edtwardy-dns.service
 
 	: # Bind configuration volume image, docker-compose file
 	install -d $(DESTDIR)/usr/share/edtwardy-dns
