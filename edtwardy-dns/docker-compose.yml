@@ -1,7 +1,7 @@
 version: "2.4"
 services:
   bind:
-    image: "resystit/bind9"
+    image: "docker.io/resystit/bind9:latest"
     volumes:
       - "bind:/etc/bind:ro"
     ports:

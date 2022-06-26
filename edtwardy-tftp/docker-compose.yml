@@ -1,7 +1,7 @@
 version: "2.4"
 services:
   tftp:
-    image: taskinen/tftp
+    image: docker.io/taskinen/tftp:latest
     ports:
       - "69:69/udp"
     volumes:
