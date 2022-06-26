@@ -64,6 +64,8 @@ services:
     image: "docker.io/edtwardy/compilations:1.0.0"
     volumes:
       - "compilations-secret:/data:ro"
+    environment:
+      - TZ=America/Chicago
 
 networks:
   default:
