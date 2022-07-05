@@ -14,6 +14,7 @@ services:
       - "/mnt/Library/Shows:/data/Shows:ro"
       - "/mnt/Library/Music:/data/Music:ro"
       - "/mnt/Library/Audiobooks:/data/Audiobooks:ro"
+      - "/mnt/Library/Accounting:/data/Accounting:ro"
     # These ports may some day be useful:
     # ports:
     #   - "8096:8096"
