@@ -61,7 +61,7 @@ services:
       - AGENT_NAME=docker-agent
 
   compilations:
-    image: "docker.io/edtwardy/compilations:1.0.0"
+    image: "docker.io/edtwardy/compilations:1.1.0"
     volumes:
       - "compilations-secret:/data:ro"
     environment:
