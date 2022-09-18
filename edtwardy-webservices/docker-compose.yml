@@ -67,6 +67,29 @@ services:
     environment:
       - TZ=America/Chicago
 
+  postgres:
+    image: docker.io/library/postgres:14.2
+    restart: always
+    ports:
+      # TODO: Exposing this port for now, just to enable easier data entry,
+      # but eventually want to hide it. Firewall should at least protect the
+      # database from the WAN.
+      - "5432:5432"
+    volumes:
+      - "postgres-data:/var/lib/postgresql/data"
+
+  budget-tool:
+    image: docker.io/edtwardy/budget-tool:6b43f743
+    init: true
+    depends_on:
+      - postgres
+    restart: always
+    environment:
+      - "DATABASE_URL=postgres://edtwardy-webservices_postgres_1:5432/budgets"
+      - TZ=America/Chicago
+    volumes:
+      - "budget-tool-secret:/data:ro"
+
 networks:
   default:
     external:
@@ -94,6 +117,10 @@ volumes:
   apps-secrets:
     external: true
   compilations-secret:
+    external: true
+  postgres-data:
+    external: true
+  budget-tool-secret:
     external: true
 
   # The following volumes are ephemeral "default" volumes.
