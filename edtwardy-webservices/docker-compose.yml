@@ -8,8 +8,6 @@ services:
       - "siteconf:/etc/nginx/conf.d:ro"
       - "letsencrypt:/etc/letsencrypt:ro"
       - "acme-challenge:/var/www/certbot:ro"
-      - "apps-media:/var/www/media:ro"
-      - "apps-static:/var/www/static:ro"
       - "repository:/var/www/repository:ro"
       - "blog:/var/www/blog:ro"
       - "/mnt/Serve/yocto/sstate-cache:/data/yocto/sstate-cache:ro"
@@ -24,17 +22,6 @@ services:
     volumes:
       - "ldap:/var/lib/ldap"
       - "slapd.d:/etc/ldap/slapd.d"
-
-  apps:
-    image: "docker.io/edtwardy/apps:latest"
-    volumes:
-      - "apps-database:/data/database"
-      - "apps-media:/data/media"
-      - "apps-static:/data/static:ro"
-      - "apps-secrets:/data/secrets:ro"
-    environment:
-      - DJANGO_HOSTNAME=www.twardyece.com:twardyece.com
-      - SCRIPT_NAME=/apps
 
   jenkins-controller:
     image: "docker.io/jenkins/jenkins:lts"
@@ -104,17 +91,9 @@ volumes:
     external: true
   slapd.d:
     external: true
-  apps-database:
-    external: true
-  apps-media:
-    external: true
-  apps-static:
-    external: true
   jenkins:
     external: true
   agent-secret:
-    external: true
-  apps-secrets:
     external: true
   compilations-secret:
     external: true

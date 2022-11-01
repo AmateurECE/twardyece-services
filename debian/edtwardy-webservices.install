@@ -9,6 +9,5 @@ lib/systemd/system/jenkins-builder.service
 lib/systemd/system/mnt-Serve-yocto-sstate\x2dcache.mount
 lib/systemd/system/mnt-Serve-yocto-deploy.mount
 etc/volumetric/volumes.d/edtwardy-webservices.yaml
-etc/volumetric/volumes.d/edtwardy-apps.yaml
 etc/volumetric/volumes.d/edtwardy-jellyfin.yaml
 etc/cni/net.d/edtwardy-webservices_front_net.conflist

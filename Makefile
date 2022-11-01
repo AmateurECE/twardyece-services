@@ -7,7 +7,7 @@
 #
 # CREATED:	    04/26/2021
 #
-# LAST EDITED:	    02/02/2022
+# LAST EDITED:	    11/01/2022
 ###
 
 # Setup for build directory
@@ -18,7 +18,6 @@ $(shell mkdir -p $(B))
 SUBDIRS += vps
 SUBDIRS += tftp
 SUBDIRS += webservices
-SUBDIRS += apps
 SUBDIRS += jellyfin
 SUBDIRS += dns
 

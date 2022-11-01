@@ -1,9 +1,0 @@
-django-sandbox/db.sqlite3
-django-sandbox/dist/
-django-sandbox/manage.py
-django-sandbox/sandbox/
-django-sandbox/templates/
-django-sandbox/djangoauthtest.egg-info
-django-sandbox/djangobasicsso.egg-info
-apps/edtwardy_apps.egg-info
-apps/dist/
