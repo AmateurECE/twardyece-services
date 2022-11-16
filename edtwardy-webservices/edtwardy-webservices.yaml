@@ -5,7 +5,7 @@ volumes:
     archive:
       name: siteconf
       url: /usr/share/edtwardy-webservices/siteconf-volume.tar.gz
-      md5: f73198b860bbf47f99fe47a2a8ebd0c7
+      md5: 7c6cb3bbb1111fd34c2c13c010e00022
 
   agent-secret:
     archive:
