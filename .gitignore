@@ -15,3 +15,4 @@ debian/edtwardy-webservices.substvars
 debian/edtwardy-webservices/
 debian/files
 debian/tmp/
+/.gradle/

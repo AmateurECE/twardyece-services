@@ -17,6 +17,12 @@ scripts that I use to initialize Linux systems with my web services.
 5. Custom applications and website configuration files
 6. Cron jobs
 
+# Building with Gradle
+
+The version of gradle used is set in `gradle/wrapper/gradle-wrapper.properties`.
+Currently, the build scripts are targeting v7.6. Since this is newer than the version
+provided by debian/testing, it's always recommended to use the gradle wrapper:
+
 # How this Repository Should Work:
 
 The repository should cover the greatest extent of configuration deviations
