@@ -15,4 +15,4 @@ include 'api'
 include 'services:webservice'
 */
 
-rootProject.name = 'edtwardy-webservices'
+rootProject.name = "edtwardy-webservices"
