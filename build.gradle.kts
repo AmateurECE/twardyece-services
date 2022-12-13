@@ -1,5 +1,5 @@
 tasks.register("hello") {
     doLast {
-        println("Hello, world!")
+        println("Parent: $buildDir")
     }
 }
