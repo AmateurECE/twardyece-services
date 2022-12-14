@@ -1,5 +1,3 @@
-tasks.register("hello") {
-    doLast {
-        println("Parent: $buildDir")
-    }
-}
+defaultTasks("build")
+
+tasks.register("build")
