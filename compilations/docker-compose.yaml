@@ -1,0 +1,12 @@
+version: "2.4"
+services:
+  compilations:
+    image: "docker.io/edtwardy/compilations:1.1.1"
+    volumes:
+      - "compilations-secret:/data:ro"
+    environment:
+      - TZ=America/Chicago
+
+volumes:
+  compilations-secret:
+    external: true

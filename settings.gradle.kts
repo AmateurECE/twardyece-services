@@ -10,4 +10,5 @@
  */
 
 rootProject.name = "edtwardy-webservices"
-include("webservices")
+// include("webservices")
+// include("compilations")
