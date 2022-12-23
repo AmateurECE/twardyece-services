@@ -11,4 +11,4 @@
 
 rootProject.name = "edtwardy-webservices"
 // include("webservices")
-// include("compilations")
+include("compilations")

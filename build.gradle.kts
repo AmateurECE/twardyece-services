@@ -1,9 +1,7 @@
-import com.twardyece.services.Service
-
 plugins {
-    id("com.twardyece.services")
+    id("com.twardyece.containers")
 }
 
-tasks.register<Service>("getstuff") {
-    service.set("Stuff")
+dependencies {
+    dockerCompose(project(":compilations"))
 }

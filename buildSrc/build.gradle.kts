@@ -1,7 +1,8 @@
 plugins {
     // Unfortunately, have to currently specify a version since this plugin
     // doesn't appear to be part of Gradle core plugins
-    id("org.gradle.kotlin.kotlin-dsl") version "2.4.1"
+    kotlin("jvm") version "1.7.0"
+    id("java-gradle-plugin")
 }
 
 repositories {
@@ -9,11 +10,15 @@ repositories {
     mavenCentral()
 }
 
+dependencies {
+    implementation(kotlin("stdlib", "1.7.0"))
+}
+
 gradlePlugin {
     plugins {
         create("services") {
-            id = "com.twardyece.services"
-            implementationClass = "com.twardyece.services.ServicePlugin"
+            id = "com.twardyece.containers"
+            implementationClass = "com.twardyece.containers.ContainerPlugin"
         }
     }
 }
