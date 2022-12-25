@@ -11,9 +11,13 @@ Rules-Requires-Root: no
 
 Package: twardyece-compilations
 Architecture: all
+Depends: docker-compose, volumetric, golang-github-containernetworking-plugin-dnsname, twardyece-postgres, ${misc:Depends}
+Description: An instance of my compilations application
+
+Package: twardyece-postgres
+Architecture: all
 Depends: docker-compose, volumetric, golang-github-containernetworking-plugin-dnsname, ${misc:Depends}
-Description: Docker infrastructure for my web services
- Docker infrastructure for my web services, as well as systemd unit.
+Description: Postgres instance for serving application data
 
 # Package: edtwardy-tftp
 # Architecture: all

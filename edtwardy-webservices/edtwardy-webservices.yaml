@@ -37,12 +37,6 @@ volumes:
       url: /mnt/Library/DockerVolumes/jenkins-volume.tar.gz
       md5: 7027df907c99ef230aaf719f962d07cf
 
-  postgres-data:
-    archive:
-      name: postgres-data
-      url: /mnt/Library/DockerVolumes/postgres-data-volume.tar.gz
-      md5: 755604b0a05c2625095c1384258aa9b0
-
   budget-tool-secret:
     archive:
       name: budget-tool-secret

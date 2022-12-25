@@ -1,0 +1,7 @@
+version: 1.0
+volumes:
+  postgres-data:
+    archive:
+      name: postgres-data
+      url: /mnt/Library/DockerVolumes/postgres-data-volume.tar.gz
+      md5: 755604b0a05c2625095c1384258aa9b0

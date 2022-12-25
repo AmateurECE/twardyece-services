@@ -1,0 +1,21 @@
+version: "2.4"
+services:
+  postgres:
+    image: docker.io/library/postgres:14.2
+    restart: always
+    ports:
+      # TODO: Exposing this port for now, just to enable easier data entry,
+      # but eventually want to hide it. Firewall should at least protect the
+      # database from the WAN.
+      - "5432:5432"
+    volumes:
+      - "postgres-data:/var/lib/postgresql/data"
+
+networks:
+  default:
+    external:
+      name: edtwardy-webservices_front_net
+
+volumes:
+  postgres-data:
+    external: true

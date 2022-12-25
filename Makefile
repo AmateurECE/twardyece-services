@@ -16,6 +16,7 @@ B := $(shell pwd)/$(BUILD_DIR)
 $(shell mkdir -p $(B))
 
 SUBDIRS += compilations
+SUBDIRS += postgres
 
 all: build-subdirs
 
