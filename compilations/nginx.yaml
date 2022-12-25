@@ -6,7 +6,7 @@ top: |
   }
 
 server:
-  name: twardyece.com
+  name: twardyece
   location: |
     location /compilations/ {
         proxy_pass http://compilations;

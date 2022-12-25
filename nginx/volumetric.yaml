@@ -1,0 +1,14 @@
+version: 1.0
+volumes:
+
+  siteconf:
+    archive:
+      name: siteconf
+      url: /usr/share/edtwardy-webservices/siteconf-volume.tar.gz
+      md5: 7c6cb3bbb1111fd34c2c13c010e00022
+
+  letsencrypt:
+    archive:
+      name: letsencrypt
+      url: /mnt/Library/DockerVolumes/letsencrypt-volume.tar.gz
+      md5: d61740e26c11395abaafa57ba7cf80e6

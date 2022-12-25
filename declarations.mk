@@ -10,6 +10,14 @@
 # LAST EDITED:	    12/25/2022
 ###
 
+PREFIX=/usr
+DATADIR=$(PREFIX)/share
+VOLUMETRICDIR=$(DATADIR)/volumetric/volumetric.d
+
+ROOTDIR=$(DATADIR)/twardyece
+SERVICEDIR=$(ROOTDIR)/services
+NGINXDIR=$(ROOTDIR)/routes
+
 ###############################################################################
 # Utilities and universal rules
 ###

@@ -11,33 +11,15 @@ Rules-Requires-Root: no
 
 Package: twardyece-compilations
 Architecture: all
-Depends: docker-compose, volumetric, golang-github-containernetworking-plugin-dnsname, twardyece-postgres, ${misc:Depends}
+Depends: docker-compose, volumetric, twardyece-postgres, ${misc:Depends}
 Description: An instance of my compilations application
 
 Package: twardyece-postgres
 Architecture: all
-Depends: docker-compose, volumetric, golang-github-containernetworking-plugin-dnsname, ${misc:Depends}
+Depends: docker-compose, volumetric, ${misc:Depends}
 Description: Postgres instance for serving application data
 
-# Package: edtwardy-tftp
-# Architecture: all
-# Depends: systemd, docker-compose, podman, ${misc:Depends}
-# Description: Docker infrastructure to serve files over TFTP
-#  Docker infrastructure to serve files over TFTP. This is, for example, so I can
-#  netboot my embedded boards, etc.
-
-# Package: edtwardy-vps
-# Architecture: all
-# Depends: ansible (>= 2.10.7+merged+base+2.10.8+dfsg-1), wireguard-tools (>= 1.0.20210223-1), bash (>= 5.1-2+b1), renderbars (>= 0.2.1-1), ${misc:Depends}
-# Description: Ansible configuration for controller node
-#  This package provides ansible configuration for the controller node (e.g. this
-#  Debian server) to manage a VPS node.
-
-# Package: edtwardy-dns
-# Architecture: all
-# Depends: bash (>= 5.1-2+b1), coreutils (>= 8.32-4+b1), systemd, docker-compose, podman, volumetric, ${misc:Depends}
-# Description: Bind9 configuration for an authoritative DNS server
-#  This DNS server is not publicly accessible, of course, but it does allow me
-#  to set up split-horizon DNS for my owned hostname. This allows me to resolve
-#  my public hostname to the link local address of my boxes, instead of the
-#  public IP address of my Linode instance.
+Package: twardyece-nginx
+Architecture: all
+Depends: docker-compose, golang-github-containernetworking-plugin-dnsname, ${misc:Depends}
+Description: Nginx instance for reverse-proxy to other applications

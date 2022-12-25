@@ -1,12 +1,6 @@
 version: 1.0
 volumes:
 
-  siteconf:
-    archive:
-      name: siteconf
-      url: /usr/share/edtwardy-webservices/siteconf-volume.tar.gz
-      md5: 7c6cb3bbb1111fd34c2c13c010e00022
-
   agent-secret:
     archive:
       name: agent-secret
@@ -24,12 +18,6 @@ volumes:
       name: slapd.d
       url: /mnt/Library/DockerVolumes/slapd.d-volume.tar.gz
       md5: 2c7718f8b353cfa5fd2fe328dfcff2d1
-
-  letsencrypt:
-    archive:
-      name: letsencrypt
-      url: /mnt/Library/DockerVolumes/letsencrypt-volume.tar.gz
-      md5: d61740e26c11395abaafa57ba7cf80e6
 
   jenkins:
     archive:

@@ -1,0 +1,3 @@
+usr/share/twardyece/services/nginx.yaml
+usr/share/twardyece/routes/nginx.yaml
+usr/share/volumetric/volumetric.d/nginx.yaml

@@ -17,6 +17,7 @@ $(shell mkdir -p $(B))
 
 SUBDIRS += compilations
 SUBDIRS += postgres
+SUBDIRS += nginx
 
 all: build-subdirs
 

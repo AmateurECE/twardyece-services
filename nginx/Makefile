@@ -3,7 +3,7 @@
 #
 # AUTHOR:	    Ethan D. Twardy <ethan.twardy@gmail.com>
 #
-# DESCRIPTION:	    Makefile for the postgres application package.
+# DESCRIPTION:	    Makefile for the nginx application package.
 #
 # CREATED:	    12/25/2022
 #
@@ -11,7 +11,7 @@
 #
 ####
 
-SERVICE_NAME=postgres
+SERVICE_NAME=nginx
 include ../declarations.mk
 
 install:
@@ -19,5 +19,6 @@ install:
 		$(DESTDIR)$(SERVICEDIR)/$(SERVICE_NAME).yaml
 	install -Dm644 volumetric.yaml \
 		$(DESTDIR)$(VOLUMETRICDIR)/$(SERVICE_NAME).yaml
+	install -Dm644 nginx.yaml $(DESTDIR)$(NGINXDIR)/$(SERVICE_NAME).yaml
 
 ###############################################################################
