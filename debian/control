@@ -21,5 +21,10 @@ Description: Postgres instance for serving application data
 
 Package: twardyece-nginx
 Architecture: all
-Depends: docker-compose, golang-github-containernetworking-plugin-dnsname, ${misc:Depends}
+Depends: docker-compose, volumetric, golang-github-containernetworking-plugin-dnsname, ${misc:Depends}
 Description: Nginx instance for reverse-proxy to other applications
+
+Package: twardyece-jellyfin
+Architecture: all
+Depends: docker-compose, volumetric, ${misc:Depends}
+Description: An instance of jellyfin

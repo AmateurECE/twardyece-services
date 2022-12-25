@@ -18,6 +18,7 @@ $(shell mkdir -p $(B))
 SUBDIRS += compilations
 SUBDIRS += postgres
 SUBDIRS += nginx
+SUBDIRS += jellyfin
 
 all: build-subdirs
 

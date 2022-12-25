@@ -23,12 +23,12 @@ services:
     #   - "1900:1900/udp"
     restart: unless-stopped
 
-volumes:
-  jellyfin:
-    external: true
-
 # Must connect to edtwardy-webservices network to communicate with slapd
 networks:
   default:
     external:
       name: edtwardy-webservices_front_net
+
+volumes:
+  jellyfin:
+    external: true
