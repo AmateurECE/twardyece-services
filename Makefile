@@ -20,6 +20,7 @@ SUBDIRS += postgres
 SUBDIRS += nginx
 SUBDIRS += jellyfin
 SUBDIRS += dns
+SUBDIRS += tftp
 
 all: build-subdirs
 

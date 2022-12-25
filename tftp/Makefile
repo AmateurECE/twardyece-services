@@ -1,32 +1,25 @@
 ###############################################################################
 # NAME:		    Makefile
 #
-# AUTHOR:	    Ethan D. Twardy <ethan.twardy@gmail.com>
+# AUTHOR:	    Ethan D. Twardy <edtwardy@mtu.edu>
 #
-# DESCRIPTION:	    Makefile for the DNS package
+# DESCRIPTION:	    Rules for the edtwardy-tftp service.
 #
-# CREATED:	    01/16/2022
+# CREATED:	    10/25/2021
 #
 # LAST EDITED:	    12/25/2022
 ###
 
-SERVICE_NAME = twardyece-dns
-BUILD_TARGETS += $(B)/bind-volume.tar.gz
+SERVICE_NAME = twardyece-tftp
 include ../declarations.mk
 
 SERVICEDIR=$(DATADIR)/$(SERVICE_NAME)
 
-$(B)/bind-volume.tar.gz: $(shell find bind)
-	tar czvf $@ -C $< .
-
-install: $(B)/bind-volume.tar.gz
+install:
 	install -Dm644 $(SERVICE_NAME).service \
 		$(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)/$(SERVICE_NAME).service
-	install -Dm644 $(B)/bind-volume.tar.gz \
-		$(DESTDIR)$(SERVICEDIR)/bind-volume.tar.gz
 	install -Dm644 docker-compose.yaml \
 		$(DESTDIR)$(SERVICEDIR)/docker-compose.yaml
-	install -Dm644 volumetric.yaml \
-		$(DESTDIR)$(VOLUMETRICDIR)/$(SERVICE_NAME).yaml
+	install -Dm644 mnt-Serve-tftp.mount $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
 
 ###############################################################################

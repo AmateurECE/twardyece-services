@@ -1,0 +1,3 @@
+usr/lib/systemd/system/mnt-Serve-tftp.mount
+usr/lib/systemd/system/twardyece-tftp.service
+usr/share/twardyece-tftp/docker-compose.yaml

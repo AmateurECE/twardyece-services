@@ -33,3 +33,8 @@ Package: twardyece-dns
 Architecture: all
 Depends: docker-compose, volumetric, twardyece-nginx, ${misc:Depends}
 Description: An instance of bind9 which exposes a split-horizon DNS service
+
+Package: twardyece-tftp
+Architecture: all
+Depends: docker-compose, twardyece-nginx, ${misc:Depends}
+Description: A TFTP server serving arbitrary paths

@@ -1,5 +1,5 @@
 [Unit]
-Description=Mount for edtwardy-tftp service
+Description=Mount for twardyece-tftp service
 
 [Mount]
 What=/home/edtwardy/Git/Yocto/build/tmp/deploy/images
@@ -8,4 +8,4 @@ Type=none
 Options=bind
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=twardyece-tftp.service
