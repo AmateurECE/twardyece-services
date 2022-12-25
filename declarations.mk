@@ -7,25 +7,8 @@
 #
 # CREATED:	    01/22/2022
 #
-# LAST EDITED:	    01/23/2022
+# LAST EDITED:	    12/25/2022
 ###
-
-###############################################################################
-# Container stuff
-###
-
-ifdef SQUASH
-squash=--squash
-endif
-
-define buildahBud
-cd $(B) && buildah bud --layers $(squash) -f $(1) -t "$(2):latest"
-endef
-
-#: Generate docker image
-# $(B)/%-build.lock: Containerfile.%
-# 	$(call buildahBud,$<,$(suffix $<))
-# 	touch $@
 
 ###############################################################################
 # Utilities and universal rules
@@ -40,7 +23,7 @@ $(B)/build.lock: $(BUILD_TARGETS)
 build: $(B)/build.lock
 
 define subdirInvoke
-$(MAKE) -C edtwardy-$(1) B=$(B)/$(1) $(2);
+$(MAKE) -C $(1) B=$(B)/$(1) $(2);
 endef
 
 #: Build package resources in subdirectories
@@ -55,11 +38,6 @@ install-subdirs: build
 clean-subdirs:
 	$(foreach subdir,$(SUBDIRS),$(call subdirInvoke,$(subdir),clean))
 
-#: Build container images in the local cache (for all subdirs)
-containers-subdirs: build
-	$(foreach subdir,$(SUBDIRS),$(call subdirInvoke,$(subdir),containers))
-
-containers:
 install:
 clean:
 

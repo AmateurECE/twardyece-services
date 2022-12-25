@@ -1,0 +1,7 @@
+version: 1.0
+volumes:
+  compilations-secret:
+    archive:
+      name: compilations-secret
+      url: /mnt/Library/DockerVolumes/compilations-secret-volume.tar.gz
+      md5: 87c31943a122d39b642f80d12c48edd6

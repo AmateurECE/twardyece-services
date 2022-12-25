@@ -1,39 +1,39 @@
-Source: edtwardy-webservices
+Source: twardyece-services
 Section: contrib/web
 Priority: optional
 Maintainer: Ethan D. Twardy <ethan.twardy@gmail.com>
-Build-Depends: debhelper-compat (= 13), tar (>= 1.34), buildah (>= 1.19.6), make (>= 4.3), renderbars (>= 0.2.1)
+Build-Depends: debhelper-compat (= 13), renderbars (>= 0.2.1)
 Standards-Version: 4.5.1
-Homepage: https://github.com/AmateurECE/edtwardy-webservices
-Vcs-Browser: https://github.com/AmateurECE/edtwardy-webservices
-Vcs-Git: https://github.com/AmateurECE/edtwardy-webservices
+Homepage: https://github.com/AmateurECE/twardyece-services
+Vcs-Browser: https://github.com/AmateurECE/twardyece-services
+Vcs-Git: https://github.com/AmateurECE/twardyece-services
 Rules-Requires-Root: no
 
-Package: edtwardy-webservices
-Architecture: amd64
-Depends: bash (>= 5.1-2+b1), coreutils (>= 8.32-4+b1), gawk, systemd, docker-compose, podman, cron, volumetric, golang-github-containernetworking-plugin-dnsname, ${misc:Depends}
+Package: twardyece-compilations
+Architecture: all
+Depends: docker-compose, volumetric, golang-github-containernetworking-plugin-dnsname, ${misc:Depends}
 Description: Docker infrastructure for my web services
  Docker infrastructure for my web services, as well as systemd unit.
 
-Package: edtwardy-tftp
-Architecture: all
-Depends: systemd, docker-compose, podman, ${misc:Depends}
-Description: Docker infrastructure to serve files over TFTP
- Docker infrastructure to serve files over TFTP. This is, for example, so I can
- netboot my embedded boards, etc.
+# Package: edtwardy-tftp
+# Architecture: all
+# Depends: systemd, docker-compose, podman, ${misc:Depends}
+# Description: Docker infrastructure to serve files over TFTP
+#  Docker infrastructure to serve files over TFTP. This is, for example, so I can
+#  netboot my embedded boards, etc.
 
-Package: edtwardy-vps
-Architecture: all
-Depends: ansible (>= 2.10.7+merged+base+2.10.8+dfsg-1), wireguard-tools (>= 1.0.20210223-1), bash (>= 5.1-2+b1), renderbars (>= 0.2.1-1), ${misc:Depends}
-Description: Ansible configuration for controller node
- This package provides ansible configuration for the controller node (e.g. this
- Debian server) to manage a VPS node.
+# Package: edtwardy-vps
+# Architecture: all
+# Depends: ansible (>= 2.10.7+merged+base+2.10.8+dfsg-1), wireguard-tools (>= 1.0.20210223-1), bash (>= 5.1-2+b1), renderbars (>= 0.2.1-1), ${misc:Depends}
+# Description: Ansible configuration for controller node
+#  This package provides ansible configuration for the controller node (e.g. this
+#  Debian server) to manage a VPS node.
 
-Package: edtwardy-dns
-Architecture: all
-Depends: bash (>= 5.1-2+b1), coreutils (>= 8.32-4+b1), systemd, docker-compose, podman, volumetric, ${misc:Depends}
-Description: Bind9 configuration for an authoritative DNS server
- This DNS server is not publicly accessible, of course, but it does allow me
- to set up split-horizon DNS for my owned hostname. This allows me to resolve
- my public hostname to the link local address of my boxes, instead of the
- public IP address of my Linode instance.
+# Package: edtwardy-dns
+# Architecture: all
+# Depends: bash (>= 5.1-2+b1), coreutils (>= 8.32-4+b1), systemd, docker-compose, podman, volumetric, ${misc:Depends}
+# Description: Bind9 configuration for an authoritative DNS server
+#  This DNS server is not publicly accessible, of course, but it does allow me
+#  to set up split-horizon DNS for my owned hostname. This allows me to resolve
+#  my public hostname to the link local address of my boxes, instead of the
+#  public IP address of my Linode instance.
