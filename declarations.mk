@@ -12,9 +12,11 @@
 
 PREFIX=/usr
 DATADIR=$(PREFIX)/share
-VOLUMETRICDIR=$(DATADIR)/volumetric/volumetric.d
+SYSTEMD_SYSTEM_UNITDIR=$(PREFIX)/lib/systemd/system
 
+VOLUMETRICDIR=$(DATADIR)/volumetric/volumetric.d
 ROOTDIR=$(DATADIR)/twardyece
+
 SERVICEDIR=$(ROOTDIR)/services
 NGINXDIR=$(ROOTDIR)/routes
 

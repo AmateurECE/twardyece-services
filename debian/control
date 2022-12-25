@@ -28,3 +28,8 @@ Package: twardyece-jellyfin
 Architecture: all
 Depends: docker-compose, volumetric, ${misc:Depends}
 Description: An instance of jellyfin
+
+Package: twardyece-dns
+Architecture: all
+Depends: docker-compose, volumetric, twardyece-nginx, ${misc:Depends}
+Description: An instance of bind9 which exposes a split-horizon DNS service

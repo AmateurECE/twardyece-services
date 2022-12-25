@@ -19,6 +19,7 @@ SUBDIRS += compilations
 SUBDIRS += postgres
 SUBDIRS += nginx
 SUBDIRS += jellyfin
+SUBDIRS += dns
 
 all: build-subdirs
 
