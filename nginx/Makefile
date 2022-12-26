@@ -7,7 +7,7 @@
 #
 # CREATED:	    12/25/2022
 #
-# LAST EDITED:	    12/25/2022
+# LAST EDITED:	    12/26/2022
 #
 ####
 
@@ -33,5 +33,7 @@ install:
 	: # systemd service file
 	install -Dm644 twardyece-services.service \
 		$(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)/twardyece-services.service
+	install -Dm644 twardyece.target \
+		$(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)/twardyece.target
 
 ###############################################################################
