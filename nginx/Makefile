@@ -12,7 +12,12 @@
 ####
 
 SERVICE_NAME=nginx
+BUILD_TARGETS += make-nginx-conf-release
 include ../declarations.mk
+
+make-nginx-conf-release:
+	(cd make-nginx-conf && cargo build --release)
+	strip $@
 
 install:
 	install -Dm644 docker-compose.yaml \
@@ -22,6 +27,8 @@ install:
 	install -Dm644 nginx.yaml $(DESTDIR)$(NGINXDIR)/$(SERVICE_NAME).yaml
 	install -Dm755 start-twardyece-services.bash \
 		$(DESTDIR)$(BINDIR)/start-twardyece-services
+	install -Dm755 make-nginx-conf/target/release/make-nginx-conf \
+		$(DESTDIR)$(BINDIR)/make-nginx-conf
 	: # Certificate renewal cron
 	install -Dm544 renew-certificates.bash \
 		$(DESTDIR)/etc/cron.daily/renewcertificates
