@@ -9,6 +9,11 @@ Vcs-Browser: https://github.com/AmateurECE/twardyece-services
 Vcs-Git: https://github.com/AmateurECE/twardyece-services
 Rules-Requires-Root: no
 
+Package: twardyece-budget-tool
+Architecture: all
+Depends: docker-compose, volumetric, twardyece-postgres, ${misc:Depends}
+Description: An instance of the budget tool I wrote
+
 Package: twardyece-compilations
 Architecture: all
 Depends: docker-compose, volumetric, twardyece-postgres, ${misc:Depends}

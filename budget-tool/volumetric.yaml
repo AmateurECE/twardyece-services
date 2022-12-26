@@ -1,0 +1,7 @@
+version: 1.0
+volumes:
+  budget-tool-secret:
+    archive:
+      name: budget-tool-secret
+      url: /mnt/Library/DockerVolumes/budget-tool-secret-volume.tar.gz
+      md5: 7adbca516ebe368e6483e53621a7ff8c

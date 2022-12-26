@@ -1,0 +1,22 @@
+version: "2.4"
+services:
+  budget-tool:
+    image: docker.io/edtwardy/budget-tool:0.3.0
+    init: true
+    depends_on:
+      - postgres
+    restart: always
+    environment:
+      - "DATABASE_URL=postgres://edtwardy-webservices_postgres_1:5432/budgets"
+      - TZ=America/Chicago
+    volumes:
+      - "budget-tool-secret:/data:ro"
+
+networks:
+  default:
+    external:
+      name: edtwardy-webservices_front_net
+
+volumes:
+  budget-tool-secret:
+    external: true

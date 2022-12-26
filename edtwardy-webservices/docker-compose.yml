@@ -30,18 +30,6 @@ services:
       - REPOSITORY_MOUNT=/home/jenkins/repository
       - AGENT_NAME=docker-agent
 
-  budget-tool:
-    image: docker.io/edtwardy/budget-tool:0.3.0
-    init: true
-    depends_on:
-      - postgres
-    restart: always
-    environment:
-      - "DATABASE_URL=postgres://edtwardy-webservices_postgres_1:5432/budgets"
-      - TZ=America/Chicago
-    volumes:
-      - "budget-tool-secret:/data:ro"
-
 networks:
   default:
     external:
@@ -55,8 +43,6 @@ volumes:
   jenkins:
     external: true
   agent-secret:
-    external: true
-  budget-tool-secret:
     external: true
 
   # The following volumes are ephemeral "default" volumes.

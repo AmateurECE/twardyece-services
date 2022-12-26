@@ -23,6 +23,7 @@ SUBDIRS += dns
 SUBDIRS += tftp
 SUBDIRS += yocto
 SUBDIRS += vps
+SUBDIRS += budget-tool
 
 all: build-subdirs
 
