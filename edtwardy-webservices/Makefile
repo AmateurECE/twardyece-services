@@ -8,7 +8,7 @@
 #
 # CREATED:	    10/25/2021
 #
-# LAST EDITED:	    06/16/2022
+# LAST EDITED:	    12/25/2022
 ###
 
 PACKAGE_NAME=edtwardy-webservices
@@ -33,15 +33,6 @@ install: build
 	install -d $(DESTDIR)/etc/volumetric/volumes.d
 	install -m444 edtwardy-webservices.yaml \
 		$(DESTDIR)/etc/volumetric/volumes.d
-	:
-	: # Utility script for certbot debugging
-	install -d $(DESTDIR)/bin
-	install -m755 webservices-certbot.sh $(DESTDIR)/bin/webservices-certbot
-	:
-	: # Certificate renewal cron
-	install -d $(DESTDIR)/etc/cron.daily
-	install -m544 renew-certificates.bash \
-		$(DESTDIR)/etc/cron.daily/renewcertificates
 	:
 	: # systemd files
 	install -d $(DESTDIR)/lib/systemd/system

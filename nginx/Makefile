@@ -20,5 +20,11 @@ install:
 	install -Dm644 volumetric.yaml \
 		$(DESTDIR)$(VOLUMETRICDIR)/$(SERVICE_NAME).yaml
 	install -Dm644 nginx.yaml $(DESTDIR)$(NGINXDIR)/$(SERVICE_NAME).yaml
+	: # Certificate renewal cron
+	install -Dm544 renew-certificates.bash \
+		$(DESTDIR)/etc/cron.daily/renewcertificates
+	: # Utility script for certbot debugging
+	install -Dm755 webservices-certbot.sh \
+		$(DESTDIR)$(BINDIR)/webservices-certbot
 
 ###############################################################################
