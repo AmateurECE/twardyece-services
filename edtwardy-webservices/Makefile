@@ -42,10 +42,5 @@ install: build
 	install -m644 mnt-Serve-yocto-deploy.mount \
 		$(DESTDIR)/lib/systemd/system
 	install -m644 jenkins-builder.service $(DESTDIR)/lib/systemd/system
-	:
-	: # CNI network configuration file for the webservices
-	install -d $(DESTDIR)/etc/cni/net.d
-	install -m644 edtwardy-webservices_front_net.conflist \
-		$(DESTDIR)/etc/cni/net.d
 
 ###############################################################################

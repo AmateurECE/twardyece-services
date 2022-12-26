@@ -26,5 +26,9 @@ install:
 	: # Utility script for certbot debugging
 	install -Dm755 webservices-certbot.sh \
 		$(DESTDIR)$(BINDIR)/webservices-certbot
+	: # CNI network configuration file for the webservices
+	install -d $(DESTDIR)/etc/cni/net.d
+	install -m644 edtwardy-webservices_front_net.conflist \
+		$(DESTDIR)/etc/cni/net.d
 
 ###############################################################################
