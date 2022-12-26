@@ -11,8 +11,10 @@
 ###
 
 PREFIX=/usr
+BINDIR=$(PREFIX)/bin
+LIBDIR=$(PREFIX)/lib
 DATADIR=$(PREFIX)/share
-SYSTEMD_SYSTEM_UNITDIR=$(PREFIX)/lib/systemd/system
+SYSTEMD_SYSTEM_UNITDIR=$(LIBDIR)/systemd/system
 
 VOLUMETRICDIR=$(DATADIR)/volumetric/volumetric.d
 ROOTDIR=$(DATADIR)/twardyece

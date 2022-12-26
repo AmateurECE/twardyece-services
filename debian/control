@@ -43,3 +43,8 @@ Package: twardyece-yocto
 Architecture: all
 Depends: twardyece-tftp, ${misc:Depends}
 Description: Infrastructure for serving Yocto artifacts
+
+Package: twardyece-vps
+Architecture: all
+Depends: twardyece-nginx, renderbars, ${misc:Depends}
+Description: Scripts for setup of a server (VPS) which supports web services

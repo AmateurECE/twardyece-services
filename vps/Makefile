@@ -3,20 +3,22 @@
 #
 # AUTHOR:	    Ethan D. Twardy <edtwardy@mtu.edu>
 #
-# DESCRIPTION:	    Makefile for the edtwardy-vps package
+# DESCRIPTION:	    Makefile for the twardyece-vps package
 #
 # CREATED:	    08/25/2021
 #
-# LAST EDITED:	    01/23/2022
+# LAST EDITED:	    12/25/2022
 ###
 
-PACKAGE_NAME=edtwardy-vps
+SERVICE_NAME=twardyece-vps
 
 BUILD_TARGETS += $(B)/firewall.nft
 BUILD_TARGETS += $(B)/hosts
 BUILD_TARGETS += $(B)/wireguard-client.conf
 BUILD_TARGETS += $(B)/wireguard-server.conf
 include ../declarations.mk
+
+SERVICEDIR=$(DATADIR)/$(SERVICE_NAME)
 
 $(B)/firewall.nft: firewall.template.nft vps-keys.conf
 	renderbars -f vps-keys.conf $< $@
@@ -36,20 +38,18 @@ $(B)/wireguard-server.conf: wireguard-server.template.conf vps-keys.conf
 		-c client_public_key="\{{client_public_key}}" \
 		$< $@
 
-install: shareDir=$(DESTDIR)/usr/share/$(PACKAGE_NAME)
-install: binDir=$(DESTDIR)/bin
 install: build
-	install -d $(DESTDIR)/etc/ansible
-	install -m444 $(B)/hosts $(DESTDIR)/etc/ansible
-	install -d $(shareDir)
-	install -m444 $(B)/firewall.nft $(shareDir)
-	install -m444 $(B)/wireguard-client.conf $(shareDir)
-	install -m444 $(B)/wireguard-server.conf $(shareDir)
-	install -m444 ansible-playbook.yml $(shareDir)
-	install -m444 vps-keys.conf $(shareDir)
-	install -d $(binDir)
-	install -m666 edtwardy-vps.bash $(binDir)/edtwardy-vps
-	install -d $(DESTDIR)/lib/systemd/system
-	install -m644 edtwardy-vps.target $(DESTDIR)/lib/systemd/system
+	install -Dm444 $(B)/hosts $(DESTDIR)/etc/ansible/hosts
+	install -Dm444 $(B)/firewall.nft $(DESTDIR)$(SERVICEDIR)/firewall.nft
+	install -Dm444 $(B)/wireguard-client.conf \
+		$(DESTDIR)$(SERVICEDIR)/wireguard-client.conf
+	install -Dm444 $(B)/wireguard-server.conf \
+		$(DESTDIR)$(SERVICEDIR)/wireguard-server.conf
+	install -Dm444 ansible-playbook.yml \
+		$(DESTDIR)$(SERVICEDIR)/ansible-playbook.yml
+	install -Dm444 vps-keys.conf $(DESTDIR)$(SERVICEDIR)/vps-keys.conf
+	install -Dm666 twardyece-vps.bash $(DESTDIR)$(BINDIR)/twardyece-vps
+	install -Dm644 twardyece-vps.target \
+		$(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)/twardyece-vps.target
 
 ###############################################################################

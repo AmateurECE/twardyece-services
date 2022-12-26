@@ -1,0 +1,8 @@
+etc/ansible/hosts
+usr/bin/twardyece-vps
+usr/lib/systemd/system/twardyece-vps.target
+usr/share/twardyece-vps/ansible-playbook.yml
+usr/share/twardyece-vps/firewall.nft
+usr/share/twardyece-vps/vps-keys.conf
+usr/share/twardyece-vps/wireguard-client.conf
+usr/share/twardyece-vps/wireguard-server.conf
