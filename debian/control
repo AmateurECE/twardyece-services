@@ -53,3 +53,8 @@ Package: twardyece-vps
 Architecture: all
 Depends: twardyece-nginx, renderbars, ${misc:Depends}
 Description: Scripts for setup of a server (VPS) which supports web services
+
+Package: twardyece-openldap
+Architecture: all
+Depends: docker-compose, volumetric, ${misc:Depends}
+Description: An instance of OpenLDAP for my webservices

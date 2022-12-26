@@ -1,0 +1,14 @@
+version: 1.0
+volumes:
+
+  ldap:
+    archive:
+      name: ldap
+      url: /mnt/Library/DockerVolumes/ldap-volume.tar.gz
+      md5: b1248554dffc00958d4149f035af0601
+
+  slapd.d:
+    archive:
+      name: slapd.d
+      url: /mnt/Library/DockerVolumes/slapd.d-volume.tar.gz
+      md5: 2c7718f8b353cfa5fd2fe328dfcff2d1

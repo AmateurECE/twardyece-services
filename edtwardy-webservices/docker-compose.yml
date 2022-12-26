@@ -1,11 +1,5 @@
 version: "2.4"
 services:
-  openldap:
-    image: "docker.io/osixia/openldap:stable"
-    volumes:
-      - "ldap:/var/lib/ldap"
-      - "slapd.d:/etc/ldap/slapd.d"
-
   jenkins-controller:
     image: "docker.io/jenkins/jenkins:lts"
     volumes:
@@ -36,10 +30,6 @@ networks:
       name: edtwardy-webservices_front_net
 
 volumes:
-  ldap:
-    external: true
-  slapd.d:
-    external: true
   jenkins:
     external: true
   agent-secret:

@@ -24,6 +24,7 @@ SUBDIRS += tftp
 SUBDIRS += yocto
 SUBDIRS += vps
 SUBDIRS += budget-tool
+SUBDIRS += openldap
 
 all: build-subdirs
 
