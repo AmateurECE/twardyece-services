@@ -20,6 +20,8 @@ install:
 	install -Dm644 volumetric.yaml \
 		$(DESTDIR)$(VOLUMETRICDIR)/$(SERVICE_NAME).yaml
 	install -Dm644 nginx.yaml $(DESTDIR)$(NGINXDIR)/$(SERVICE_NAME).yaml
+	install -Dm755 start-twardyece-services.bash \
+		$(DESTDIR)$(BINDIR)/start-twardyece-services
 	: # Certificate renewal cron
 	install -Dm544 renew-certificates.bash \
 		$(DESTDIR)/etc/cron.daily/renewcertificates
