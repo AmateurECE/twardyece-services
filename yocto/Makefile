@@ -16,10 +16,11 @@ include ../declarations.mk
 SERVICEDIR=$(DATADIR)/$(SERVICE_NAME)
 
 install:
-	install -Dm644 mnt-Serve-tftp.mount $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
-	install -Dm644 mnt-Serve-yocto-deploy.mount \
+	install -d $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
+	install -m644 mnt-Serve-tftp.mount $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
+	install -m644 mnt-Serve-yocto-deploy.mount \
 		$(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
-	install -Dm644 mnt-Serve-yocto-sstate\\x2dcache.mount \
+	install -m644 mnt-Serve-yocto-sstate\\x2dcache.mount \
 		$(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
 	install -Dm644 nginx.yaml $(DESTDIR)$(NGINXDIR)/$(SERVICE_NAME).yaml
 

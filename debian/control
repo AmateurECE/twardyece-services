@@ -58,3 +58,8 @@ Package: twardyece-openldap
 Architecture: all
 Depends: docker-compose, volumetric, ${misc:Depends}
 Description: An instance of OpenLDAP for my webservices
+
+Package: twardyece-jenkins
+Architecture: all
+Depends: docker-compose, volumetric, ${misc:Depends}
+Description: Jenkins infrastructure to support CI for twardyece projects

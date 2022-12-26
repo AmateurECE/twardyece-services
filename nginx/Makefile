@@ -30,5 +30,8 @@ install:
 	install -d $(DESTDIR)/etc/cni/net.d
 	install -m644 edtwardy-webservices_front_net.conflist \
 		$(DESTDIR)/etc/cni/net.d
+	: # systemd service file
+	install -Dm644 twardyece-services.service \
+		$(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)/twardyece-services.service
 
 ###############################################################################

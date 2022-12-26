@@ -25,6 +25,7 @@ SUBDIRS += yocto
 SUBDIRS += vps
 SUBDIRS += budget-tool
 SUBDIRS += openldap
+SUBDIRS += jenkins
 
 all: build-subdirs
 
