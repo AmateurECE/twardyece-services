@@ -21,6 +21,7 @@ SUBDIRS += nginx
 SUBDIRS += jellyfin
 SUBDIRS += dns
 SUBDIRS += tftp
+SUBDIRS += yocto
 
 all: build-subdirs
 

@@ -47,3 +47,10 @@ server:
         allow all;
     }
 
+server:
+  name: twardyece-local
+  preamble: |
+    listen 80;
+    server_name edtwardy-yocto.local;
+    allow 192.168.1.0/24;
+    deny all;
