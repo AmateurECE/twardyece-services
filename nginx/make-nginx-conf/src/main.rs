@@ -16,7 +16,7 @@ use serde::Deserialize;
 use std::collections::HashMap;
 use std::fmt;
 use std::fs::File;
-use std::io::Write;
+use std::io::{stdout, Write};
 
 ///////////////////////////////////////////////////////////////////////////////
 // Configuration Files
@@ -133,7 +133,7 @@ struct Args {
 
     /// Output file
     #[clap(short, long, value_parser)]
-    output: String,
+    output: Option<String>,
 }
 
 fn main() -> Result<(), anyhow::Error> {
@@ -154,8 +154,13 @@ fn main() -> Result<(), anyhow::Error> {
         .collect::<Service>();
 
     // Then, write its definition to the output file.
-    let mut output = File::create(args.output)?;
-    write!(output, "{}", &service)?;
+    if let Some(file) = args.output {
+        let mut output = File::create(file)?;
+        write!(output, "{}", &service)?;
+    } else {
+        let mut stdout = stdout().lock();
+        write!(stdout, "{}", &service)?;
+    }
     Ok(())
 }
 
