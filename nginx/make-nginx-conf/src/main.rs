@@ -51,6 +51,19 @@ struct ConfigFile {
 // Writable Configuration
 ////
 
+const INDENT_SIZE: usize = 4;
+
+fn indent_string(content: String, levels: usize) -> String {
+    content
+        .split("\n")
+        .map(|line| match &line {
+            &"" => "".to_string(),
+            _ => " ".repeat(levels * INDENT_SIZE) + &line,
+        })
+        .collect::<Vec<String>>()
+        .join("\n")
+}
+
 #[derive(Clone, Debug, Default)]
 struct VirtualServer {
     preamble: String,
@@ -59,7 +72,7 @@ struct VirtualServer {
 
 #[derive(Clone, Debug, Default)]
 struct Service {
-    header: String,
+    headers: Vec<String>,
     servers: HashMap<String, VirtualServer>,
 }
 
@@ -82,7 +95,7 @@ impl FromIterator<ConfigFile> for Service {
 
         for block in blocks {
             match block {
-                ConfigBlock::Top(content) => service.header += &content,
+                ConfigBlock::Top(content) => service.headers.push(content),
                 ConfigBlock::Server {
                     name,
                     configuration,
@@ -116,7 +129,19 @@ impl FromIterator<ConfigFile> for Service {
 
 impl fmt::Display for Service {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        todo!()
+        write!(f, "{}", &self.headers.join("\n"))?;
+        for (_, server) in &self.servers {
+            write!(
+                f,
+                "\nserver {{\n{}",
+                &indent_string(server.preamble.clone(), 1)
+            )?;
+            for location in &server.locations {
+                write!(f, "\n{}", &indent_string(location.clone(), 1))?;
+            }
+            write!(f, "}}\n")?;
+        }
+        Ok(())
     }
 }
 

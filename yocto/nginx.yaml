@@ -1,17 +1,20 @@
+---
 version: 1.0
 configuration:
-  server:
+  - !server
     name: twardyece
-    location: |
-      location /sstate-cache {
-          root /data/yocto;
-          autoindex on;
-      }
+    configuration:
+      - !location |
+        location /sstate-cache {
+            root /data/yocto;
+            autoindex on;
+        }
 
-  server:
+  - !server
     name: twardyece-local
-    location: |
-      location / {
-          root /data/yocto;
-          autoindex on;
-      }
+    configuration:
+      - !location |
+        location / {
+            root /data/yocto;
+            autoindex on;
+        }
