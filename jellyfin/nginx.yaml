@@ -1,32 +1,33 @@
 version: 1.0
-top: |
-  upstream jellyfin {
-      keepalive 32;
-      server edtwardy-jellyfin_jellyfin_1:8096;
-  }
-
-server:
-  name: twardyece
-  location: |
-    location /jellyfin {
-        return 302 $scheme://$host/jellyfin/;
+configuration:
+  top: |
+    upstream jellyfin {
+        keepalive 32;
+        server edtwardy-jellyfin_jellyfin_1:8096;
     }
 
-  location: |
-    location /jellyfin/ {
-        proxy_pass http://jellyfin;
-        proxy_pass_request_headers on;
-        proxy_set_header Host $host;
+  server:
+    name: twardyece
+    location: |
+      location /jellyfin {
+          return 302 $scheme://$host/jellyfin/;
+      }
 
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-Host $http_host;
+    location: |
+      location /jellyfin/ {
+          proxy_pass http://jellyfin;
+          proxy_pass_request_headers on;
+          proxy_set_header Host $host;
 
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection $http_connection;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+          proxy_set_header X-Forwarded-Host $http_host;
 
-        # Disable buffering when the nginx proxy gets very busy during
-        # streaming
-        proxy_buffering off;
-    }
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection $http_connection;
+
+          # Disable buffering when the nginx proxy gets very busy during
+          # streaming
+          proxy_buffering off;
+      }
