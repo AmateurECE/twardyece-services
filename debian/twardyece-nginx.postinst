@@ -1,0 +1,29 @@
+#!/bin/sh
+
+set -e
+
+LOCAL_STATE_DIR=/var/lib/twardyece-nginx
+DATA_DIR=/usr/share/twardyece-services
+IMAGE=siteconf-volume.tar.gz
+
+case "$1" in
+    configure)
+    ;;
+    triggered)
+        mkdir -p $LOCAL_STATE_DIR/conf
+        cp $DATA_DIR/routes/*.conf $LOCAL_STATE_DIR/conf
+        make-nginx-conf $DATA_DIR/routes/*.yaml \
+                        -o $LOCAL_STATE_DIR/conf/default.conf
+        tar czvf $LOCAL_STATE_DIR/$IMAGE -C $LOCAL_STATE_DIR/conf .
+    ;;
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+        ;;
+esac
+
+#DEBHELPER#
+
+exit 0

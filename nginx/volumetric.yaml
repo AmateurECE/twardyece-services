@@ -4,8 +4,8 @@ volumes:
   siteconf:
     archive:
       name: siteconf
-      url: /usr/share/edtwardy-webservices/siteconf-volume.tar.gz
-      md5: 7c6cb3bbb1111fd34c2c13c010e00022
+      url: /var/lib/twardyece-nginx/siteconf-volume.tar.gz
+      update: on-stale-lock
 
   letsencrypt:
     archive:
