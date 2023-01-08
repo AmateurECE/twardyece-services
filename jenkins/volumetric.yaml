@@ -1,0 +1,14 @@
+version: 1.0
+volumes:
+
+  agent-secret:
+    archive:
+      name: agent-secret
+      url: /mnt/Library/DockerVolumes/agent-secret-volume.tar.gz
+      md5: bdea8f74de0c274bda5ef181e9a91010
+
+  jenkins:
+    archive:
+      name: jenkins
+      url: /mnt/Library/DockerVolumes/jenkins-volume.tar.gz
+      md5: 7027df907c99ef230aaf719f962d07cf

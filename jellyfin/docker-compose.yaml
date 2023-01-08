@@ -1,0 +1,34 @@
+---
+version: "2.1"
+services:
+  jellyfin:
+    image: ghcr.io/linuxserver/jellyfin
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Chicago
+      - JELLYFIN_PublishedServerUrl=192.168.1.60
+    volumes:
+      - "jellyfin:/config"
+      - "/mnt/Library/Movies:/data/Movies:ro"
+      - "/mnt/Library/Shows:/data/Shows:ro"
+      - "/mnt/Library/Music:/data/Music:ro"
+      - "/mnt/Library/Audiobooks:/data/Audiobooks:ro"
+      - "/mnt/Library/Accounting:/data/Accounting:ro"
+    # These ports may some day be useful:
+    # ports:
+    #   - "8096:8096"
+    #   - "8920:8920"
+    #   - "7359:7359/udp"
+    #   - "1900:1900/udp"
+    restart: unless-stopped
+
+# Must connect to edtwardy-webservices network to communicate with slapd
+networks:
+  default:
+    external:
+      name: edtwardy-webservices_front_net
+
+volumes:
+  jellyfin:
+    external: true

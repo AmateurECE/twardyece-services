@@ -1,0 +1,10 @@
+[package]
+name = "make-nginx-conf"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.68"
+clap = { version = "4.0.32", features = ["derive"] }
+serde = { version = "1.0.151", features = ["derive"] }
+serde_yaml = "0.9.16"

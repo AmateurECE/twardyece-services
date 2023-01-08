@@ -1,0 +1,4 @@
+usr/lib/systemd/system/twardyece-dns.service
+usr/share/twardyece-dns/bind-volume.tar.gz
+usr/share/twardyece-dns/docker-compose.yaml
+etc/volumetric/volumes.d/twardyece-dns.yaml

@@ -1,0 +1,10 @@
+usr/share/twardyece/nginx.yaml
+usr/share/twardyece/routes/nginx.yaml
+etc/volumetric/volumes.d/nginx.yaml
+etc/cron.daily/renewcertificates
+usr/bin/webservices-certbot
+etc/cni/net.d/edtwardy-webservices_front_net.conflist
+usr/lib/systemd/system/twardyece-services.service
+usr/lib/systemd/system/twardyece.target
+usr/bin/start-twardyece-services
+usr/bin/make-nginx-conf

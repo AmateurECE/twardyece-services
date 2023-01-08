@@ -1,4 +1,0 @@
-lib/systemd/system/edtwardy-dns.service
-usr/share/edtwardy-dns/bind-volume.tar.gz
-usr/share/edtwardy-dns/docker-compose.yml
-etc/volumetric/volumes.d/edtwardy-dns.yaml

@@ -1,0 +1,4 @@
+usr/lib/systemd/system/mnt-Serve-tftp.mount
+usr/lib/systemd/system/mnt-Serve-yocto-sstate\x2dcache.mount
+usr/lib/systemd/system/mnt-Serve-yocto-deploy.mount
+usr/share/twardyece/routes/twardyece-yocto.yaml

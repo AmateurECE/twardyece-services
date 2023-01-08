@@ -1,0 +1,2 @@
+usr/lib/systemd/system/twardyece-tftp.service
+usr/share/twardyece-tftp/docker-compose.yaml

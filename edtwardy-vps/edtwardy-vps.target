@@ -1,7 +1,0 @@
-[Unit]
-Description=Target for VPS services
-After=wg-quick@wg0.service
-Requires=wg-quick@wg0.service
-
-[Install]
-WantedBy=multi-user.target

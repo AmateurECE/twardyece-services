@@ -1,0 +1,11 @@
+[Unit]
+Description=Mount for Serving Yocto sstate-cache over HTTP(S)
+
+[Mount]
+What=/home/edtwardy/Git/Yocto/build/sstate-cache
+Where=/mnt/Serve/yocto/sstate-cache
+Type=none
+Options=bind
+
+[Install]
+WantedBy=twardyece-tftp.service

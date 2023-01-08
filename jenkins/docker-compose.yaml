@@ -1,0 +1,40 @@
+version: "2.4"
+services:
+  jenkins-controller:
+    image: "docker.io/jenkins/jenkins:lts"
+    volumes:
+      - "jenkins:/var/jenkins_home"
+    environment:
+      - JENKINS_OPTS="--prefix=/jenkins"
+      # TODO: This is a security risk, but is necessary in order for this
+      # container to be able to bind to the LDAP server at
+      # ldap://edtwardy-webservices_openldap_1
+      - JENKINS_JAVA_OPTS=-Dcom.sun.jndi.ldapURLParsing="legacy"
+
+  jenkins-agent:
+    image: "docker.io/edtwardy/jenkins-agent:1.0.0"
+    init: true
+    depends_on:
+      - jenkins-controller
+    volumes:
+      - "repository:/home/jenkins/repository"
+      - "blog:/home/jenkins/blog"
+      - "agent-secret:/secrets:ro"
+    environment:
+      - REPOSITORY_MOUNT=/home/jenkins/repository
+      - AGENT_NAME=docker-agent
+
+networks:
+  default:
+    external:
+      name: edtwardy-webservices_front_net
+
+volumes:
+  jenkins:
+    external: true
+  agent-secret:
+    external: true
+
+  # The following volumes are ephemeral "default" volumes.
+  repository:
+  blog:

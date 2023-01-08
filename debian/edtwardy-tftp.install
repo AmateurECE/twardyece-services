@@ -1,3 +1,0 @@
-usr/share/edtwardy-tftp/docker-compose.yml
-lib/systemd/system/edtwardy-tftp.service
-lib/systemd/system/mnt-Serve-tftp.mount

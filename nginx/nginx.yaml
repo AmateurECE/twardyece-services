@@ -1,0 +1,61 @@
+---
+version: 1.0
+configuration:
+  - !server
+    name: twardyece
+    configuration:
+      - !header |
+        port_in_redirect on;
+        listen 443 ssl;
+        listen [::]:443 ssl;
+        server_name twardyece.com www.twardyece.com;
+
+        include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+        ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+        ssl_certificate /etc/letsencrypt/live/twardyece.com/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/twardyece.com/privkey.pem;
+
+        root /var/www;
+
+      - !location |
+        location ^~ /.well-known/acme-challenge/ {
+            root /var/www/certbot;
+            allow all;
+        }
+
+  - !server
+    name: twardyece-http
+    configuration:
+      - !header |
+        listen 80;
+        listen [::]:80;
+        server_name twardyece.com www.twardyece.com;
+
+      - !location |
+        location / {
+            if ($host = twardyece.com) {
+                return 301 https://$host$request_uri;
+            }
+
+            if ($host = www.twardyece.com) {
+                return 301 https://$host$request_uri;
+            }
+
+            return 404;
+        }
+
+      - !location |
+        location ^~ /.well-known/acme-challenge/ {
+            root /var/www/certbot;
+            allow all;
+        }
+
+  - !server
+    name: twardyece-local
+    configuration:
+      - !header |
+        listen 80;
+        server_name edtwardy-yocto.local;
+        allow 192.168.1.0/24;
+        deny all;

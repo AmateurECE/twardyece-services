@@ -1,0 +1,11 @@
+[Unit]
+Description=Mount for Serving Yocto build artifacts over HTTP(S)
+
+[Mount]
+What=/home/edtwardy/Git/Yocto/build/tmp/deploy
+Where=/mnt/Serve/yocto/deploy
+Type=none
+Options=bind
+
+[Install]
+WantedBy=twardyece-tftp.service

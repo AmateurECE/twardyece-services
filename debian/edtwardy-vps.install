@@ -1,8 +1,0 @@
-usr/share/edtwardy-vps/wireguard-client.conf
-usr/share/edtwardy-vps/wireguard-server.conf
-usr/share/edtwardy-vps/vps-keys.conf
-usr/share/edtwardy-vps/ansible-playbook.yml
-usr/share/edtwardy-vps/firewall.nft
-bin/edtwardy-vps
-etc/ansible/hosts
-lib/systemd/system/edtwardy-vps.target
