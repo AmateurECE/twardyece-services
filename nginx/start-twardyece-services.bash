@@ -8,13 +8,13 @@
 #
 # CREATED:          12/26/2022
 #
-# LAST EDITED:	    12/26/2022
+# LAST EDITED:	    01/08/2023
 #
 ####
 
 ARGUMENTS=()
 for definition in *.yaml; do
-    ARGUMENTS+=("-f" "$file")
+    ARGUMENTS+=("-f" "$definition")
 done
 
 docker-compose ${ARGUMENTS[@]} up

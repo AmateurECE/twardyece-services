@@ -4,7 +4,7 @@ configuration:
   - !top |
     upstream jenkins {
         keepalive 32;
-        server edtwardy-webservices_jenkins-controller_1:8080;
+        server twardyece_jenkins-controller_1:8080;
     }
 
   - !server

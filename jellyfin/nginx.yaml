@@ -4,7 +4,7 @@ configuration:
   - !top |
     upstream jellyfin {
         keepalive 32;
-        server edtwardy-jellyfin_jellyfin_1:8096;
+        server twardyece_jellyfin_1:8096;
     }
 
   - !server

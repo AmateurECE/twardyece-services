@@ -1,19 +1,28 @@
-#!/bin/sh
+#!/bin/bash
 
 set -e
+shopt -s nullglob
 
 LOCAL_STATE_DIR=/var/lib/twardyece-nginx
-DATA_DIR=/usr/share/twardyece-services
+DATA_DIR=/usr/share/twardyece
 IMAGE=siteconf-volume.tar.gz
 
 case "$1" in
-    configure)
-    ;;
-    triggered)
+    configure|triggered)
         mkdir -p $LOCAL_STATE_DIR/conf
-        cp $DATA_DIR/routes/*.conf $LOCAL_STATE_DIR/conf
-        make-nginx-conf $DATA_DIR/routes/*.yaml \
-                        -o $LOCAL_STATE_DIR/conf/default.conf
+
+        # Copy whole service conf files over, if they exist
+        if compgen -G "$DATA_DIR/routes/*.conf" > /dev/null; then
+            cp $DATA_DIR/routes/*.conf $LOCAL_STATE_DIR/conf
+        fi
+
+        # If there are service fragments, build a single conf from them
+        if compgen -G "$DATA_DIR/routes/*.yaml" > /dev/null; then
+            make-nginx-conf $DATA_DIR/routes/*.yaml \
+                            -o $LOCAL_STATE_DIR/conf/default.conf
+        fi
+
+        # Then, create a volume image from the outputs
         tar czvf $LOCAL_STATE_DIR/$IMAGE -C $LOCAL_STATE_DIR/conf .
     ;;
     abort-upgrade|abort-remove|abort-deconfigure)

@@ -1,4 +1,4 @@
 usr/lib/systemd/system/jenkins-builder.service
 usr/share/twardyece/routes/jenkins.yaml
-usr/share/twardyece/services/jenkins.yaml
-usr/share/volumetric/volumetric.d/jenkins.yaml
+usr/share/twardyece/jenkins.yaml
+etc/volumetric/volumes.d/jenkins.yaml

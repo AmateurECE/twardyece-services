@@ -4,7 +4,7 @@ configuration:
   - !top |
     upstream compilations {
         keepalive 32;
-        server edtwardy-webservices_compilations_1:3000;
+        server twardyece_compilations_1:3000;
     }
 
   - !server

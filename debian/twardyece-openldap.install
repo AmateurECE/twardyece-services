@@ -1,2 +1,2 @@
-usr/share/twardyece/services/openldap.yaml
-usr/share/volumetric/volumetric.d/openldap.yaml
+usr/share/twardyece/openldap.yaml
+etc/volumetric/volumes.d/openldap.yaml

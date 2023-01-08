@@ -4,7 +4,7 @@ configuration:
   - !top |
     upstream budget {
         keepalive 32;
-        server edtwardy-webservices_budget-tool_1:3000;
+        server twardyece_budget-tool_1:3000;
     }
 
   - !server
