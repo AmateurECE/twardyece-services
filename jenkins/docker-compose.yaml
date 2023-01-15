@@ -12,7 +12,7 @@ services:
       - JENKINS_JAVA_OPTS=-Dcom.sun.jndi.ldapURLParsing="legacy"
 
   jenkins-agent:
-    image: "docker.io/edtwardy/jenkins-agent:1.1.0"
+    image: "docker.io/edtwardy/jenkins-agent:1.2.0"
     init: true
     depends_on:
       - jenkins-controller
@@ -23,6 +23,7 @@ services:
     environment:
       - REPOSITORY_MOUNT=/home/jenkins/repository
       - AGENT_NAME=docker-agent
+      - CONTROLLER_HOSTNAME=http://twardyece_jenkins-controller_1:8080
 
 networks:
   default:
