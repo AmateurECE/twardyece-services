@@ -7,7 +7,7 @@
 #
 # CREATED:	    12/25/2022
 #
-# LAST EDITED:	    12/26/2022
+# LAST EDITED:	    01/15/2023
 #
 ####
 
@@ -40,8 +40,8 @@ install:
 	install -m644 edtwardy-webservices_front_net.conflist \
 		$(DESTDIR)/etc/cni/net.d
 	: # systemd service file
-	install -Dm644 twardyece-services.service \
-		$(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)/twardyece-services.service
+	install -Dm644 twardyece.com.service \
+		$(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)/twardyece.com.service
 	install -Dm644 twardyece.target \
 		$(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)/twardyece.target
 
