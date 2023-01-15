@@ -7,13 +7,11 @@
 #
 # CREATED:	    10/25/2021
 #
-# LAST EDITED:	    12/25/2022
+# LAST EDITED:	    01/14/2023
 ###
 
-SERVICE_NAME = twardyece-yocto
+SERVICE_NAME = yocto
 include ../declarations.mk
-
-SERVICEDIR=$(DATADIR)/$(SERVICE_NAME)
 
 install:
 	install -d $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
