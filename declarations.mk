@@ -7,7 +7,7 @@
 #
 # CREATED:	    01/22/2022
 #
-# LAST EDITED:	    01/08/2023
+# LAST EDITED:	    01/15/2023
 ###
 
 PREFIX=/usr
@@ -19,7 +19,7 @@ SYSTEMD_SYSTEM_UNITDIR=$(LIBDIR)/systemd/system
 VOLUMETRICDIR=/etc/volumetric/volumes.d
 ROOTDIR=$(DATADIR)/twardyece
 
-SERVICEDIR=$(ROOTDIR)
+SERVICEDIR=$(ROOTDIR)/twardyece
 NGINXDIR=$(ROOTDIR)/routes
 
 ###############################################################################

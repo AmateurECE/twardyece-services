@@ -25,8 +25,8 @@ install:
 	install -Dm644 volumetric.yaml \
 		$(DESTDIR)$(VOLUMETRICDIR)/$(SERVICE_NAME).yaml
 	install -Dm644 nginx.yaml $(DESTDIR)$(NGINXDIR)/$(SERVICE_NAME).yaml
-	install -Dm755 start-twardyece-services.bash \
-		$(DESTDIR)$(BINDIR)/start-twardyece-services
+	install -Dm755 twardyece-services.bash \
+		$(DESTDIR)$(BINDIR)/twardyece-services
 	install -Dm755 make-nginx-conf/target/release/make-nginx-conf \
 		$(DESTDIR)$(BINDIR)/make-nginx-conf
 	: # Certificate renewal cron
