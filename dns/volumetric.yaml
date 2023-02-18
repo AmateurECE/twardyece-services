@@ -3,5 +3,5 @@ volumes:
   bind:
     archive:
       name: bind
-      url: /usr/share/edtwardy-dns/bind-volume.tar.gz
+      url: /usr/share/twardyece-dns/bind-volume.tar.gz
       md5: 2fd8b0dc0285db8cfbfc685da5c78d32
