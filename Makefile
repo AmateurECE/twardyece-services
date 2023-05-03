@@ -7,7 +7,7 @@
 #
 # CREATED:	    04/26/2021
 #
-# LAST EDITED:	    12/25/2022
+# LAST EDITED:	    05/02/2023
 ###
 
 # Setup for build directory
@@ -15,17 +15,20 @@ BUILD_DIR = build
 B := $(shell pwd)/$(BUILD_DIR)
 $(shell mkdir -p $(B))
 
-SUBDIRS += compilations
 SUBDIRS += postgres
 SUBDIRS += nginx
 SUBDIRS += jellyfin
-SUBDIRS += dns
 SUBDIRS += tftp
 SUBDIRS += yocto
 SUBDIRS += vps
-SUBDIRS += budget-tool
 SUBDIRS += openldap
 SUBDIRS += jenkins
+
+# Mask these packages for now. The applications don't work for one reason or
+# another.
+# SUBDIRS += compilations
+# SUBDIRS += dns
+# SUBDIRS += budget-tool
 
 all: build-subdirs
 
