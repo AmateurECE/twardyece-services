@@ -9,15 +9,15 @@ Vcs-Browser: https://github.com/AmateurECE/twardyece-services
 Vcs-Git: https://github.com/AmateurECE/twardyece-services
 Rules-Requires-Root: no
 
-Package: twardyece-budget-tool
-Architecture: all
-Depends: docker-compose, volumetric, twardyece-postgres, ${misc:Depends}
-Description: An instance of the budget tool I wrote
+# Package: twardyece-budget-tool
+# Architecture: all
+# Depends: docker-compose, volumetric, twardyece-postgres, ${misc:Depends}
+# Description: An instance of the budget tool I wrote
 
-Package: twardyece-compilations
-Architecture: all
-Depends: docker-compose, volumetric, twardyece-postgres, ${misc:Depends}
-Description: An instance of my compilations application
+# Package: twardyece-compilations
+# Architecture: all
+# Depends: docker-compose, volumetric, twardyece-postgres, ${misc:Depends}
+# Description: An instance of my compilations application
 
 Package: twardyece-postgres
 Architecture: all
@@ -34,10 +34,10 @@ Architecture: all
 Depends: docker-compose, volumetric, ${misc:Depends}
 Description: An instance of jellyfin
 
-Package: twardyece-dns
-Architecture: all
-Depends: docker-compose, volumetric, twardyece-nginx, ${misc:Depends}
-Description: An instance of bind9 which exposes a split-horizon DNS service
+# Package: twardyece-dns
+# Architecture: all
+# Depends: docker-compose, volumetric, twardyece-nginx, ${misc:Depends}
+# Description: An instance of bind9 which exposes a split-horizon DNS service
 
 Package: twardyece-tftp
 Architecture: all
