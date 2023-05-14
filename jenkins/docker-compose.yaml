@@ -12,7 +12,7 @@ services:
       - JENKINS_JAVA_OPTS=-Dcom.sun.jndi.ldapURLParsing="legacy"
 
   jenkins-agent:
-    image: "docker.io/edtwardy/jenkins-agent:1.2.0"
+    image: "docker.io/edtwardy/jenkins-agent:latest"
     init: true
     depends_on:
       - jenkins-controller
