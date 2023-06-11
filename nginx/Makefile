@@ -7,7 +7,7 @@
 #
 # CREATED:	    12/25/2022
 #
-# LAST EDITED:	    01/15/2023
+# LAST EDITED:	    06/10/2023
 #
 ####
 
@@ -28,21 +28,21 @@ install:
 	install -Dm755 twardyece-services.bash \
 		$(DESTDIR)$(BINDIR)/twardyece-services
 	install -Dm755 make-nginx-conf/target/release/make-nginx-conf \
-		$(DESTDIR)$(BINDIR)/make-nginx-conf
-	: # Certificate renewal cron
+		-t $(DESTDIR)$(BINDIR)
+	: # Certificate renewal
 	install -Dm544 renew-certificates.bash \
-		$(DESTDIR)/etc/cron.daily/renewcertificates
-	: # Utility script for certbot debugging
-	install -Dm755 webservices-certbot.sh \
-		$(DESTDIR)$(BINDIR)/webservices-certbot
+		-t $(DESTDIR)/usr/bin
+	install -Dm644 renew-certificates.service \
+		-t $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
+	install -Dm644 renew-certificates.timer \
+		-t $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
 	: # CNI network configuration file for the webservices
-	install -d $(DESTDIR)/etc/cni/net.d
-	install -m644 edtwardy-webservices_front_net.conflist \
-		$(DESTDIR)/etc/cni/net.d
+	install -Dm644 edtwardy-webservices_front_net.conflist \
+		-t $(DESTDIR)/etc/cni/net.d
 	: # systemd service file
 	install -Dm644 twardyece.com.service \
-		$(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)/twardyece.com.service
+		-t $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
 	install -Dm644 twardyece.target \
-		$(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)/twardyece.target
+		-t $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
 
 ###############################################################################
