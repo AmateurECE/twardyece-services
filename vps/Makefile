@@ -40,4 +40,4 @@ install: build
 	install -Dm444 vps-keys.conf $(DESTDIR)$(SERVICEDIR)/vps-keys.conf
 	install -Dm666 twardyece-vps.bash $(DESTDIR)$(BINDIR)/twardyece-vps
 	: # pre-containers.target requires wg0 to come up
-	$(call templateRequiredBy,pre-containers.target,wg-quick@wg0.service)
+	$(call addRequiresTemplate,pre-containers.target,wg-quick@wg0.service)

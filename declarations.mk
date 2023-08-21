@@ -1,14 +1,5 @@
-###############################################################################
-# NAME:		    declarations.mk
-#
-# AUTHOR:	    Ethan D. Twardy <ethan.twardy@gmail.com>
-#
-# DESCRIPTION:	    Declarations of universal rules.
-#
-# CREATED:	    01/22/2022
-#
-# LAST EDITED:	    05/07/2023
-###
+# Author: Ethan D. Twardy <ethan.twardy@gmail.com>
+# Created: 01/22/2022
 
 SHELL := /bin/bash
 
@@ -56,10 +47,13 @@ install:
 clean:
 
 # Creates a symlink from foo.target.requires/bar@baz.service to ../bar@.service
-define templateRequiredBy
+define addRequiresTemplate
 mkdir -p $(DESTDIR)/$(SYSTEMD_SYSTEM_UNITDIR)/$(1).requires; \
 ln -s ../$$(perl -pe 's/(?<=@)[^.]+//' <<<"$(2)") \
     $(DESTDIR)/$(SYSTEMD_SYSTEM_UNITDIR)/$(1).requires/$(2);
 endef
 
-###############################################################################
+define addWants
+mkdir -p $(DESTDIR)/$(SYSTEMD_SYSTEM_UNITDIR)/$(1).wants; \
+ln -s ../$(2) $(DESTDIR)/$(SYSTEMD_SYSTEM_UNITDIR)/$(1).wants/$(2);
+endef

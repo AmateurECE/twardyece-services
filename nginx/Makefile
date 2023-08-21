@@ -24,7 +24,7 @@ install:
 		-t $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
 	install -Dm644 renew-certificates.timer \
 		-t $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
-	$(call templateRequiredBy,containers-up.target,container@twardyece_nginx.service)
+	$(call addRequiresTemplate,containers-up.target,container@twardyece_nginx.service)
 
 clean:
 	rm -rf make-nginx-conf/target

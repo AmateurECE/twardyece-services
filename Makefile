@@ -49,21 +49,9 @@ clean: clean-subdirs
 #------------------------------------------------------------------------------
 # Packaging
 #------------------------------------------------------------------------------
-PACKAGES = \
-	twardyece-compilations
-
 package:
 	dpkg-buildpackage --no-sign -A -d
 
-ifdef PACKAGE
 reinstall:
-	dpkg --purge $(PACKAGE)
 	dpkg -i ../$(PACKAGE)*.deb
-else
-reinstall:
-	dpkg --purge $(PACKAGES)
-	dpkg -i ../*.deb
-endif
 #------------------------------------------------------------------------------
-
-###############################################################################
