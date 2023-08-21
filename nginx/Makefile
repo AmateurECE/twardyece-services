@@ -15,8 +15,6 @@ install:
 	install -Dm644 volumetric.yaml \
 		$(DESTDIR)$(VOLUMETRICDIR)/$(SERVICE_NAME).yaml
 	install -Dm644 nginx.yaml $(DESTDIR)$(NGINXDIR)/$(SERVICE_NAME).yaml
-	install -Dm755 twardyece-services.bash \
-		$(DESTDIR)$(BINDIR)/twardyece-services
 	install -Dm755 make-nginx-conf/target/release/make-nginx-conf \
 		-t $(DESTDIR)$(BINDIR)
 	: # Certificate renewal
@@ -25,14 +23,6 @@ install:
 	install -Dm644 renew-certificates.service \
 		-t $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
 	install -Dm644 renew-certificates.timer \
-		-t $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
-	: # CNI network configuration file for the webservices
-	install -Dm644 edtwardy-webservices_front_net.conflist \
-		-t $(DESTDIR)/etc/cni/net.d
-	: # systemd service file
-	install -Dm644 twardyece.com.service \
-		-t $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
-	install -Dm644 twardyece.target \
 		-t $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
 	$(call templateRequiredBy,containers-up.target,container@twardyece_nginx.service)
 

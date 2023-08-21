@@ -9,3 +9,5 @@ install:
 	install -Dm644 containers-up.target -t $(DESTDIR)/$(SYSTEMD_SYSTEM_UNITDIR)
 	install -Dm644 containers-down.target -t $(DESTDIR)/$(SYSTEMD_SYSTEM_UNITDIR)
 	install -Dm644 container@.service -t $(DESTDIR)/$(SYSTEMD_SYSTEM_UNITDIR)
+	: # CNI network configuration file for the webservices
+	install -Dm644 twardyece_front_net.conflist -t $(DESTDIR)/etc/cni/net.d

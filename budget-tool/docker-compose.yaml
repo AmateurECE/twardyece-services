@@ -15,7 +15,7 @@ services:
 networks:
   default:
     external:
-      name: edtwardy-webservices_front_net
+      name: twardyece_front_net
 
 volumes:
   budget-tool-secret:

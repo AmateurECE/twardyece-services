@@ -3,3 +3,4 @@ usr/lib/systemd/system/container@.service
 usr/lib/systemd/system/containers-up.target
 usr/lib/systemd/system/containers-down.target
 usr/lib/systemd/system/pre-containers.target
+etc/cni/net.d/twardyece_front_net.conflist
