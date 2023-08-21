@@ -1,0 +1,21 @@
+version: "2.4"
+services:
+  jenkins-controller:
+    image: "docker.io/jenkins/jenkins:lts"
+    volumes:
+      - "jenkins:/var/jenkins_home"
+    environment:
+      - JENKINS_OPTS="--prefix=/jenkins"
+      # TODO: This is a security risk, but is necessary in order for this
+      # container to be able to bind to the LDAP server at
+      # ldap://edtwardy-webservices_openldap_1
+      - JENKINS_JAVA_OPTS=-Dcom.sun.jndi.ldapURLParsing="legacy"
+
+networks:
+  default:
+    external:
+      name: twardyece_front_net
+
+volumes:
+  jenkins:
+    external: true

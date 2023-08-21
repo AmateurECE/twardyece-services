@@ -1,7 +1,7 @@
 [Unit]
 Description=Autobuilder for some Jenkins projects
-After=edtwardy-webservices.service
-Requires=edtwardy-webservices.service
+After=containers-up.target
+Requires=containers-up.target
 
 [Service]
 ExecStartPre=/bin/sleep 15
@@ -9,6 +9,3 @@ ExecStart=/usr/bin/jenkins-builder -h https://twardyece.com/jenkins -c /etc/jenk
 Environment=PROJECTS=Blog:Repository
 Type=oneshot
 RemainAfterExit=yes
-
-[Install]
-WantedBy=twardyece.target
