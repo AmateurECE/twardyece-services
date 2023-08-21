@@ -1,4 +1,5 @@
 usr/lib/systemd/system/jenkins-builder.service
+usr/lib/systemd/system/containers-up.target.requires/container@twardyece_jenkins.service
 usr/share/twardyece/routes/jenkins.yaml
-usr/share/twardyece/twardyece/jenkins.yaml
+usr/share/twardyece/jenkins.yaml
 etc/volumetric/volumes.d/jenkins.yaml

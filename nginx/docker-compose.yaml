@@ -7,8 +7,8 @@ services:
       - "siteconf:/etc/nginx/conf.d:ro"
       - "letsencrypt:/etc/letsencrypt:ro"
       - "acme-challenge:/var/www/certbot:ro"
-      - "repository:/var/www/repository:ro"
-      - "blog:/var/www/blog:ro"
+      - "twardyece_repository:/var/www/repository:ro"
+      - "twardyece_blog:/var/www/blog:ro"
       - "/mnt/Serve/yocto/sstate-cache:/data/yocto/sstate-cache:ro"
       - "/mnt/Serve/yocto/deploy:/data/yocto/deploy:ro"
     ports:
@@ -27,6 +27,10 @@ volumes:
   siteconf:
     external: true
   letsencrypt:
+    external: true
+  twardyece_repository:
+    external: true
+  twardyece_blog:
     external: true
 
   # The following volumes are ephemeral "default" volumes.

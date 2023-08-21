@@ -1,0 +1,15 @@
+/build/
+/debian/.debhelper/
+/debian/debhelper-build-stamp
+/debian/files
+/debian/tmp/
+/debian/*.substvars
+/nginx/make-nginx-conf/target/
+/debian/twardyece-common/
+/debian/twardyece-jellyfin/
+/debian/twardyece-jenkins/
+/debian/twardyece-nginx/
+/debian/twardyece-openldap/
+/debian/twardyece-tftp/
+/debian/twardyece-vps/
+/debian/twardyece-yocto/

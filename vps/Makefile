@@ -1,14 +1,4 @@
-###############################################################################
-# NAME:		    Makefile
-#
-# AUTHOR:	    Ethan D. Twardy <edtwardy@mtu.edu>
-#
-# DESCRIPTION:	    Makefile for the twardyece-vps package
-#
-# CREATED:	    08/25/2021
-#
-# LAST EDITED:	    12/25/2022
-###
+# Created: 08/25/2021
 
 SERVICE_NAME=twardyece-vps
 
@@ -49,7 +39,5 @@ install: build
 		$(DESTDIR)$(SERVICEDIR)/ansible-playbook.yml
 	install -Dm444 vps-keys.conf $(DESTDIR)$(SERVICEDIR)/vps-keys.conf
 	install -Dm666 twardyece-vps.bash $(DESTDIR)$(BINDIR)/twardyece-vps
-	install -Dm644 twardyece-vps.target \
-		$(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)/twardyece-vps.target
-
-###############################################################################
+	: # pre-containers.target requires wg0 to come up
+	$(call templateRequiredBy,pre-containers.target,wg-quick@wg0.service)

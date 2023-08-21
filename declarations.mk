@@ -7,8 +7,10 @@
 #
 # CREATED:	    01/22/2022
 #
-# LAST EDITED:	    01/15/2023
+# LAST EDITED:	    05/07/2023
 ###
+
+SHELL := /bin/bash
 
 PREFIX=/usr
 BINDIR=$(PREFIX)/bin
@@ -19,7 +21,7 @@ SYSTEMD_SYSTEM_UNITDIR=$(LIBDIR)/systemd/system
 VOLUMETRICDIR=/etc/volumetric/volumes.d
 ROOTDIR=$(DATADIR)/twardyece
 
-SERVICEDIR=$(ROOTDIR)/twardyece
+SERVICEDIR=$(ROOTDIR)
 NGINXDIR=$(ROOTDIR)/routes
 
 ###############################################################################
@@ -52,5 +54,12 @@ clean-subdirs:
 
 install:
 clean:
+
+# Creates a symlink from foo.target.requires/bar@baz.service to ../bar@.service
+define templateRequiredBy
+mkdir -p $(DESTDIR)/$(SYSTEMD_SYSTEM_UNITDIR)/$(1).requires; \
+ln -s ../$$(perl -pe 's/(?<=@)[^.]+//' <<<"$(2)") \
+    $(DESTDIR)/$(SYSTEMD_SYSTEM_UNITDIR)/$(1).requires/$(2);
+endef
 
 ###############################################################################

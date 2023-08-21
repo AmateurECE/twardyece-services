@@ -1,0 +1,12 @@
+[Unit]
+Description=%i container
+After=pre-containers.target
+Requires=pre-containers.target
+Before=containers-up.target
+Conflicts=containers-down.target
+
+[Service]
+WorkingDirectory=/usr/share
+Environment=DOCKER_HOST=unix:///run/podman/podman.sock
+ExecStart=/usr/bin/start-container %i up
+ExecStopPost=/usr/bin/start-container %i down

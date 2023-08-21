@@ -1,0 +1,7 @@
+[Unit]
+Description=all containers
+Conflicts=containers-down.target
+After=containers-down.target
+
+[Install]
+WantedBy=multi-user.target

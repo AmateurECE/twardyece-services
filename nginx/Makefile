@@ -1,15 +1,5 @@
-###############################################################################
-# NAME:		    Makefile
-#
-# AUTHOR:	    Ethan D. Twardy <ethan.twardy@gmail.com>
-#
-# DESCRIPTION:	    Makefile for the nginx application package.
-#
-# CREATED:	    12/25/2022
-#
-# LAST EDITED:	    06/10/2023
-#
-####
+# Author: Ethan D. Twardy <ethan.twardy@gmail.com>
+# Created: 12/25/2022
 
 SERVICE_NAME=nginx
 BUILD_TARGETS += make-nginx-conf-release
@@ -44,5 +34,7 @@ install:
 		-t $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
 	install -Dm644 twardyece.target \
 		-t $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
+	$(call templateRequiredBy,containers-up.target,container@twardyece_nginx.service)
 
-###############################################################################
+clean:
+	rm -rf make-nginx-conf/target

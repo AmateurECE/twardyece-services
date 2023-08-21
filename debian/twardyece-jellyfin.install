@@ -1,3 +1,4 @@
-usr/share/twardyece/twardyece/jellyfin.yaml
+usr/share/twardyece/jellyfin.yaml
 usr/share/twardyece/routes/jellyfin.yaml
 etc/volumetric/volumes.d/jellyfin.yaml
+usr/lib/systemd/system/containers-up.target.requires/container@twardyece_jellyfin.service

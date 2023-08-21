@@ -9,39 +9,44 @@ Vcs-Browser: https://github.com/AmateurECE/twardyece-services
 Vcs-Git: https://github.com/AmateurECE/twardyece-services
 Rules-Requires-Root: no
 
+Package: twardyece-common
+Architecture: all
+Depends: docker-compose, volumetric, ${misc:Depends}
+Description: Common infrastructure for all self-hosted services
+
 # Package: twardyece-budget-tool
 # Architecture: all
-# Depends: docker-compose, volumetric, twardyece-postgres, ${misc:Depends}
+# Depends: twardyece-common, volumetric, twardyece-postgres, ${misc:Depends}
 # Description: An instance of the budget tool I wrote
 
 # Package: twardyece-compilations
 # Architecture: all
-# Depends: docker-compose, volumetric, twardyece-postgres, ${misc:Depends}
+# Depends: twardyece-common, volumetric, twardyece-postgres, ${misc:Depends}
 # Description: An instance of my compilations application
 
-Package: twardyece-postgres
-Architecture: all
-Depends: docker-compose, volumetric, ${misc:Depends}
-Description: Postgres instance for serving application data
+# Package: twardyece-postgres
+# Architecture: all
+# Depends: twardyece-common, volumetric, ${misc:Depends}
+# Description: Postgres instance for serving application data
 
 Package: twardyece-nginx
 Architecture: all
-Depends: docker-compose, volumetric, golang-github-containernetworking-plugin-dnsname, ${misc:Depends}
+Depends: twardyece-common, volumetric, golang-github-containernetworking-plugin-dnsname, ${misc:Depends}
 Description: Nginx instance for reverse-proxy to other applications
 
 Package: twardyece-jellyfin
 Architecture: all
-Depends: docker-compose, volumetric, ${misc:Depends}
+Depends: twardyece-common, volumetric, ${misc:Depends}
 Description: An instance of jellyfin
 
 # Package: twardyece-dns
 # Architecture: all
-# Depends: docker-compose, volumetric, twardyece-nginx, ${misc:Depends}
+# Depends: twardyece-common, volumetric, twardyece-nginx, ${misc:Depends}
 # Description: An instance of bind9 which exposes a split-horizon DNS service
 
 Package: twardyece-tftp
 Architecture: all
-Depends: docker-compose, twardyece-nginx, ${misc:Depends}
+Depends: twardyece-common, twardyece-nginx, ${misc:Depends}
 Description: A TFTP server serving arbitrary paths
 
 Package: twardyece-yocto
@@ -51,15 +56,15 @@ Description: Infrastructure for serving Yocto artifacts
 
 Package: twardyece-vps
 Architecture: all
-Depends: twardyece-nginx, renderbars, ${misc:Depends}
+Depends: twardyece-common, renderbars, ${misc:Depends}
 Description: Scripts for setup of a server (VPS) which supports web services
 
 Package: twardyece-openldap
 Architecture: all
-Depends: docker-compose, volumetric, ${misc:Depends}
+Depends: twardyece-common, volumetric, ${misc:Depends}
 Description: An instance of OpenLDAP for my webservices
 
 Package: twardyece-jenkins
 Architecture: all
-Depends: docker-compose, volumetric, ${misc:Depends}
+Depends: twardyece-common, volumetric, ${misc:Depends}
 Description: Jenkins infrastructure to support CI for twardyece projects

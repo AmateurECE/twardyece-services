@@ -1,11 +1,12 @@
-usr/share/twardyece/twardyece/nginx.yaml
+usr/share/twardyece/nginx.yaml
 usr/share/twardyece/routes/nginx.yaml
-etc/volumetric/volumes.d/nginx.yaml
-usr/bin/renew-certificates.bash
 usr/lib/systemd/system/renew-certificates.service
 usr/lib/systemd/system/renew-certificates.timer
-etc/cni/net.d/edtwardy-webservices_front_net.conflist
 usr/lib/systemd/system/twardyece.com.service
 usr/lib/systemd/system/twardyece.target
+usr/lib/systemd/system/containers-up.target.requires/container@twardyece_nginx.service
 usr/bin/twardyece-services
 usr/bin/make-nginx-conf
+usr/bin/renew-certificates.bash
+etc/volumetric/volumes.d/nginx.yaml
+etc/cni/net.d/edtwardy-webservices_front_net.conflist
