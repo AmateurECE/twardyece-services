@@ -1,4 +1,4 @@
 [Unit]
 Description=container infrastructure dependencies
-After=podman.service
-Requires=podman.service
+After=podman.service volumetric.service
+Requires=podman.service volumetric.service

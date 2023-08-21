@@ -16,32 +16,32 @@ Description: Common infrastructure for all self-hosted services
 
 # Package: twardyece-budget-tool
 # Architecture: all
-# Depends: twardyece-common, volumetric, twardyece-postgres, ${misc:Depends}
+# Depends: twardyece-common, twardyece-postgres, ${misc:Depends}
 # Description: An instance of the budget tool I wrote
 
 # Package: twardyece-compilations
 # Architecture: all
-# Depends: twardyece-common, volumetric, twardyece-postgres, ${misc:Depends}
+# Depends: twardyece-common, twardyece-postgres, ${misc:Depends}
 # Description: An instance of my compilations application
 
 # Package: twardyece-postgres
 # Architecture: all
-# Depends: twardyece-common, volumetric, ${misc:Depends}
+# Depends: twardyece-common, ${misc:Depends}
 # Description: Postgres instance for serving application data
 
 Package: twardyece-nginx
 Architecture: all
-Depends: twardyece-common, volumetric, golang-github-containernetworking-plugin-dnsname, ${misc:Depends}
+Depends: twardyece-common, golang-github-containernetworking-plugin-dnsname, ${misc:Depends}
 Description: Nginx instance for reverse-proxy to other applications
 
 Package: twardyece-jellyfin
 Architecture: all
-Depends: twardyece-common, volumetric, ${misc:Depends}
+Depends: twardyece-common, ${misc:Depends}
 Description: An instance of jellyfin
 
 # Package: twardyece-dns
 # Architecture: all
-# Depends: twardyece-common, volumetric, twardyece-nginx, ${misc:Depends}
+# Depends: twardyece-common, twardyece-nginx, ${misc:Depends}
 # Description: An instance of bind9 which exposes a split-horizon DNS service
 
 Package: twardyece-tftp
@@ -61,10 +61,10 @@ Description: Scripts for setup of a server (VPS) which supports web services
 
 Package: twardyece-openldap
 Architecture: all
-Depends: twardyece-common, volumetric, ${misc:Depends}
+Depends: twardyece-common, ${misc:Depends}
 Description: An instance of OpenLDAP for my webservices
 
 Package: twardyece-jenkins
 Architecture: all
-Depends: twardyece-common, volumetric, ${misc:Depends}
+Depends: twardyece-common, ${misc:Depends}
 Description: Jenkins infrastructure to support CI for twardyece projects
