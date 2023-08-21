@@ -53,6 +53,12 @@ ln -s ../$$(perl -pe 's/(?<=@)[^.]+//' <<<"$(2)") \
     $(DESTDIR)/$(SYSTEMD_SYSTEM_UNITDIR)/$(1).requires/$(2);
 endef
 
+# Creates a symlink from foo.target.requires/bar.service to ../barservice
+define addRequires
+mkdir -p $(DESTDIR)/$(SYSTEMD_SYSTEM_UNITDIR)/$(1).requires; \
+ln -s ../$(2) $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)/$(1).requires/$(2);
+endef
+
 define addWants
 mkdir -p $(DESTDIR)/$(SYSTEMD_SYSTEM_UNITDIR)/$(1).wants; \
 ln -s ../$(2) $(DESTDIR)/$(SYSTEMD_SYSTEM_UNITDIR)/$(1).wants/$(2);

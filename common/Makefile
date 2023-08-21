@@ -9,6 +9,7 @@ install:
 	install -Dm644 pre-containers.target -t $(DESTDIR)/$(SYSTEMD_SYSTEM_UNITDIR)
 	install -Dm644 containers-up.target -t $(DESTDIR)/$(SYSTEMD_SYSTEM_UNITDIR)
 	install -Dm644 containers-down.target -t $(DESTDIR)/$(SYSTEMD_SYSTEM_UNITDIR)
+	install -Dm644 services-up.target -t $(DESTDIR)/$(SYSTEMD_SYSTEM_UNITDIR)
 	install -Dm644 container@.service -t $(DESTDIR)/$(SYSTEMD_SYSTEM_UNITDIR)
 	$(call addWants,multi-user.target,containers-up.target)
 	: # CNI network configuration file for the webservices

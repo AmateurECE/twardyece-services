@@ -2,4 +2,4 @@
 Description=Renew twardyece.com TLS Certificates
 
 [Service]
-ExecStart=/usr/bin/renew-certificates.bash
+ExecStart=/usr/bin/renew-certificates

@@ -10,4 +10,4 @@ install:
 	install -Dm644 volumetric.yaml \
 		$(DESTDIR)$(VOLUMETRICDIR)/$(SERVICE_NAME).yaml
 	install -Dm644 nginx.yaml $(DESTDIR)$(NGINXDIR)/$(SERVICE_NAME).yaml
-	$(call addRequiresTemplate,containers-up.target,container@twardyece_jellyfin.service)
+	$(call addRequiresTemplate,services-up.target,container@twardyece_jellyfin.service)

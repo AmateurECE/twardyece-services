@@ -12,4 +12,4 @@ install:
 	install -Dm644 nginx.yaml $(DESTDIR)$(NGINXDIR)/$(SERVICE_NAME).yaml
 	install -Dm644 jenkins-builder.service \
 		$(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)/jenkins-builder.service
-	$(call addRequiresTemplate,containers-up.target,container@twardyece_jenkins.service)
+	$(call addRequiresTemplate,services-up.target,container@twardyece_jenkins.service)

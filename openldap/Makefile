@@ -9,4 +9,4 @@ install:
 		$(DESTDIR)$(SERVICEDIR)/$(SERVICE_NAME).yaml
 	install -Dm644 volumetric.yaml \
 		$(DESTDIR)$(VOLUMETRICDIR)/$(SERVICE_NAME).yaml
-	$(call addRequiresTemplate,containers-up.target,container@twardyece_openldap.service)
+	$(call addRequiresTemplate,services-up.target,container@twardyece_openldap.service)

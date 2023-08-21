@@ -1,7 +1,5 @@
 [Unit]
 Description=all containers
+Requires=services-up.target
 Conflicts=containers-down.target
-After=containers-down.target
-
-[Install]
-WantedBy=multi-user.target
+After=containers-down.target services-up.target
