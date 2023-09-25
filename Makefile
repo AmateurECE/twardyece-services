@@ -19,6 +19,7 @@ SUBDIRS += jellyfin
 SUBDIRS += tftp
 SUBDIRS += yocto
 SUBDIRS += vps
+SUBDIRS += vpn
 SUBDIRS += openldap
 SUBDIRS += jenkins
 

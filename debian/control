@@ -59,6 +59,11 @@ Architecture: all
 Depends: twardyece-common, renderbars, ${misc:Depends}
 Description: Scripts for setup of a server (VPS) which supports web services
 
+Package: twardyece-vpn
+Architecture: all
+Depends: twardyece-common, ${misc:Depends}
+Description: Setup of a VPN connection that supports a subset of services.
+
 Package: twardyece-openldap
 Architecture: all
 Depends: twardyece-common, ${misc:Depends}
