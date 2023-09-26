@@ -1,0 +1,30 @@
+---
+version: 1.0
+configuration:
+  - !top |
+    upstream prowlarr {
+        keepalive 32;
+        server twardyece_prowlarr_1:9696;
+    }
+
+  - !server
+    name: twardyece
+    configuration:
+      - !location |
+        location /prowlarr {
+            return 302 $scheme://$host/prowlarr/;
+        }
+
+      - !location |
+        location /prowlarr/ {
+            proxy_pass http://prowlarr;
+            proxy_set_header Host $host;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Host $http_host;
+            proxy_set_header X-Forwarded-Proto $scheme;
+
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection $http_connection;
+            proxy_redirect   off;
+            proxy_http_version 1.1;
+        }

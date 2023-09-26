@@ -16,6 +16,7 @@ $(shell mkdir -p $(B))
 SUBDIRS += common
 SUBDIRS += nginx
 SUBDIRS += jellyfin
+SUBDIRS += prowlarr
 SUBDIRS += tftp
 SUBDIRS += yocto
 SUBDIRS += vps

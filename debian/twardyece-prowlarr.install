@@ -1,0 +1,4 @@
+etc/volumetric/volumes.d/prowlarr.yaml
+usr/lib/systemd/system/services-up.target.requires/container@twardyece_prowlarr.service
+usr/share/twardyece/prowlarr.yaml
+usr/share/twardyece/routes/prowlarr.yaml

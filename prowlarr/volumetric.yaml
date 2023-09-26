@@ -1,0 +1,8 @@
+version: 1.0
+volumes:
+
+  prowlarr:
+    archive:
+      name: prowlarr
+      url: /mnt/Library/DockerVolumes/prowlarr-volume.tar.gz
+      md5: null

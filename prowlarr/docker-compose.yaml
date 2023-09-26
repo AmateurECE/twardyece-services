@@ -1,0 +1,20 @@
+---
+version: "2.1"
+services:
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    environment:
+      - TZ=America/Chicago
+    volumes:
+      - prowlarr:/config
+    restart: unless-stopped
+
+# Must connect to the container network to communicate with slapd
+networks:
+  default:
+    external:
+      name: twardyece_front_net
+
+volumes:
+  prowlarr:
+    external: true

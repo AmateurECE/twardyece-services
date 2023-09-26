@@ -39,6 +39,11 @@ Architecture: all
 Depends: twardyece-common, ${misc:Depends}
 Description: An instance of jellyfin
 
+Package: twardyece-prowlarr
+Architecture: all
+Depends: twardyece-common, twardyece-vpn, ${misc:Depends}
+Description: An instance of Prowlarr
+
 # Package: twardyece-dns
 # Architecture: all
 # Depends: twardyece-common, twardyece-nginx, ${misc:Depends}
