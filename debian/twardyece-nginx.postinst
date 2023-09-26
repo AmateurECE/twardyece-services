@@ -27,15 +27,8 @@ update_routes() {
 
 case "$1" in
     configure|triggered)
-        if [[ "twardyece/routes" =~ "$2" ]]; then
-            printf '%s\n' "Updating routes"
-            update_routes
-        fi
-
-        if [[ "twardyece/twardyece" =~ "$2" ]]; then
-            printf '%s\n' "Restarting twardyece.com.service"
-            systemctl restart twardyece.com.service
-        fi
+        printf '%s\n' "Updating routes"
+        update_routes
     ;;
     abort-upgrade|abort-remove|abort-deconfigure)
     ;;

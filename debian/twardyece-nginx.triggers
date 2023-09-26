@@ -1,2 +1,1 @@
-interest /usr/share/twardyece/routes
-interest /usr/share/twardyece/twardyece
+interest-noawait /usr/share/twardyece
