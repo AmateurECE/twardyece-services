@@ -1,0 +1,4 @@
+etc/volumetric/volumes.d/qbittorrent.yaml
+usr/lib/systemd/system/services-up.target.requires/container@twardyece_qbittorrent.service
+usr/share/twardyece/qbittorrent.yaml
+usr/share/twardyece/routes/qbittorrent.yaml

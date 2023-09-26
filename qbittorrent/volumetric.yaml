@@ -1,0 +1,8 @@
+version: 1.0
+volumes:
+
+  qbittorrent:
+    archive:
+      name: qbittorrent
+      url: /mnt/Library/DockerVolumes/qbittorrent-volume.tar.gz
+      md5: null

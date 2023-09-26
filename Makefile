@@ -17,6 +17,7 @@ SUBDIRS += common
 SUBDIRS += nginx
 SUBDIRS += jellyfin
 SUBDIRS += prowlarr
+SUBDIRS += qbittorrent
 SUBDIRS += tftp
 SUBDIRS += yocto
 SUBDIRS += vps

@@ -1,0 +1,25 @@
+---
+version: "2.1"
+services:
+  qbittorrent:
+    image: lscr.io/linuxserver/qbittorrent:latest
+    environment:
+      - TZ=America/Chicago
+      - WEBUI_PORT=30000
+    volumes:
+      - qbittorrent:/config
+      - /mnt/Library/Torrents:/downloads
+    ports:
+      - 30000:30000
+      - 6881:6881
+      - 6881:6881/udp
+    restart: unless-stopped
+
+networks:
+  default:
+    external:
+      name: twardyece_front_net
+
+volumes:
+  qbittorrent:
+    external: true

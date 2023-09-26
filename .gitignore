@@ -7,6 +7,7 @@
 /nginx/make-nginx-conf/target/
 /debian/twardyece-common/
 /debian/twardyece-jellyfin/
+/debian/twardyece-qbittorrent/
 /debian/twardyece-prowlarr/
 /debian/twardyece-jenkins/
 /debian/twardyece-nginx/
