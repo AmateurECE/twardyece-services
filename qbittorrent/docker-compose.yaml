@@ -4,15 +4,13 @@ services:
   qbittorrent:
     image: lscr.io/linuxserver/qbittorrent:latest
     environment:
+      - PUID=1000
+      - PGID=1000
       - TZ=America/Chicago
       - WEBUI_PORT=30000
     volumes:
       - qbittorrent:/config
       - /mnt/Library/Torrents:/downloads
-    ports:
-      - 30000:30000
-      - 6881:6881
-      - 6881:6881/udp
     restart: unless-stopped
 
 networks:
