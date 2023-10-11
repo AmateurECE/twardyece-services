@@ -11,6 +11,8 @@ services:
     volumes:
       - qbittorrent:/config
       - /mnt/Library/Torrents:/downloads
+      - /mnt/TorrentFiles:/torrents
+      - /mnt/Library/Seeding:/seeding
     restart: unless-stopped
 
 networks:
