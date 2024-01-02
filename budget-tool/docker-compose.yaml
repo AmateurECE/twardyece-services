@@ -1,4 +1,4 @@
-version: "2.4"
+version: "3.1"
 services:
   budget-tool:
     image: docker.io/edtwardy/budget-tool:0.3.0

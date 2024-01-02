@@ -1,4 +1,4 @@
-version: "2.4"
+version: "3.1"
 services:
   jenkins-controller:
     image: "docker.io/jenkins/jenkins:lts"
