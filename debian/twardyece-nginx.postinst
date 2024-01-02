@@ -5,7 +5,7 @@ shopt -s nullglob
 
 LOCAL_STATE_DIR=/var/lib/twardyece-nginx
 DATA_DIR=/usr/share/twardyece
-IMAGE=siteconf-volume.tar.gz
+IMAGE=siteconf-volume.squashfs
 
 update_routes() {
     mkdir -p $LOCAL_STATE_DIR/conf
@@ -22,7 +22,7 @@ update_routes() {
     fi
 
     # Then, create a volume image from the outputs
-    tar czvf $LOCAL_STATE_DIR/$IMAGE -C $LOCAL_STATE_DIR/conf . > /dev/null
+    mksquashfs $LOCAL_STATE_DIR/conf $LOCAL_STATE_DIR/$IMAGE
 }
 
 case "$1" in

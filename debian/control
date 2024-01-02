@@ -31,7 +31,7 @@ Description: Common infrastructure for all self-hosted services
 
 Package: twardyece-nginx
 Architecture: all
-Depends: twardyece-common, golang-github-containernetworking-plugin-dnsname, ${misc:Depends}
+Depends: twardyece-common, golang-github-containernetworking-plugin-dnsname, squashfs-tools, squashfuse ${misc:Depends}
 Description: Nginx instance for reverse-proxy to other applications
 
 Package: twardyece-jellyfin

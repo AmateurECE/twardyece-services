@@ -25,7 +25,10 @@ networks:
 
 volumes:
   siteconf:
-    external: true
+    driver: local
+    driver_opts:
+      type: "fuse.squashfuse"
+      device: "/var/lib/twardyece-nginx/siteconf-volume.squashfs"
   letsencrypt:
     external: true
   twardyece_repository:
