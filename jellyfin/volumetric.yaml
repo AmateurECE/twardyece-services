@@ -1,8 +1,0 @@
-version: 1.0
-volumes:
-
-  jellyfin:
-    archive:
-      name: jellyfin
-      url: /mnt/Library/DockerVolumes/jellyfin-volume.tar.gz
-      md5: 899139c4ba7f5fab36b01da016080189

@@ -17,4 +17,8 @@ networks:
 
 volumes:
   prowlarr:
-    external: true
+    driver: local
+    driver_opts: 
+      type: btrfs
+      o: subvol=@prowlarr_config
+      device: /dev/sda4

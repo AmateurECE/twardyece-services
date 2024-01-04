@@ -30,7 +30,11 @@ volumes:
       type: "fuse.squashfuse"
       device: "/var/lib/twardyece-nginx/siteconf-volume.squashfs"
   letsencrypt:
-    external: true
+    driver: local
+    driver_opts: 
+      type: btrfs
+      o: subvol=@ssl_letsencrypt
+      device: /dev/sda4
   twardyece_repository:
     external: true
   twardyece_blog:

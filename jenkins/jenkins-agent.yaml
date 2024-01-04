@@ -18,7 +18,11 @@ networks:
 
 volumes:
   agent-secret:
-    external: true
+    driver: local
+    driver_opts: 
+      type: btrfs
+      o: subvol=@jenkins_agent-secret
+      device: /dev/sda4
 
   # The following volumes are ephemeral "default" volumes.
   repository:

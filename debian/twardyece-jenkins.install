@@ -5,4 +5,3 @@ usr/lib/systemd/system/container@twardyece_jenkins-agent.service.requires/revers
 usr/share/twardyece/routes/jenkins.yaml
 usr/share/twardyece/jenkins-agent.yaml
 usr/share/twardyece/jenkins-controller.yaml
-etc/volumetric/volumes.d/jenkins.yaml

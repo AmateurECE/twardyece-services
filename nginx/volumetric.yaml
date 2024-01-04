@@ -1,8 +1,0 @@
-version: 1.0
-volumes:
-
-  letsencrypt:
-    archive:
-      name: letsencrypt
-      url: /mnt/Library/DockerVolumes/letsencrypt-volume.tar.gz
-      md5: d61740e26c11395abaafa57ba7cf80e6

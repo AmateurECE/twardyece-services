@@ -22,4 +22,8 @@ networks:
 
 volumes:
   qbittorrent:
-    external: true
+    driver: local
+    driver_opts: 
+      type: btrfs
+      o: subvol=@qbittorrent_config
+      device: /dev/sda4

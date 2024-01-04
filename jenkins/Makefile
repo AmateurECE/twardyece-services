@@ -7,8 +7,6 @@ include ../declarations.mk
 install:
 	install -Dm644 jenkins-controller.yaml -t $(DESTDIR)$(SERVICEDIR)
 	install -Dm644 jenkins-agent.yaml -t $(DESTDIR)$(SERVICEDIR)
-	install -Dm644 volumetric.yaml \
-		$(DESTDIR)$(VOLUMETRICDIR)/$(SERVICE_NAME).yaml
 	install -Dm644 nginx.yaml $(DESTDIR)$(NGINXDIR)/$(SERVICE_NAME).yaml
 	install -Dm644 jenkins-builder.service \
 		$(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)/jenkins-builder.service

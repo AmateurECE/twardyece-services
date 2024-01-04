@@ -31,4 +31,8 @@ networks:
 
 volumes:
   jellyfin:
-    external: true
+    driver: local
+    driver_opts: 
+      type: btrfs
+      o: subvol=@jellyfin_config
+      device: /dev/sda4

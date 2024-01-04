@@ -1,3 +1,2 @@
 usr/share/twardyece/openldap.yaml
 usr/lib/systemd/system/services-up.target.requires/container@twardyece_openldap.service
-etc/volumetric/volumes.d/openldap.yaml

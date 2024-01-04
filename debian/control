@@ -11,7 +11,7 @@ Rules-Requires-Root: no
 
 Package: twardyece-common
 Architecture: all
-Depends: docker-compose, volumetric, ${misc:Depends}
+Depends: docker-compose, ${misc:Depends}
 Description: Common infrastructure for all self-hosted services
 
 # Package: twardyece-budget-tool

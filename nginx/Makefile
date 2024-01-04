@@ -12,8 +12,6 @@ make-nginx-conf-release:
 install:
 	install -Dm644 docker-compose.yaml \
 		$(DESTDIR)$(SERVICEDIR)/$(SERVICE_NAME).yaml
-	install -Dm644 volumetric.yaml \
-		$(DESTDIR)$(VOLUMETRICDIR)/$(SERVICE_NAME).yaml
 	install -Dm644 nginx.yaml $(DESTDIR)$(NGINXDIR)/$(SERVICE_NAME).yaml
 	install -Dm755 make-nginx-conf/target/release/make-nginx-conf \
 		-t $(DESTDIR)$(BINDIR)

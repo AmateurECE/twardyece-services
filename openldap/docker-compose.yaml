@@ -13,6 +13,14 @@ networks:
 
 volumes:
   ldap:
-    external: true
+    driver: local
+    driver_opts: 
+      type: btrfs
+      o: subvol=@openldap_ldap-data
+      device: /dev/sda4
   slapd.d:
-    external: true
+    driver: local
+    driver_opts: 
+      type: btrfs
+      o: subvol=@openldap_slapd-config
+      device: /dev/sda4

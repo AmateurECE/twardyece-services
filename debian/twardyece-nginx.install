@@ -7,4 +7,3 @@ usr/lib/systemd/system/containers-up.target.requires/reverse-proxy.target
 usr/lib/systemd/system/containers-up.target.requires/container@twardyece_nginx.service
 usr/bin/make-nginx-conf
 usr/bin/renew-certificates
-etc/volumetric/volumes.d/nginx.yaml

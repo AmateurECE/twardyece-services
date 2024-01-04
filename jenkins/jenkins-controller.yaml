@@ -18,4 +18,8 @@ networks:
 
 volumes:
   jenkins:
-    external: true
+    driver: local
+    driver_opts: 
+      type: btrfs
+      o: subvol=@jenkins_controller-config
+      device: /dev/sda4
