@@ -22,7 +22,7 @@ update_routes() {
     fi
 
     # Then, create a volume image from the outputs
-    mksquashfs $LOCAL_STATE_DIR/conf $LOCAL_STATE_DIR/$IMAGE
+    mksquashfs $LOCAL_STATE_DIR/conf $LOCAL_STATE_DIR/$IMAGE -noappend
 }
 
 case "$1" in
