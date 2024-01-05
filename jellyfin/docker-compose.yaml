@@ -2,6 +2,7 @@
 version: "2.1"
 services:
   jellyfin:
+    container_name: public_jellyfin
     image: ghcr.io/linuxserver/jellyfin
     environment:
       - PUID=1000

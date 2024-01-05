@@ -2,6 +2,7 @@
 version: "2.1"
 services:
   prowlarr:
+    container_name: public_prowlarr
     image: lscr.io/linuxserver/prowlarr:latest
     environment:
       - TZ=America/Chicago

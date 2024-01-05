@@ -1,7 +1,7 @@
 version: "3.1"
 services:
-  # Web server instance (the only external facing service)
   nginx:
+    container_name: public_reverse-proxy
     image: "docker.io/library/nginx:stable-alpine"
     volumes:
       - "siteconf:/etc/nginx/conf.d:ro"

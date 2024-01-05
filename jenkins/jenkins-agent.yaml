@@ -1,6 +1,7 @@
 version: "3.1"
 services:
   jenkins-agent:
+    container_name: internal_jenkins-agent
     image: "docker.io/edtwardy/jenkins-agent:latest"
     volumes:
       - "repository:/home/jenkins/repository"
@@ -9,7 +10,7 @@ services:
     environment:
       - REPOSITORY_MOUNT=/home/jenkins/repository
       - AGENT_NAME=docker-agent
-      - CONTROLLER_HOSTNAME=http://twardyece_jenkins-controller_1:8080
+      - CONTROLLER_HOSTNAME=http://public_jenkins-controller:8080
 
 networks:
   default:

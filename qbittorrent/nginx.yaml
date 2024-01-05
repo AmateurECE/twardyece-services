@@ -4,7 +4,7 @@ configuration:
   - !top |
     upstream qbittorrent {
         keepalive 32;
-        server twardyece_qbittorrent_1:30000;
+        server public_qbittorrent:30000;
     }
 
   - !server

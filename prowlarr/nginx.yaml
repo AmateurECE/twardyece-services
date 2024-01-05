@@ -4,7 +4,7 @@ configuration:
   - !top |
     upstream prowlarr {
         keepalive 32;
-        server twardyece_prowlarr_1:9696;
+        server public_prowlarr:9696;
     }
 
   - !server

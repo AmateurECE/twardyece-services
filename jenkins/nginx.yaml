@@ -4,7 +4,7 @@ configuration:
   - !top |
     upstream jenkins {
         keepalive 32;
-        server twardyece_jenkins-controller_1:8080;
+        server public_jenkins-controller:8080;
     }
 
   - !server
