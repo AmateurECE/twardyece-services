@@ -36,17 +36,17 @@ Description: Nginx instance for reverse-proxy to other applications
 
 Package: twardyece-jellyfin
 Architecture: all
-Depends: twardyece-common, ${misc:Depends}
+Depends: twardyece-common, twardyece-nginx, ${misc:Depends}
 Description: An instance of jellyfin
 
 Package: twardyece-prowlarr
 Architecture: all
-Depends: twardyece-common, twardyece-vpn, ${misc:Depends}
+Depends: twardyece-common, twardyece-vpn, twardyece-nginx, twardyece-qbittorrent, ${misc:Depends}
 Description: An instance of Prowlarr
 
 Package: twardyece-qbittorrent
 Architecture: all
-Depends: twardyece-common, twardyece-vpn, ${misc:Depends}
+Depends: twardyece-common, twardyece-vpn, twardyece-nginx, ${misc:Depends}
 Description: An instance of Prowlarr
 
 # Package: twardyece-dns
@@ -81,5 +81,5 @@ Description: An instance of OpenLDAP for my webservices
 
 Package: twardyece-jenkins
 Architecture: all
-Depends: twardyece-common, ${misc:Depends}
+Depends: twardyece-common, twardyece-nginx, ${misc:Depends}
 Description: Jenkins infrastructure to support CI for twardyece projects
