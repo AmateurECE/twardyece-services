@@ -18,5 +18,9 @@ Network=public-services.network
 Restart=always
 TimeoutStartSec=300
 
+[Unit]
+After=reverse-proxy-pre.target
+Requires=reverse-proxy-pre.target
+
 [Install]
 RequiredBy=reverse-proxy.target

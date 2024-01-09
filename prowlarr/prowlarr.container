@@ -9,6 +9,10 @@ Network=public-services.network
 Restart=always
 TimeoutStartSec=300
 
+[Unit]
+After=services-pre.target
+Requires=services-pre.target
+
 [Install]
 RequiredBy=reverse-proxy-pre.target
 After=qbittorrent.container

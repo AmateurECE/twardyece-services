@@ -6,3 +6,4 @@ usr/share/twardyece-vps/vps-keys.conf
 usr/share/twardyece-vps/wireguard-client.conf
 usr/share/twardyece-vps/wireguard-server.conf
 usr/lib/systemd/system/services-pre.target.requires/wg-quick@wg0.service
+usr/lib/systemd/system/wg-quick@wg0.service.d/services-pre.target.conf

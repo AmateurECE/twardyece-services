@@ -1,1 +1,2 @@
 usr/lib/systemd/system/services-pre.target.requires/wg-quick@wg1.service
+usr/lib/systemd/system/wg-quick@wg1.service.d/services-pre.target.conf

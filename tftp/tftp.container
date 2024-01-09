@@ -7,5 +7,9 @@ PublishPort=69:69/udp
 Restart=always
 TimeoutStartSet=300
 
+[Unit]
+After=services-pre.target
+Requires=services-pre.target
+
 [Install]
 RequiredBy=services-up.target
