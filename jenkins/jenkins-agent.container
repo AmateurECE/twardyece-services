@@ -9,6 +9,10 @@ Environment=AGENT_NAME=docker-agent
 Environment=CONTROLLER_HOSTNAME=http://public_jenkins-controller:8080
 Network=public-services.network
 
+[Service]
+Restart=always
+TimeoutStartSec=300
+
 [Install]
 WantedBy=services-up.target
 After=reverse-proxy.target

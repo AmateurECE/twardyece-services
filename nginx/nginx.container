@@ -14,5 +14,9 @@ PublishPort=8080:8080
 Environment=TZ=America/Chicago
 Network=public-services.network
 
+[Service]
+Restart=always
+TimeoutStartSec=300
+
 [Install]
 WantedBy=reverse-proxy.target

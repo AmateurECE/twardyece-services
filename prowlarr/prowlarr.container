@@ -5,6 +5,10 @@ Environment=TZ=America/Chicago
 Volume=prowlarr-config.volume:/config
 Network=public-services.network
 
+[Service]
+Restart=always
+TimeoutStartSec=300
+
 [Install]
 WantedBy=reverse-proxy-pre.target
 After=qbittorrent.container

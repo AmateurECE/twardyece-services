@@ -13,5 +13,9 @@ Volume=/mnt/Library/Audiobooks:/data/Audiobooks:ro
 Volume=/mnt/Library/Accounting:/data/Accounting:ro
 Network=public-services.network
 
+[Service]
+Restart=always
+TimeoutStartSec=300
+
 [Install]
 WantedBy=reverse-proxy-pre.target

@@ -2,3 +2,7 @@
 ContainerName=internal_tftp
 Image=docker.io/taskinen/tftp:latest
 PublishPort=69:69/udp
+
+[Service]
+Restart=always
+TimeoutStartSet=300

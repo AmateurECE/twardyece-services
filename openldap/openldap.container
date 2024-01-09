@@ -9,5 +9,9 @@ Network=public-services.network
 # TODO: Find the real root cause of this?
 # Exec=--loglevel debug
 
+[Service]
+Restart=always
+TimeoutStartSec=300
+
 [Install]
 WantedBy=reverse-proxy-pre.target
