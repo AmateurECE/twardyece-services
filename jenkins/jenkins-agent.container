@@ -10,5 +10,5 @@ Environment=CONTROLLER_HOSTNAME=http://public_jenkins-controller:8080
 Network=public-services.network
 
 [Install]
-WantedBy=reverse-proxy.target
-After=nginx.container
+WantedBy=services-up.target
+After=reverse-proxy.target
