@@ -1,2 +1,3 @@
-usr/share/twardyece/openldap.yaml
-usr/lib/systemd/system/services-up.target.requires/container@twardyece_openldap.service
+usr/share/containers/systemd/openldap.container
+usr/share/containers/systemd/openldap-ldap-data.volume
+usr/share/containers/systemd/openldap-slapd-config.volume

@@ -1,7 +1,6 @@
 usr/lib/systemd/system/jenkins-builder.service
-usr/lib/systemd/system/services-up.target.requires/container@twardyece_jenkins-controller.service
-usr/lib/systemd/system/containers-up.target.requires/container@twardyece_jenkins-agent.service
-usr/lib/systemd/system/container@twardyece_jenkins-agent.service.requires/reverse-proxy.target
 usr/share/twardyece/routes/jenkins.yaml
-usr/share/twardyece/jenkins-agent.yaml
-usr/share/twardyece/jenkins-controller.yaml
+usr/share/containers/systemd/jenkins-agent.container
+usr/share/containers/systemd/jenkins-agent-secret.volume
+usr/share/containers/systemd/jenkins-controller.container
+usr/share/containers/systemd/jenkins-controller-config.volume

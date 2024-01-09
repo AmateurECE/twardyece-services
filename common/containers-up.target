@@ -1,5 +1,5 @@
 [Unit]
 Description=all containers
-Requires=services-up.target
+Requires=reverse-proxy-pre.target
 Conflicts=containers-down.target
-After=containers-down.target services-up.target
+After=containers-down.target reverse-proxy-pre.target

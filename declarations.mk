@@ -8,6 +8,7 @@ BINDIR=$(PREFIX)/bin
 LIBDIR=$(PREFIX)/lib
 DATADIR=$(PREFIX)/share
 SYSTEMD_SYSTEM_UNITDIR=$(LIBDIR)/systemd/system
+QUADLETDIR=$(DATADIR)/containers/systemd
 
 VOLUMETRICDIR=/etc/volumetric/volumes.d
 ROOTDIR=$(DATADIR)/twardyece

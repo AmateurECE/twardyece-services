@@ -1,9 +1,13 @@
-usr/share/twardyece/nginx.yaml
+usr/share/containers/systemd/nginx.container
+usr/share/containers/systemd/acme-challenge.volume
+usr/share/containers/systemd/blog.volume
+usr/share/containers/systemd/repository.volume
+usr/share/containers/systemd/siteconf.volume
+usr/share/containers/systemd/ssl-letsencrypt.volume
 usr/share/twardyece/routes/nginx.yaml
 usr/lib/systemd/system/renew-certificates.service
 usr/lib/systemd/system/renew-certificates.timer
 usr/lib/systemd/system/reverse-proxy.target
 usr/lib/systemd/system/containers-up.target.requires/reverse-proxy.target
-usr/lib/systemd/system/containers-up.target.requires/container@twardyece_nginx.service
 usr/bin/make-nginx-conf
 usr/bin/renew-certificates

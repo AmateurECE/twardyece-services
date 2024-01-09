@@ -10,13 +10,21 @@ make-nginx-conf-release:
 	strip $@
 
 install:
-	install -Dm644 docker-compose.yaml \
-		$(DESTDIR)$(SERVICEDIR)/$(SERVICE_NAME).yaml
+	: # Quadlet units
+	install -Dm644 nginx.container -t $(DESTDIR)$(QUADLETDIR)
+	install -Dm644 acme-challenge.volume -t $(DESTDIR)$(QUADLETDIR)
+	install -Dm644 blog.volume -t $(DESTDIR)$(QUADLETDIR)
+	install -Dm644 repository.volume -t $(DESTDIR)$(QUADLETDIR)
+	install -Dm644 siteconf.volume -t $(DESTDIR)$(QUADLETDIR)
+	install -Dm644 ssl-letsencrypt.volume -t $(DESTDIR)$(QUADLETDIR)
+	: # Nginx configuration
 	install -Dm644 nginx.yaml $(DESTDIR)$(NGINXDIR)/$(SERVICE_NAME).yaml
+	: # Nginx configuration build tool
 	install -Dm755 make-nginx-conf/target/release/make-nginx-conf \
 		-t $(DESTDIR)$(BINDIR)
+	: # systemd target to ensure reverse-proxy.target is required for
+	: # containers-up.target.
 	install -Dm644 reverse-proxy.target -t $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
-	$(call addRequiresTemplate,containers-up.target,container@twardyece_nginx.service)
 	$(call addRequires,containers-up.target,reverse-proxy.target)
 	: # Certificate renewal
 	install -Dm744 renew-certificates.bash \

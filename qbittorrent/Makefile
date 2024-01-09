@@ -5,7 +5,6 @@ SERVICE_NAME=qbittorrent
 include ../declarations.mk
 
 install:
-	install -Dm644 docker-compose.yaml \
-		$(DESTDIR)$(SERVICEDIR)/$(SERVICE_NAME).yaml
+	install -Dm644 qbittorrent-config.volume -t $(DESTDIR)$(QUADLETDIR)
+	install -Dm644 qbittorrent.container -t $(DESTDIR)$(QUADLETDIR)
 	install -Dm644 nginx.yaml $(DESTDIR)$(NGINXDIR)/$(SERVICE_NAME).yaml
-	$(call addRequiresTemplate,services-up.target,container@twardyece_qbittorrent.service)

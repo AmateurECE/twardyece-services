@@ -1,0 +1,12 @@
+[Container]
+ContainerName=public_jenkins-controller
+Image=docker.io/jenkins/jenkins:lts
+Volume=jenkins-controller-config.volume:/var/jenkins_home
+Environment=JENKINS_OPTS=--prefix=/jenkins
+# TODO: This is a minor security risk, but is necessary in order for this
+# container to be able to bind to LDAP servers with hyphens in the URI.
+Environment=JENKINS_JAVA_OPTS=-Dcom.sun.jndi.ldapURLParsing=legacy
+Network=public-services.network
+
+[Install]
+WantedBy=reverse-proxy-pre.target

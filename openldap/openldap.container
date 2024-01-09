@@ -1,0 +1,13 @@
+[Container]
+ContainerName=internal_ldap
+Image=docker.io/osixia/openldap:stable
+Volume=openldap-ldap-data.volume:/var/lib/ldap
+Volume=openldap-slapd-config.volume:/etc/ldap/slapd.d
+Network=public-services.network
+# Need this so that the container entrypoint creates /etc/ldap/slapd.conf,
+# otherwise it doesn't and the container will fail.
+# TODO: Find the real root cause of this?
+# Exec=--loglevel debug
+
+[Install]
+WantedBy=reverse-proxy-pre.target

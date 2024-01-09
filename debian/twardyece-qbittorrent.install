@@ -1,3 +1,3 @@
-usr/lib/systemd/system/services-up.target.requires/container@twardyece_qbittorrent.service
-usr/share/twardyece/qbittorrent.yaml
+usr/share/containers/systemd/qbittorrent.container
+usr/share/containers/systemd/qbittorrent-config.volume
 usr/share/twardyece/routes/qbittorrent.yaml

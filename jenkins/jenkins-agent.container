@@ -1,0 +1,14 @@
+[Container]
+ContainerName=internal_jenkins-agent
+Image=docker.io/edtwardy/jenkins-agent:latest
+Volume=repository.volume:/home/jenkins/repository
+Volume=blog.volume:/home/jenkins/blog
+Volume=jenkins-agent-secret.volume:/secrets:ro
+Environment=REPOSITORY_MOUNT=/home/jenkins/repository
+Environment=AGENT_NAME=docker-agent
+Environment=CONTROLLER_HOSTNAME=http://public_jenkins-controller:8080
+Network=public-services.network
+
+[Install]
+WantedBy=reverse-proxy.target
+After=nginx.container

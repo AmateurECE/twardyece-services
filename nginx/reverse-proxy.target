@@ -1,4 +1,4 @@
 [Unit]
-Requires=services-up.target
-After=services-up.target
-Before=container@twardyece_nginx.service containers-up.target
+Requires=reverse-proxy-pre.target
+After=reverse-proxy-pre.target
+Before=containers-up.target

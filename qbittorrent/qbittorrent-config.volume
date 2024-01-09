@@ -1,0 +1,5 @@
+[Volume]
+PodmanArgs=--driver=local
+Type=btrfs
+Options=subvol=@qbittorrent_config
+Device=/dev/sda4

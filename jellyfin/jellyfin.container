@@ -1,0 +1,17 @@
+[Container]
+ContainerName=public_jellyfin
+Image=ghcr.io/linuxserver/jellyfin
+Environment=PUID=1000
+Environment=PGID=1000
+Environment=TZ=America/Chicago
+Environment=JELLYFIN_PublishedServerUrl=192.168.1.60
+Volume=jellyfin-config.volume:/config
+Volume=/mnt/Library/Movies:/data/Movies:ro
+Volume=/mnt/Library/Shows:/data/Shows:ro
+Volume=/mnt/Library/Music:/data/Music:ro
+Volume=/mnt/Library/Audiobooks:/data/Audiobooks:ro
+Volume=/mnt/Library/Accounting:/data/Accounting:ro
+Network=public-services.network
+
+[Install]
+WantedBy=reverse-proxy-pre.target

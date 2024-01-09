@@ -1,0 +1,4 @@
+[Network]
+Subnet=10.87.5.0/24
+Gateway=10.87.5.1
+NetworkName=public-services

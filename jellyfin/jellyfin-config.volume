@@ -1,0 +1,5 @@
+[Volume]
+PodmanArgs=--driver=local
+Type=btrfs
+Options=subvol=@jellyfin_config
+Device=/dev/sda4

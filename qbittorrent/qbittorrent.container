@@ -1,0 +1,15 @@
+[Container]
+ContainerName=public_qbittorrent
+Image=lscr.io/linuxserver/qbittorrent:latest
+Environment=PUID=1000
+Environment=PGID=1000
+Environment=TZ=America/Chicago
+Environment=WEBUI_PORT=30000
+Volume=/mnt/Library/Torrents:/downloads
+Volume=/mnt/TorrentFiles:/torrents
+Volume=/mnt/Library/Seeding:/seeding
+Volume=qbittorrent-config.volume:/config
+Network=public-services.network
+
+[Install]
+WantedBy=reverse-proxy-pre.target

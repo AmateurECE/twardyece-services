@@ -1,0 +1,5 @@
+[Volume]
+PodmanArgs=--driver=local
+Type=btrfs
+Options=subvol=@openldap_slapd-config
+Device=/dev/sda4

@@ -5,6 +5,6 @@ SERVICE_NAME=openldap
 include ../declarations.mk
 
 install:
-	install -Dm644 docker-compose.yaml \
-		$(DESTDIR)$(SERVICEDIR)/$(SERVICE_NAME).yaml
-	$(call addRequiresTemplate,services-up.target,container@twardyece_openldap.service)
+	install -Dm644 openldap.container -t $(DESTDIR)$(QUADLETDIR)
+	install -Dm644 openldap-ldap-data.volume -t $(DESTDIR)$(QUADLETDIR)
+	install -Dm644 openldap-slapd-config.volume -t $(DESTDIR)$(QUADLETDIR)

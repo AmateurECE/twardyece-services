@@ -1,0 +1,10 @@
+[Container]
+ContainerName=public_prowlarr
+Image=lscr.io/linuxserver/prowlarr:latest
+Environment=TZ=America/Chicago
+Volume=prowlarr-config.volume:/config
+Network=public-services.network
+
+[Install]
+WantedBy=reverse-proxy-pre.target
+After=qbittorrent.container
