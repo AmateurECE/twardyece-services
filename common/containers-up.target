@@ -1,5 +1,0 @@
-[Unit]
-Description=all containers
-Requires=reverse-proxy-pre.target
-Conflicts=containers-down.target
-After=containers-down.target reverse-proxy-pre.target

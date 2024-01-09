@@ -1,7 +1,7 @@
 [Unit]
 Description=Autobuilder for some Jenkins projects
-After=containers-up.target
-Requires=containers-up.target
+After=services-up.target
+Requires=services-up.target
 
 [Service]
 ExecStartPre=/bin/sleep 15

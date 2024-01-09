@@ -1,4 +1,0 @@
-[Unit]
-Description=all containers
-Conflicts=containers-up.target
-After=containers-up.target

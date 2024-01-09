@@ -39,5 +39,5 @@ install: build
 		$(DESTDIR)$(SERVICEDIR)/ansible-playbook.yml
 	install -Dm444 vps-keys.conf $(DESTDIR)$(SERVICEDIR)/vps-keys.conf
 	install -Dm666 twardyece-vps.bash $(DESTDIR)$(BINDIR)/twardyece-vps
-	: # pre-containers.target requires wg0 to come up
-	$(call addRequiresTemplate,pre-containers.target,wg-quick@wg0.service)
+	: # services-pre.target requires wg0 to come up
+	$(call addRequiresTemplate,services-pre.target,wg-quick@wg0.service)

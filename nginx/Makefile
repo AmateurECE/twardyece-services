@@ -23,9 +23,9 @@ install:
 	install -Dm755 make-nginx-conf/target/release/make-nginx-conf \
 		-t $(DESTDIR)$(BINDIR)
 	: # systemd target to ensure reverse-proxy.target is required for
-	: # containers-up.target.
+	: # services-up.target.
 	install -Dm644 reverse-proxy.target -t $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
-	$(call addRequires,containers-up.target,reverse-proxy.target)
+	$(call addRequires,services-up.target,reverse-proxy.target)
 	: # Certificate renewal
 	install -Dm744 renew-certificates.bash \
 		$(DESTDIR)$(BINDIR)/renew-certificates

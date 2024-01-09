@@ -1,6 +1,6 @@
-usr/lib/systemd/system/containers-up.target
-usr/lib/systemd/system/containers-down.target
-usr/lib/systemd/system/pre-containers.target
+usr/lib/systemd/system/services-up.target
+usr/lib/systemd/system/services-down.target
+usr/lib/systemd/system/services-pre.target
 usr/lib/systemd/system/reverse-proxy-pre.target
-usr/lib/systemd/system/multi-user.target.wants/containers-up.target
+usr/lib/systemd/system/multi-user.target.wants/services-up.target
 usr/share/containers/systemd/public-services.network

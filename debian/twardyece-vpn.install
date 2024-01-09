@@ -1,1 +1,1 @@
-usr/lib/systemd/system/pre-containers.target.requires/wg-quick@wg1.service
+usr/lib/systemd/system/services-pre.target.requires/wg-quick@wg1.service

@@ -5,10 +5,13 @@ SERVICE_NAME=common
 include ../declarations.mk
 
 install:
-	install -Dm644 pre-containers.target -t $(DESTDIR)/$(SYSTEMD_SYSTEM_UNITDIR)
-	install -Dm644 containers-up.target -t $(DESTDIR)/$(SYSTEMD_SYSTEM_UNITDIR)
-	install -Dm644 containers-down.target -t $(DESTDIR)/$(SYSTEMD_SYSTEM_UNITDIR)
+	: # Job control targets
+	install -Dm644 services-pre.target -t $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
+	install -Dm644 services-up.target -t $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
+	install -Dm644 services-down.target -t $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
 	install -Dm644 reverse-proxy-pre.target \
-		-t $(DESTDIR)/$(SYSTEMD_SYSTEM_UNITDIR)
-	$(call addWants,multi-user.target,containers-up.target)
+		-t $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
+	: # Start services-up.target on boot
+	$(call addWants,multi-user.target,services-up.target)
+	: # Create a container network for all services.
 	install -Dm644 public-services.network -t $(DESTDIR)$(QUADLETDIR)

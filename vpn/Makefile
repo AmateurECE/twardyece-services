@@ -5,5 +5,5 @@ SERVICE_NAME=twardyece-vpn
 include ../declarations.mk
 
 install:
-	: # pre-containers.target requires wg1 to come up
-	$(call addRequiresTemplate,pre-containers.target,wg-quick@wg1.service)
+	: # services-pre.target requires wg1 to come up
+	$(call addRequiresTemplate,services-pre.target,wg-quick@wg1.service)

@@ -206,13 +206,13 @@ $ echo 'secret' | sudo tee /var/lib/containers/storage/prowlarr/_data/secret.jso
 ```
 $ make clean && make && make package && sudo make reinstall PACKAGE=prowlarr
 # Stop the containers
-$ sudo systemctl start containers-down.target
+$ sudo systemctl start services-down.target
 # Reload service files, since package installation created links. For some reason,
 # this isn't picked up by the systemd dpkg trigger.
 $ sudo systemctl daemon-reload
 # Restart volumetric to update the Nginx configuration.
 $ sudo systemctl restart volumetric.service
-$ sudo systemctl start containers-up.target
+$ sudo systemctl start services-up.target
 ```
 
 12. Create the volume backup
