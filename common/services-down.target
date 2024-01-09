@@ -1,4 +1,4 @@
 [Unit]
-Description=all containers
+Description=All services are stopped
 Conflicts=services-up.target
 After=services-up.target

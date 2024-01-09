@@ -14,5 +14,5 @@ Restart=always
 TimeoutStartSec=300
 
 [Install]
-WantedBy=services-up.target
+RequiredBy=services-up.target
 After=reverse-proxy.target

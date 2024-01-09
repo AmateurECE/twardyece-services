@@ -10,5 +10,5 @@ Restart=always
 TimeoutStartSec=300
 
 [Install]
-WantedBy=reverse-proxy-pre.target
+RequiredBy=reverse-proxy-pre.target
 After=qbittorrent.container

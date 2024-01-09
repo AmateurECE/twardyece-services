@@ -8,4 +8,4 @@ Type=none
 Options=bind
 
 [Install]
-WantedBy=twardyece-tftp.service
+WantedBy=services-pre.target

@@ -19,4 +19,4 @@ Restart=always
 TimeoutStartSec=300
 
 [Install]
-WantedBy=reverse-proxy.target
+RequiredBy=reverse-proxy.target

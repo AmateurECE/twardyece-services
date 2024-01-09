@@ -1,5 +1,5 @@
 [Unit]
-Description=all containers
+Description=All services are publicly available
 Requires=reverse-proxy-pre.target
 Conflicts=services-down.target
 After=services-down.target reverse-proxy-pre.target

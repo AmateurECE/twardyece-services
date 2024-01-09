@@ -1,4 +1,2 @@
 [Unit]
-Description=container infrastructure dependencies
-After=podman.service
-Requires=podman.service
+Description=System dependencies for services are running
