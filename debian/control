@@ -56,12 +56,12 @@ Description: An instance of Prowlarr
 
 Package: twardyece-tftp
 Architecture: all
-Depends: twardyece-common, twardyece-nginx, ${misc:Depends}
+Depends: twardyece-common, ${misc:Depends}
 Description: A TFTP server serving arbitrary paths
 
 Package: twardyece-yocto
 Architecture: all
-Depends: twardyece-tftp, ${misc:Depends}
+Depends: twardyece-tftp, twardyece-nginx, ${misc:Depends}
 Description: Infrastructure for serving Yocto artifacts
 
 Package: twardyece-vps
