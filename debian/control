@@ -14,10 +14,10 @@ Architecture: all
 Depends: docker-compose, ${misc:Depends}
 Description: Common infrastructure for all self-hosted services
 
-Package: twardyece-redirect
-Architecture: all
-Depends: docker-compose, twardyece-nginx, ${misc:Depends}
-Description: Virtual host for Nginx to redirect from my previous hostname
+# Package: twardyece-redirect
+# Architecture: all
+# Depends: docker-compose, twardyece-nginx, ${misc:Depends}
+# Description: Virtual host for Nginx to redirect from my previous hostname
 
 # Package: twardyece-budget-tool
 # Architecture: all
