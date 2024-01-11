@@ -24,6 +24,7 @@ SUBDIRS += vps
 SUBDIRS += vpn
 SUBDIRS += openldap
 SUBDIRS += jenkins
+# SUBDIRS += redirect
 
 # Mask these packages for now. The applications don't work for one reason or
 # another.
