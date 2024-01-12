@@ -44,12 +44,3 @@ configuration:
             root /var/www/certbot;
             allow all;
         }
-
-  - !server
-    name: twardyece-local
-    configuration:
-      - !header |
-        listen 80;
-        server_name edtwardy-yocto.local;
-        allow 192.168.1.0/24;
-        deny all;

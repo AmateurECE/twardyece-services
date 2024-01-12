@@ -11,7 +11,7 @@ install:
 		$(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
 	install -m644 mnt-Serve-yocto-sstate\\x2dcache.mount \
 		$(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
-	install -Dm644 nginx.yaml $(DESTDIR)$(NGINXDIR)/$(SERVICE_NAME).yaml
+	install -Dm644 nginx.conf $(DESTDIR)$(NGINXDIR)/$(SERVICE_NAME).conf
 	: # TODO: Need podman v4.8.1 for drop-in support, but debian/testing only
 	: # has v4.7.2. This service isn't used very often, so I'm going to leave it
 	: # as-is, and it should start working again when I get the latest version.
