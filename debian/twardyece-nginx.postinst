@@ -8,11 +8,16 @@ DATA_DIR=/usr/share/twardyece
 IMAGE=siteconf-volume.squashfs
 
 update_routes() {
-    mkdir -p $LOCAL_STATE_DIR/conf
+    mkdir -p $LOCAL_STATE_DIR/conf $LOCAL_STATE_DIR/conf/common
 
     # Copy whole service conf files over, if they exist
     if compgen -G "$DATA_DIR/routes/*.conf" > /dev/null; then
         cp $DATA_DIR/routes/*.conf $LOCAL_STATE_DIR/conf
+    fi
+
+    # Copy anything in the routes/common directory
+    if compgen -G "$DATA_DIR/routes/common/*.conf" > /dev/null; then
+        cp $DATA_DIR/routes/common/*.conf $LOCAL_STATE_DIR/conf/common
     fi
 
     # If there are service fragments, build a single conf from them

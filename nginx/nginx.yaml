@@ -5,16 +5,10 @@ configuration:
     name: twardyece
     configuration:
       - !header |
-        port_in_redirect on;
         listen 443 ssl;
         listen [::]:443 ssl;
         server_name twardyece.com www.twardyece.com;
-
-        include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
-        ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
-
-        ssl_certificate /etc/letsencrypt/live/twardyece.com/fullchain.pem;
-        ssl_certificate_key /etc/letsencrypt/live/twardyece.com/privkey.pem;
+        include /etc/nginx/conf.d/common/ssl.conf;
 
         root /var/www;
 

@@ -18,7 +18,9 @@ install:
 	install -Dm644 siteconf.volume -t $(DESTDIR)$(QUADLETDIR)
 	install -Dm644 ssl-letsencrypt.volume -t $(DESTDIR)$(QUADLETDIR)
 	: # Nginx configuration
+	install -Dm644 ssl.conf -t $(DESTDIR)$(NGINXDIR)/common
 	install -Dm644 nginx.yaml $(DESTDIR)$(NGINXDIR)/$(SERVICE_NAME).yaml
+	install -Dm644 ethantwardy.conf -t $(DESTDIR)$(NGINXDIR)
 	: # Nginx configuration build tool
 	install -Dm755 make-nginx-conf/target/release/make-nginx-conf \
 		-t $(DESTDIR)$(BINDIR)
@@ -27,8 +29,8 @@ install:
 	install -Dm644 reverse-proxy.target -t $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
 	$(call addRequires,services-up.target,reverse-proxy.target)
 	: # Certificate renewal
-	install -Dm744 renew-certificates.bash \
-		$(DESTDIR)$(BINDIR)/renew-certificates
+	install -Dm744 webservices-certbot.bash \
+		$(DESTDIR)$(BINDIR)/webservices-certbot
 	install -Dm644 renew-certificates.service \
 		-t $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
 	install -Dm644 renew-certificates.timer \

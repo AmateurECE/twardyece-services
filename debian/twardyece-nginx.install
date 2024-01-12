@@ -4,10 +4,12 @@ usr/share/containers/systemd/blog.volume
 usr/share/containers/systemd/repository.volume
 usr/share/containers/systemd/siteconf.volume
 usr/share/containers/systemd/ssl-letsencrypt.volume
+usr/share/twardyece/routes/common/ssl.conf
 usr/share/twardyece/routes/nginx.yaml
+usr/share/twardyece/routes/ethantwardy.conf
 usr/lib/systemd/system/renew-certificates.service
 usr/lib/systemd/system/renew-certificates.timer
 usr/lib/systemd/system/reverse-proxy.target
 usr/lib/systemd/system/services-up.target.requires/reverse-proxy.target
 usr/bin/make-nginx-conf
-usr/bin/renew-certificates
+usr/bin/webservices-certbot
