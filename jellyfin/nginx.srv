@@ -1,0 +1,87 @@
+server {
+    listen 80;
+    listen [::]:80;
+    server_name jellyfin.ethantwardy.com;
+
+    # Redirect HTTP to HTTPS
+    return 301 https://$host$request_uri;
+}
+
+upstream jellyfin {
+        keepalive 32;
+        server public_jellyfin:8096;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name jellyfin.ethantwardy.com;
+
+    # The default `client_max_body_size` is 1M, this might not be enough for
+    # some posters, etc.
+    client_max_body_size 20M;
+
+    # Security / XSS Mitigation Headers
+    # NOTE: X-Frame-Options may cause issues with the webOS app
+    add_header X-Frame-Options "SAMEORIGIN";
+    add_header X-XSS-Protection "0"; # Do NOT enable. This is obsolete/dangerous
+    add_header X-Content-Type-Options "nosniff";
+
+    # COOP/COEP. Disable if you use external plugins/images/assets
+    add_header Cross-Origin-Opener-Policy "same-origin" always;
+    add_header Cross-Origin-Embedder-Policy "require-corp" always;
+    add_header Cross-Origin-Resource-Policy "same-origin" always;
+
+    # Permissions policy. May cause issues on some clients
+    add_header Permissions-Policy "accelerometer=(), ambient-light-sensor=(), battery=(), bluetooth=(), camera=(), clipboard-read=(), display-capture=(), document-domain=(), encrypted-media=(), gamepad=(), geolocation=(), gyroscope=(), hid=(), idle-detection=(), interest-cohort=(), keyboard-map=(), local-fonts=(), magnetometer=(), microphone=(), payment=(), publickey-credentials-get=(), serial=(), sync-xhr=(), usb=(), xr-spatial-tracking=()" always;
+
+    # Tell browsers to use per-origin process isolation
+    # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin-Agent-Cluster
+    add_header Origin-Agent-Cluster "?1" always;
+
+    location = / {
+        return 302 https://$host/web/;
+    }
+
+    location / {
+        # Proxy main Jellyfin traffic
+        proxy_pass http://jellyfin;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Protocol $scheme;
+        proxy_set_header X-Forwarded-Host $http_host;
+
+        # Disable buffering when the nginx proxy gets very resource heavy upon
+        # streaming
+        proxy_buffering off;
+    }
+
+    # location block for /web - This is purely for aesthetics so /web/#!/ works
+    # instead of having to go to /web/index.html/#!/
+    location = /web/ {
+        # Proxy main Jellyfin traffic
+        proxy_pass http://jellyfin/web/index.html;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Protocol $scheme;
+        proxy_set_header X-Forwarded-Host $http_host;
+    }
+
+    location /socket {
+        # Proxy Jellyfin Websockets traffic
+        proxy_pass http://jellyfin;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Protocol $scheme;
+        proxy_set_header X-Forwarded-Host $http_host;
+    }
+}

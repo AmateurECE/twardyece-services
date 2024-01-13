@@ -4,4 +4,4 @@ include ../declarations.mk
 all:
 
 install:
-	install -Dm644 twardyece.conf -t $(DESTDIR)$(NGINXDIR)
+	install -Dm644 nginx.yaml $(DESTDIR)$(NGINXDIR)/redirect.yaml
