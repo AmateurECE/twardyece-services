@@ -54,4 +54,31 @@ sudo webservices-certbot cmd certonly \
 
 The [certbot docs][1] from EFF may be useful here.
 
+## With a Wildcard Domain Name
+
+Wildcard domain names require special treatment. Unfortunately, they require
+"manual" authentication, because the EFF apparently does not accept challenges
+made using the webroot authenticator.
+
+As of right now, certificates that are made using a manual authenticator cannot
+be automatically renewed.
+
+To obtain a certificate (using an existing certificate file as the starting
+point) for a wildcard domain, the following command can be used. Certbot will
+ask you to add some TXT records through your DNS provider to complete the
+challenge.
+
+```
+sudo webservices-certbot cmd certonly \
+    --cert-name twardyece.com \
+    -d twardyece.com,*.twardyece.com,ethantwardy.com,*.ethantwardy.com \
+    --server https://acme-v02.api.letsencrypt.org/directory \
+    --manual \
+    --preferred-challenges=dns \
+    --email ethan.twardy@gmail.com
+```
+
+For my DNS provider, domain.com, there is no API that provides seamless
+integration with Certbot. Linode, on the other hand, does.
+
 [1]: https://certbot.eff.org/instructions?ws=nginx&os=debiantesting
