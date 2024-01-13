@@ -8,30 +8,43 @@ configuration:
         location /jellyfin {
             return 301 $scheme://jellyfin.ethantwardy.com/;
         }
-# location /blog/ {
-#    return 301 $scheme://blog.ethantwardy.com/;
-# }
 
-# location /repository/ {
-#    return 301 $scheme://docs.ethantwardy.com/;
-# }
-
-# location /jenkins/ {
-#    return 301 $scheme://jenkins.ethantwardy.com/;
-# }
-
-# location /prowlarr {
-#    return 301 $scheme://prowlarr.ethantwardy.com/;
-# }
-
-# location /prowlarr/ {
-#    return 301 $scheme://prowlarr.ethantwardy.com/;
-# }
-
-# location /qbittorrent {
-#    return 301 $scheme://qbittorrent.ethantwardy.com/;
-# }
-
-# location /qbittorrent/ {
-#    return 301 $scheme://qbittorrent.ethantwardy.com/;
-# }
+  #  - !server
+  #    name: twardyece
+  #    configuration:
+  #      - !location |
+  #        location /blog/ {
+  #            return 301 $scheme://blog.ethantwardy.com/;
+  #        }
+  #
+  #  - !server
+  #    name: twardyece
+  #    configuration:
+  #      - !location |
+  #        location /repository {
+  #           return 301 $scheme://docs.ethantwardy.com/;
+  #        }
+  #
+  #  - !server
+  #    name: twardyece
+  #    configuration:
+  #      - !location |
+  #        location /jenkins {
+  #           return 301 $scheme://jenkins.ethantwardy.com/;
+  #        }
+  #
+  #  - !server
+  #    name: twardyece
+  #    configuration:
+  #      - !location |
+  #        location /prowlarr {
+  #           return 301 $scheme://prowlarr.ethantwardy.com/;
+  #        }
+  #
+  #  - !server
+  #    name: twardyece
+  #    configuration:
+  #      - !location |
+  #        location /qbittorrent {
+  #           return 301 $scheme://qbittorrent.ethantwardy.com/;
+  #        }
