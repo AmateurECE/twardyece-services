@@ -4,6 +4,7 @@
 /debian/files
 /debian/tmp/
 /debian/*.substvars
+/debian/*.postrm.debhelper
 /nginx/make-nginx-conf/target/
 /debian/twardyece-common/
 /debian/twardyece-jellyfin/

@@ -9,6 +9,6 @@ install:
 	install -Dm644 jenkins-controller-config.volume -t $(DESTDIR)$(QUADLETDIR)
 	install -Dm644 jenkins-agent.container -t $(DESTDIR)$(QUADLETDIR)
 	install -Dm644 jenkins-agent-secret.volume -t $(DESTDIR)$(QUADLETDIR)
-	install -Dm644 nginx.yaml $(DESTDIR)$(NGINXDIR)/$(SERVICE_NAME).yaml
+	install -Dm644 nginx.srv $(DESTDIR)$(NGINXDIR)/$(SERVICE_NAME).conf
 	install -Dm644 jenkins-builder.service \
 		$(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)/jenkins-builder.service

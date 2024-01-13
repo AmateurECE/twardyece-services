@@ -9,6 +9,14 @@ configuration:
             return 301 $scheme://jellyfin.ethantwardy.com/;
         }
 
+  - !server
+    name: twardyece
+    configuration:
+      - !location |
+        location /jenkins {
+           return 301 $scheme://jenkins.ethantwardy.com/;
+        }
+
   #  - !server
   #    name: twardyece
   #    configuration:
@@ -23,14 +31,6 @@ configuration:
   #      - !location |
   #        location /repository {
   #           return 301 $scheme://docs.ethantwardy.com/;
-  #        }
-  #
-  #  - !server
-  #    name: twardyece
-  #    configuration:
-  #      - !location |
-  #        location /jenkins {
-  #           return 301 $scheme://jenkins.ethantwardy.com/;
   #        }
   #
   #  - !server
