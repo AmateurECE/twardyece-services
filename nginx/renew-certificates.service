@@ -2,4 +2,5 @@
 Description=Renew twardyece.com TLS Certificates
 
 [Service]
+Environment=INTERACTIVE=n
 ExecStart=/usr/bin/webservices-certbot renew

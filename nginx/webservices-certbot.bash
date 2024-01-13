@@ -13,13 +13,17 @@
 
 set -e
 
+if [[ "n" != "$INTERACTIVE" ]]; then
+    PODMAN_ARGS=-i
+fi
+
 get_timezone() {
     readlink /etc/localtime | awk -F/ '{print $(NF-1)"/"$NF}'
 }
 
 webservices-certbot() {
     local timezone=$(get_timezone)
-    podman run -t --rm --name internal_certbot \
+    podman run -t $PODMAN_ARGS --rm --name internal_certbot \
            -e "TZ=$timezone" \
            -v systemd-ssl-letsencrypt:/etc/letsencrypt \
            -v systemd-acme-challenge:/var/www/certbot \
