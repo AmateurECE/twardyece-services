@@ -8,7 +8,6 @@ configuration:
         listen 443 ssl;
         listen [::]:443 ssl;
         server_name twardyece.com www.twardyece.com;
-        include /etc/nginx/conf.d/common/ssl.conf;
 
         root /var/www;
 

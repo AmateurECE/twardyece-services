@@ -18,7 +18,7 @@ install:
 	install -Dm644 siteconf.volume -t $(DESTDIR)$(QUADLETDIR)
 	install -Dm644 ssl-letsencrypt.volume -t $(DESTDIR)$(QUADLETDIR)
 	: # Nginx configuration
-	install -Dm644 ssl.conf -t $(DESTDIR)$(NGINXDIR)/common
+	install -Dm644 ssl.conf -t $(DESTDIR)$(NGINXDIR)
 	install -Dm644 nginx.yaml $(DESTDIR)$(NGINXDIR)/$(SERVICE_NAME).yaml
 	install -Dm644 ethantwardy.conf -t $(DESTDIR)$(NGINXDIR)
 	: # Nginx configuration build tool
