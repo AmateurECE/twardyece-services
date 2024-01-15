@@ -1,0 +1,4 @@
+[Volume]
+PodmanArgs=--driver=local
+Type=fuse.squashfuse
+Device=/var/lib/twardyece-jenkins/controller-config.squashfs

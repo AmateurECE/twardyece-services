@@ -1,0 +1,32 @@
+#!/bin/bash
+
+set -e
+
+LOCAL_STATE_DIR=/var/lib/twardyece-jenkins
+DATA_DIR=/usr/share/twardyece-jenkins
+IMAGE=controller-config.squashfs
+
+update_config() {
+    rm -rf $LOCAL_STATE_DIR/casc
+    mkdir -p $LOCAL_STATE_DIR/casc
+
+    # Create a volume image from the configuration files
+    mksquashfs $DATA_DIR $LOCAL_STATE_DIR/$IMAGE -noappend
+}
+
+case "$1" in
+    configure|triggered)
+        printf '%s\n' "Updating Jenkins config"
+        update_config
+    ;;
+    abort-upgrade|abort-remove|abort-deconfigure)
+    ;;
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+        ;;
+esac
+
+#DEBHELPER#
+
+exit 0
