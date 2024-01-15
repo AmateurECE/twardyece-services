@@ -1,5 +1,5 @@
 [Volume]
 PodmanArgs=--driver=local
 Type=btrfs
-Options=subvol=@jenkins_controller-config
+Options=subvol=@jenkins_controller-data
 Device=/dev/disk/by-uuid/05599193-00bc-4a81-9550-54623b2ec8c4

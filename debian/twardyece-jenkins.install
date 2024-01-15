@@ -3,4 +3,4 @@ usr/share/twardyece/routes/jenkins.conf
 usr/share/containers/systemd/jenkins-agent.container
 usr/share/containers/systemd/jenkins-agent-secret.volume
 usr/share/containers/systemd/jenkins-controller.container
-usr/share/containers/systemd/jenkins-controller-config.volume
+usr/share/containers/systemd/jenkins-controller-data.volume
