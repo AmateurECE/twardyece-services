@@ -1,7 +1,6 @@
 usr/share/containers/systemd/nginx.container
 usr/share/containers/systemd/acme-challenge.volume
-usr/share/containers/systemd/blog.volume
-usr/share/containers/systemd/repository.volume
+usr/share/containers/systemd/sitedata.volume
 usr/share/containers/systemd/siteconf.volume
 usr/share/containers/systemd/ssl-letsencrypt.volume
 usr/share/twardyece/routes/ssl.conf

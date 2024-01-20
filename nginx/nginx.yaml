@@ -9,11 +9,21 @@ configuration:
         listen [::]:443 ssl;
         server_name twardyece.com www.twardyece.com;
 
-        root /var/www;
-
       - !location |
         location ^~ /.well-known/acme-challenge/ {
             root /var/www/certbot;
+            allow all;
+        }
+
+      - !location |
+        location ^~ /repository/ {
+            root /var/www/sitedata;
+            allow all;
+        }
+
+      - !location |
+        location ^~ /blog/ {
+            root /var/www/sitedata;
             allow all;
         }
 

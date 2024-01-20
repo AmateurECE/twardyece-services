@@ -13,8 +13,7 @@ install:
 	: # Quadlet units
 	install -Dm644 nginx.container -t $(DESTDIR)$(QUADLETDIR)
 	install -Dm644 acme-challenge.volume -t $(DESTDIR)$(QUADLETDIR)
-	install -Dm644 blog.volume -t $(DESTDIR)$(QUADLETDIR)
-	install -Dm644 repository.volume -t $(DESTDIR)$(QUADLETDIR)
+	install -Dm644 sitedata.volume -t $(DESTDIR)$(QUADLETDIR)
 	install -Dm644 siteconf.volume -t $(DESTDIR)$(QUADLETDIR)
 	install -Dm644 ssl-letsencrypt.volume -t $(DESTDIR)$(QUADLETDIR)
 	: # Nginx configuration

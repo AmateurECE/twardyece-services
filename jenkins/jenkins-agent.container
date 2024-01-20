@@ -1,8 +1,7 @@
 [Container]
 ContainerName=internal_jenkins-agent
 Image=localhost/amateurece/jenkins-agent:latest
-Volume=repository.volume:/home/jenkins/repository
-Volume=blog.volume:/home/jenkins/blog
+Volume=sitedata.volume:/home/jenkins/sitedata
 Volume=jenkins-agent-secret.volume:/secrets:ro
 Environment=REPOSITORY_MOUNT=/home/jenkins/repository
 Environment=AGENT_NAME=docker-agent
