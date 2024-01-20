@@ -25,14 +25,14 @@ configuration:
             return 301 $scheme://blog.ethantwardy.com/;
         }
 
-  #  - !server
-  #    name: twardyece
-  #    configuration:
-  #      - !location |
-  #        location /repository {
-  #           return 301 $scheme://docs.ethantwardy.com/;
-  #        }
-  #
+  - !server
+    name: twardyece
+    configuration:
+      - !location |
+        location /repository {
+           return 301 $scheme://docs.ethantwardy.com/;
+        }
+
   #  - !server
   #    name: twardyece
   #    configuration:

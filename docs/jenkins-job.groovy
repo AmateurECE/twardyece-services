@@ -1,4 +1,4 @@
-multibranchPipelineJob('Repository') {
+multibranchPipelineJob('Documentation') {
   branchSources {
     git {
       id('docs-trunk')
