@@ -26,7 +26,7 @@ SUBDIRS += openldap
 SUBDIRS += jenkins
 SUBDIRS += redirect
 SUBDIRS += blog
-SUBDIRS += repository
+SUBDIRS += docs
 
 # Mask these packages for now. The applications don't work for one reason or
 # another.

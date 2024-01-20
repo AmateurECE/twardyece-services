@@ -24,7 +24,7 @@ Architecture: all
 Depends: twardyece-nginx, twardyece-jenkins, ${misc:Depends}
 Description: Virtual host for Nginx to redirect from my previous hostname
 
-Package: twardyece-repository
+Package: twardyece-docs
 Architecture: all
 Depends: twardyece-nginx, twardyece-jenkins, ${misc:Depends}
 Description: Virtual host for Nginx to redirect from my previous hostname

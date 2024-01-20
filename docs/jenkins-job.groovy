@@ -1,7 +1,7 @@
 multibranchPipelineJob('Repository') {
   branchSources {
     git {
-      id('repository-trunk')
+      id('docs-trunk')
       remote('https://github.com/AmateurECE/twardyece-repository.git')
       includes('trunk')
     }

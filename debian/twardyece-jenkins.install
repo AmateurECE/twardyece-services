@@ -5,4 +5,4 @@ usr/share/containers/systemd/jenkins-controller.container
 usr/share/containers/systemd/jenkins-controller-config.volume
 usr/share/containers/systemd/jenkins-controller-secrets.volume
 usr/share/twardyece/jenkins/config.yaml
-usr/share/twardyece/jenkins/repository.groovy
+usr/share/twardyece/jenkins/docs.groovy
