@@ -6,7 +6,6 @@ include ../declarations.mk
 
 install:
 	install -Dm644 jenkins-controller.container -t $(DESTDIR)$(QUADLETDIR)
-	install -Dm644 jenkins-controller-data.volume -t $(DESTDIR)$(QUADLETDIR)
 	install -Dm644 jenkins-controller-config.volume -t $(DESTDIR)$(QUADLETDIR)
 	install -Dm644 jenkins-controller-secrets.volume -t $(DESTDIR)$(QUADLETDIR)
 	install -Dm644 jenkins-agent.container -t $(DESTDIR)$(QUADLETDIR)
