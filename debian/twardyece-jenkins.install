@@ -1,4 +1,3 @@
-usr/lib/systemd/system/jenkins-builder.service
 usr/share/twardyece/routes/jenkins.conf
 usr/share/containers/systemd/jenkins-agent.container
 usr/share/containers/systemd/jenkins-agent-secret.volume
