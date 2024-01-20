@@ -9,7 +9,7 @@ IMAGE=siteconf-volume.squashfs
 
 update_routes() {
     rm -rf $LOCAL_STATE_DIR/conf
-    mkdir -p $LOCAL_STATE_DIR/conf/common
+    mkdir -p $LOCAL_STATE_DIR/conf
 
     # Copy whole service conf files over, if they exist
     if compgen -G "$DATA_DIR/*.conf" > /dev/null; then
