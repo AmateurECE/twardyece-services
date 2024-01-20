@@ -21,12 +21,6 @@ configuration:
             allow all;
         }
 
-      - !location |
-        location ^~ /blog/ {
-            root /var/www/sitedata;
-            allow all;
-        }
-
   - !server
     name: twardyece-http
     configuration:

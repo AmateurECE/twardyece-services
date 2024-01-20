@@ -19,6 +19,11 @@ Architecture: all
 Depends: twardyece-nginx, ${misc:Depends}
 Description: Virtual host for Nginx to redirect from my previous hostname
 
+Package: twardyece-blog
+Architecture: all
+Depends: twardyece-nginx, twardyece-jenkins, ${misc:Depends}
+Description: Virtual host for Nginx to redirect from my previous hostname
+
 # Package: twardyece-budget-tool
 # Architecture: all
 # Depends: twardyece-common, twardyece-postgres, ${misc:Depends}
