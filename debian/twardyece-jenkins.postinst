@@ -10,8 +10,23 @@ update_config() {
     rm -rf $LOCAL_STATE_DIR/casc
     mkdir -p $LOCAL_STATE_DIR/casc
 
+    # Copy all YAML files directly to the config directory
+    cp $DATA_DIR/*.yaml $LOCAL_STATE_DIR/casc
+
+    # Emit all groovy files into a YAML fragment as job-dsl scripts
+    local IFS_SAVE=$IFS
+    IFS=$'\n'
+    printf '%s\n' "jobs:" > $LOCAL_STATE_DIR/casc/jobs.yaml
+    for f in $DATA_DIR/*.groovy; do
+	    printf '  - script: >\n' >> $LOCAL_STATE_DIR/casc/jobs.yaml
+	    for line in $(cat $f); do
+		    printf '      %s\n' "$line" >> $LOCAL_STATE_DIR/casc/jobs.yaml
+	    done
+    done
+    IFS=$IFS_SAVE
+
     # Create a volume image from the configuration files
-    mksquashfs $DATA_DIR $LOCAL_STATE_DIR/$IMAGE -noappend
+    mksquashfs $LOCAL_STATE_DIR/casc $LOCAL_STATE_DIR/$IMAGE -noappend
 }
 
 case "$1" in

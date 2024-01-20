@@ -16,3 +16,6 @@ install:
 	: # Builder service
 	install -Dm644 jenkins-builder.service \
 		$(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)/jenkins-builder.service
+	: # Job files
+	install -Dm644 blog.groovy $(DESTDIR)/usr/share/twardyece-jenkins
+	install -Dm644 repository.groovy $(DESTDIR)/usr/share/twardyece-jenkins
