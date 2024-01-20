@@ -1,0 +1,11 @@
+---
+version: 1.0
+configuration:
+  - !server
+    name: twardyece
+    configuration:
+      - !location |
+        location ^~ /repository/ {
+            root /var/www/sitedata;
+            allow all;
+        }
