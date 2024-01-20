@@ -7,4 +7,4 @@ include ../declarations.mk
 install:
 	install -Dm644 qbittorrent-config.volume -t $(DESTDIR)$(QUADLETDIR)
 	install -Dm644 qbittorrent.container -t $(DESTDIR)$(QUADLETDIR)
-	install -Dm644 nginx.yaml $(DESTDIR)$(NGINXDIR)/$(SERVICE_NAME).yaml
+	install -Dm644 nginx.srv $(DESTDIR)$(NGINXDIR)/$(SERVICE_NAME).conf

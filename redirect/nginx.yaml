@@ -40,11 +40,11 @@ configuration:
   #        location /prowlarr {
   #           return 301 $scheme://prowlarr.ethantwardy.com/;
   #        }
-  #
-  #  - !server
-  #    name: twardyece
-  #    configuration:
-  #      - !location |
-  #        location /qbittorrent {
-  #           return 301 $scheme://qbittorrent.ethantwardy.com/;
-  #        }
+
+  - !server
+    name: twardyece
+    configuration:
+      - !location |
+        location /qbittorrent {
+           return 301 $scheme://torrents.ethantwardy.com/;
+        }
