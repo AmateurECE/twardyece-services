@@ -1,0 +1,33 @@
+FROM docker.io/jenkins/agent:latest
+
+USER root
+RUN apt-get update \
+        && apt-get install -y --no-install-recommends \
+	xz-utils \
+        && apt-get clean
+
+# Create the nix store as writable by user jenkins
+RUN install -d -m755 \
+	-o $(awk -F: '/jenkins/{print $3}' /etc/passwd) \
+	-g $(awk -F: '/jenkins/{print $4}' /etc/passwd) \
+	/nix
+
+USER jenkins
+
+RUN bash -l -c "curl -L https://nixos.org/nix/install | sh"
+
+# Setup for Nix on user jenkins' login shell and experimental features
+RUN printf '%s\n' \
+	'export USER=jenkins' \
+	'source $HOME/.nix-profile/etc/profile.d/nix.sh' \
+	>> $HOME/.bash_aliases \
+	&& mkdir -p $HOME/.config/nix \
+	&& echo 'experimental-features = nix-command flakes' \
+	> $HOME/.config/nix/nix.conf
+
+# Create a named volume for the nix store, for some amount of caching.
+VOLUME /nix
+
+COPY --chmod=755 agent-cmd.sh /bin/jenkins-agent-cmd
+COPY --chmod=755 flake-run.sh /bin/flake-run
+CMD ["/bin/jenkins-agent-cmd"]

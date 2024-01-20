@@ -18,7 +18,7 @@ jenkins:
   nodes:
   - permanent:
       launcher:
-        jnlp:
+        inbound:
           tunnel: "public_jenkins-controller:50000"
           workDirSettings:
             disabled: false
@@ -105,7 +105,7 @@ unclassified:
     apiRateLimitChecker: ThrottleForNormalize
   gitHubPluginConfig:
     hookUrl: "https://jenkins.ethantwardy.com/github-webhook/"
-  gitSCM:
+  scmGit:
     addGitTagAction: false
     allowSecondFetch: false
     createAccountBasedOnEmail: false
@@ -139,3 +139,24 @@ tool:
   mavenGlobalConfig:
     globalSettingsProvider: "standard"
     settingsProvider: "standard"
+jobs:
+  - script: >
+      multibranchPipelineJob('Blog') {
+        branchSources {
+          git {
+            id('blog-trunk')
+            remote('https://github.com/AmateurECE/twardyece-blog.git')
+            includes('trunk')
+          }
+        }
+      }
+  - script: >
+      multibranchPipelineJob('Repository') {
+        branchSources {
+          git {
+            id('repository-trunk')
+            remote('https://github.com/AmateurECE/twardyece-repository.git')
+            includes('trunk')
+          }
+        }
+      }

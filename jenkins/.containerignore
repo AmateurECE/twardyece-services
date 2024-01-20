@@ -1,0 +1,4 @@
+*
+!plugins.txt
+!agent-cmd.sh
+!flake-run.sh

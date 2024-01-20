@@ -1,12 +1,16 @@
 [Container]
 ContainerName=public_jenkins-controller
-Image=docker.io/jenkins/jenkins:lts
-Volume=jenkins-controller-data.volume:/var/jenkins_home
+Image=localhost/amateurece/jenkins:latest
 Volume=jenkins-controller-config.volume:/config
+Volume=jenkins-controller-secrets.volume:/var/jenkins_home/secrets
 # TODO: This is a minor security risk, but is necessary in order for this
 # container to be able to bind to LDAP servers with hyphens in the URI.
 Environment=JENKINS_JAVA_OPTS=-Dcom.sun.jndi.ldapURLParsing=legacy
 Environment=CASC_JENKINS_CONFIG=/config
+Environment=JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+Environment=TZ=America/Chicago
+Environment=GIT_COMMITTER_NAME=jenkins
+Environment=GIT_COMMITTER_EMAIL=jenkins@localhost
 Network=public-services.network
 
 [Service]
