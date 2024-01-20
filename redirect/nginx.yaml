@@ -33,13 +33,13 @@ configuration:
            return 301 $scheme://docs.ethantwardy.com/;
         }
 
-  #  - !server
-  #    name: twardyece
-  #    configuration:
-  #      - !location |
-  #        location /prowlarr {
-  #           return 301 $scheme://prowlarr.ethantwardy.com/;
-  #        }
+  - !server
+    name: twardyece
+    configuration:
+      - !location |
+        location /prowlarr {
+           return 301 $scheme://prowlarr.ethantwardy.com/;
+        }
 
   - !server
     name: twardyece

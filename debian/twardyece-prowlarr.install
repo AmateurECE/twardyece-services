@@ -1,3 +1,3 @@
 usr/share/containers/systemd/prowlarr.container
 usr/share/containers/systemd/prowlarr-config.volume
-usr/share/twardyece/routes/prowlarr.yaml
+usr/share/twardyece/routes/prowlarr.conf
