@@ -59,10 +59,12 @@ jenkins:
   - all:
       name: "all"
   viewsTabBar: "standard"
+
 globalCredentialsConfiguration:
   configuration:
     providerFilter: "none"
     typeFilter: "none"
+
 security:
   apiToken:
     creationOfLegacyTokenEnabled: false
@@ -75,34 +77,14 @@ security:
   scriptApproval:
     approvedScriptHashes:
     - "SHA512:3f205299bef2fe3329258a42f2c60d332cc35ccb41a3ca0512d7869c6aff4561ff708c48123b4f7c3dec33ccca30d54fb8b9b51b5bc7070f96236d11a3f0bdcb"
+
 unclassified:
   buildDiscarders:
     configuredBuildDiscarders:
     - "jobBuildDiscarder"
-  buildStepOperation:
-    enabled: false
-  email-ext:
-    adminRequiredForTemplateTesting: false
-    allowUnregisteredEnabled: false
-    charset: "UTF-8"
-    debugMode: false
-    defaultBody: |-
-      $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:
-
-      Check console output at $BUILD_URL to view the results.
-    defaultContentType: "text/plain"
-    defaultSubject: "$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!"
-    defaultTriggerIds:
-    - "hudson.plugins.emailext.plugins.trigger.FailureTrigger"
-    maxAttachmentSize: -1
-    maxAttachmentSizeMb: -1
-    precedenceBulk: false
-    watchingEnabled: false
   fingerprints:
     fingerprintCleanupDisabled: false
     storage: "file"
-  gitHubConfiguration:
-    apiRateLimitChecker: ThrottleForNormalize
   gitHubPluginConfig:
     hookUrl: "https://jenkins.ethantwardy.com/github-webhook/"
   scmGit:
@@ -113,32 +95,25 @@ unclassified:
     hideCredentials: false
     showEntireCommitSummaryInChanges: false
     useExistingAccountWithSameEmail: false
-  globalTimeOutConfiguration:
-    operations:
-    - "abortOperation"
-  junitTestResultStorage:
-    storage: "file"
   location:
     adminAddress: "ethan.twardy@gmail.com"
     url: "https://jenkins.ethantwardy.com/"
-  mailer:
-    charset: "UTF-8"
-    useSsl: false
-    useTls: false
   pollSCM:
     pollingThreadCount: 10
+
+  # Configuration for plugins.jenkins.io/timestamper
+  # Add a timestamp to the console output of Jenkins jobs.
   timestamper:
-    allPipelines: false
+    allPipelines: true
     elapsedTimeFormat: "'<b>'HH:mm:ss.S'</b> '"
     systemTimeFormat: "'<b>'HH:mm:ss'</b> '"
+
 tool:
   git:
     installations:
     - home: "git"
       name: "Default"
-  mavenGlobalConfig:
-    globalSettingsProvider: "standard"
-    settingsProvider: "standard"
+
 jobs:
   - script: >
       multibranchPipelineJob('Blog') {
