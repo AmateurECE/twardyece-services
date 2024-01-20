@@ -17,14 +17,14 @@ configuration:
            return 301 $scheme://jenkins.ethantwardy.com/;
         }
 
-  #  - !server
-  #    name: twardyece
-  #    configuration:
-  #      - !location |
-  #        location /blog/ {
-  #            return 301 $scheme://blog.ethantwardy.com/;
-  #        }
-  #
+  - !server
+    name: twardyece
+    configuration:
+      - !location |
+        location /blog/ {
+            return 301 $scheme://blog.ethantwardy.com/;
+        }
+
   #  - !server
   #    name: twardyece
   #    configuration:
