@@ -1,7 +1,7 @@
 [Volume]
 PodmanArgs=--driver=local
 Type=fuse.squashfuse
-Device=/var/lib/twardyece-jenkins/controller-config.squashfs
+Device=/var/lib/twardyece/jenkins/controller-config.squashfs
 Options=allow_other
 User=1000
 Group=1000

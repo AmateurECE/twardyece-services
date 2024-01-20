@@ -13,6 +13,6 @@ install:
 	: # Nginx configuration
 	install -Dm644 nginx.srv $(DESTDIR)$(NGINXDIR)/$(SERVICE_NAME).conf
 	: # Jenkins configuration
-	install -Dm644 config.yaml -t $(DESTDIR)/usr/share/twardyece-jenkins
-	install -Dm644 blog.groovy $(DESTDIR)/usr/share/twardyece-jenkins
-	install -Dm644 repository.groovy $(DESTDIR)/usr/share/twardyece-jenkins
+	install -Dm644 config.yaml -t $(DESTDIR)$(JENKINSDIR)
+	install -Dm644 blog.groovy -t $(DESTDIR)$(JENKINSDIR)
+	install -Dm644 repository.groovy -t $(DESTDIR)$(JENKINSDIR)

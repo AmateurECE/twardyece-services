@@ -15,6 +15,7 @@ ROOTDIR=$(DATADIR)/twardyece
 
 SERVICEDIR=$(ROOTDIR)
 NGINXDIR=$(ROOTDIR)/routes
+JENKINSDIR=$(ROOTDIR)/jenkins
 
 ###############################################################################
 # Utilities and universal rules

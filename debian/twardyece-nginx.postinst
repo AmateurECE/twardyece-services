@@ -3,8 +3,8 @@
 set -e
 shopt -s nullglob
 
-LOCAL_STATE_DIR=/var/lib/twardyece-nginx
-DATA_DIR=/usr/share/twardyece
+LOCAL_STATE_DIR=/var/lib/twardyece/nginx
+DATA_DIR=/usr/share/twardyece/routes
 IMAGE=siteconf-volume.squashfs
 
 update_routes() {
@@ -12,18 +12,18 @@ update_routes() {
     mkdir -p $LOCAL_STATE_DIR/conf/common
 
     # Copy whole service conf files over, if they exist
-    if compgen -G "$DATA_DIR/routes/*.conf" > /dev/null; then
-        cp $DATA_DIR/routes/*.conf $LOCAL_STATE_DIR/conf
+    if compgen -G "$DATA_DIR/*.conf" > /dev/null; then
+        cp $DATA_DIR/*.conf $LOCAL_STATE_DIR/conf
     fi
 
     # Copy anything in the routes/common directory
-    if compgen -G "$DATA_DIR/routes/common/*.conf" > /dev/null; then
-        cp $DATA_DIR/routes/common/*.conf $LOCAL_STATE_DIR/conf/common
+    if compgen -G "$DATA_DIR/common/*.conf" > /dev/null; then
+        cp $DATA_DIR/common/*.conf $LOCAL_STATE_DIR/conf/common
     fi
 
     # If there are service fragments, build a single conf from them
-    if compgen -G "$DATA_DIR/routes/*.yaml" > /dev/null; then
-        make-nginx-conf $DATA_DIR/routes/*.yaml \
+    if compgen -G "$DATA_DIR/*.yaml" > /dev/null; then
+        make-nginx-conf $DATA_DIR/*.yaml \
                         -o $LOCAL_STATE_DIR/conf/default.conf
     fi
 

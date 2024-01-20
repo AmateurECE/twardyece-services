@@ -2,8 +2,8 @@
 
 set -e
 
-LOCAL_STATE_DIR=/var/lib/twardyece-jenkins
-DATA_DIR=/usr/share/twardyece-jenkins
+LOCAL_STATE_DIR=/var/lib/twardyece/jenkins
+DATA_DIR=/usr/share/twardyece/jenkins
 IMAGE=controller-config.squashfs
 
 update_config() {
