@@ -79,6 +79,32 @@ sudo webservices-certbot cmd certonly \
 ```
 
 For my DNS provider, domain.com, there is no API that provides seamless
-integration with Certbot. Linode, on the other hand, does.
+integration with Certbot. Linode, on the other hand, does. Certbot will ask you
+to deploy a TXT record to your DNS provider with a given key.
+
+To verify that the DNS record is live, use `dig`:
+
+```bash-session
+$ dig -t TXT _acme-challenge.ethantwardy.com
+; <<>> DiG 9.19.19-1-Debian <<>> -t TXT _acme-challenge.ethantwardy.com
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 54251
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;_acme-challenge.ethantwardy.com. IN	TXT
+
+;; ANSWER SECTION:
+_acme-challenge.ethantwardy.com. 1703 IN TXT	"pkX2Wc2HbTKv3PrQzhuFoC-yoKFqJSP2K7BrqNEnsAY"
+
+;; Query time: 19 msec
+;; SERVER: 10.2.0.1#53(10.2.0.1) (UDP)
+;; WHEN: Sat Feb 10 08:29:06 CST 2024
+;; MSG SIZE  rcvd: 116
+
+```
 
 [1]: https://certbot.eff.org/instructions?ws=nginx&os=debiantesting
