@@ -15,3 +15,6 @@ install:
 	$(call addWants,multi-user.target,services-up.target)
 	: # Create a container network for all services.
 	install -Dm644 public-services.network -t $(DESTDIR)$(QUADLETDIR)
+	: # SSH configuration
+	install -Dm644 sshd.conf \
+		$(DESTDIR)/etc/ssh/sshd_config.d/ethantwardy.com.conf
