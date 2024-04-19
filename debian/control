@@ -39,10 +39,10 @@ Description: Virtual host for Nginx to redirect from my previous hostname
 # Depends: twardyece-common, twardyece-postgres, ${misc:Depends}
 # Description: An instance of my compilations application
 
-# Package: twardyece-postgres
-# Architecture: all
-# Depends: twardyece-common, ${misc:Depends}
-# Description: Postgres instance for serving application data
+Package: twardyece-postgresql
+Architecture: all
+Depends: twardyece-common, ${misc:Depends}
+Description: Postgres instance for serving application data
 
 Package: twardyece-nginx
 Architecture: all

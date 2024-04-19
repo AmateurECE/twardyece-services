@@ -27,10 +27,10 @@ SUBDIRS += jenkins
 SUBDIRS += redirect
 SUBDIRS += blog
 SUBDIRS += docs
+SUBDIRS += postgresql
 
 # Mask these packages for now. The applications don't work for one reason or
 # another.
-# SUBDIRS += postgres
 # SUBDIRS += compilations
 # SUBDIRS += dns
 # SUBDIRS += budget-tool
