@@ -14,46 +14,47 @@
 set -e
 
 if [[ "n" != "$INTERACTIVE" ]]; then
-    PODMAN_ARGS=-i
+	PODMAN_ARGS=-i
 fi
 
 get_timezone() {
-    readlink /etc/localtime | awk -F/ '{print $(NF-1)"/"$NF}'
+	readlink /etc/localtime | awk -F/ '{print $(NF-1)"/"$NF}'
 }
 
 webservices-certbot() {
-    local timezone=$(get_timezone)
-    podman run -t $PODMAN_ARGS --rm --name internal_certbot \
-           -e "TZ=$timezone" \
-           -v systemd-ssl-letsencrypt:/etc/letsencrypt \
-           -v systemd-acme-challenge:/var/www/certbot \
-           -v twardyece-letsencrypt-logs:/var/log/letsencrypt \
-           docker.io/certbot/certbot $@
+	local timezone=$(get_timezone)
+	podman run -t $PODMAN_ARGS --rm --name internal_certbot \
+		-e "TZ=$timezone" \
+		-v systemd-ssl-letsencrypt:/etc/letsencrypt \
+		-v systemd-acme-challenge:/var/www/certbot \
+		-v twardyece-letsencrypt-logs:/var/log/letsencrypt \
+		docker.io/certbot/certbot $@
 }
 
 renew() {
-    printf '%s\n' "Checking for certificate renewal..."
-    webservices-certbot renew --webroot -w /var/www/certbot -n
+	printf '%s\n' "Checking for certificate renewal..."
+	webservices-certbot renew --webroot -w /var/www/certbot -n
 
-    systemctl is-active --quiet nginx.service
-    if [[ "$?" = 0 ]]; then
-        printf '%s\n' "Restarting active Nginx config (just in case)"
-        podman exec -t public_reverse-proxy nginx -s reload
-    fi
+	systemctl is-active --quiet nginx.service
+	if [[ "$?" = 0 ]]; then
+		printf '%s\n' "Restarting active Nginx config (just in case)"
+		podman exec -t public_reverse-proxy nginx -s reload
+	fi
 }
 
-subcommand="$1"; shift
+subcommand="$1"
+shift
 case "$subcommand" in
-    renew)
-        renew
+renew)
+	renew
 	;;
-    cmd)
-        webservices-certbot $@
+cmd)
+	webservices-certbot $@
 	;;
-    *)
-        >&2 printf '%s\n' "$0 <subcommand>" "Subcommands:" "\trenew" \
-            "\tcmd [ARGS ..]"
-        ;;
+*)
+	printf >&2 '%s\n' "$0 <subcommand>" "Subcommands:" "\trenew" \
+		"\tcmd [ARGS ..]"
+	;;
 esac
 
 ###############################################################################
