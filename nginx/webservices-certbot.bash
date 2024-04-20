@@ -8,7 +8,7 @@
 #
 # CREATED:          05/31/2021
 #
-# LAST EDITED:      01/11/2024
+# LAST EDITED:      04/19/2024
 ###
 
 set -e
@@ -16,6 +16,8 @@ set -e
 if [[ "n" != "$INTERACTIVE" ]]; then
 	PODMAN_ARGS=-i
 fi
+
+IMAGE=docker.io/certbot/dns-luadns
 
 get_timezone() {
 	readlink /etc/localtime | awk -F/ '{print $(NF-1)"/"$NF}'
@@ -28,12 +30,17 @@ webservices-certbot() {
 		-v systemd-ssl-letsencrypt:/etc/letsencrypt \
 		-v systemd-acme-challenge:/var/www/certbot \
 		-v twardyece-letsencrypt-logs:/var/log/letsencrypt \
-		docker.io/certbot/certbot $@
+		-v /etc/twardyece/luadns.ini:/etc/twardyece/luadns.ini:ro \
+		$IMAGE $@
 }
 
 renew() {
 	printf '%s\n' "Checking for certificate renewal..."
-	webservices-certbot renew --webroot -w /var/www/certbot -n
+	webservices-certbot renew \
+		-w /var/www/certbot \
+		-n \
+		--dns-luadns \
+		--dns-luadns-credentials /etc/twardyece/luadns.ini
 
 	systemctl is-active --quiet nginx.service
 	if [[ "$?" = 0 ]]; then

@@ -34,6 +34,8 @@ install:
 		-t $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
 	install -Dm644 renew-certificates.timer \
 		-t $(DESTDIR)$(SYSTEMD_SYSTEM_UNITDIR)
+	mkdir -p $(DESTDIR)/etc/twardyece \
+		&& touch $(DESTDIR)/etc/twardyece/luadns.ini
 
 clean:
 	rm -rf make-nginx-conf/target
