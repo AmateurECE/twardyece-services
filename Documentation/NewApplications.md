@@ -1,237 +1,216 @@
 # Adding New Applications
 
-## Integrating Volumes with Volumetric
-
-The following steps allow the user to add a new service to the deployment. The
-commit #6734c607 is a relatively pure commit that shows how this is done for a
-simple service.
-
-1. Create a new application directory with service files:
-
-```bash-session
-git touch prowlarr/Makefile
-git touch prowlarr/docker-compose.yaml
-git touch prowlarr/nginx.yaml
-git touch prowlarr/volumetric.yaml
-```
-
-2. Add the new directory to the top-level Makefile:
+#. Create a PostgreSQL database and user for this application. I usually also
+store the password in Bitwarden with a name like
+`ethantwardy.com/internal_postgresql/tandoor`.
 
 ```
+[edtwardy@edtwardy ~]$ sudo podman exec -it internal_postgresql /bin/bash
+root@23d1e74b62d3:/# psql -U postgres
+psql (16.1 (Debian 16.1-1.pgdg120+1))
+Type "help" for help.
+
+postgres=# CREATE USER tandoor WITH PASSWORD '************';
+CREATE ROLE
+postgres=# CREATE DATABASE tandoor WITH OWNER=tandoor ENCODING='UTF-8';
+CREATE DATABASE
+postgres=# GRANT ALL PRIVILEGES ON DATABASE tandoor TO tandoor;
+GRANT
+```
+
+#. Create application secrets:
+
+```
+[edtwardy@edtwardy Mount]$ printf '**********' | sudo podman secret create tandoor-postgresql-password -
+```
+
+#. Create btrfs subvolumes for persisting data:
+
+```
+[edtwardy@edtwardy ~]$ sudo mount /dev/sda4 /mnt/Mount/
+[edtwardy@edtwardy ~]$ cd /mnt/Mount/
+[edtwardy@edtwardy Mount]$ sudo btrfs subvolume create @tandoor_staticfiles
+Create subvolume './@tandoor_staticfiles'
+```
+
+#. Create Quadlet volume unit files for the persistent volumes
+
+```
+diff --git a/tandoor/tandoor-staticfiles.volume b/tandoor/tandoor-staticfiles.volume
+index e69de29..55b2e23 100644
+--- a/tandoor/tandoor-staticfiles.volume
++++ b/tandoor/tandoor-staticfiles.volume
+@@ -0,0 +1,5 @@
++[Volume]
++PodmanArgs=--driver=local
++Type=btrfs
++Options=subvol=@tandoor_staticfiles
++Device=/dev/disk/by-uuid/05599193-00bc-4a81-9550-54623b2ec8c4
+```
+
+#. Create the Quadlet container unit file
+
+```
+diff --git a/tandoor/tandoor.container b/tandoor/tandoor.container
+index e69de29..951012f 100644
+--- a/tandoor/tandoor.container
++++ b/tandoor/tandoor.container
+@@ -0,0 +1,39 @@
++[Container]
++ContainerName=public_tandoor
++Image=docker.io/vabene1111/recipes
++Network=public-services.network
++
++Volume=tandoor-staticfiles.volume:/opt/recipes/staticfiles
++Volume=tandoor-mediafiles.volume:/opt/recipes/mediafiles
++
++Secret=tandoor-postgresql-password,target=/run/secrets/postgresql-password
++Secret=tandoor-key,target=/run/secrets/tandoor-key
++
++# Secret key
++Environment=SECRET_KEY=/run/secrets/tandoor-key
++
++# Database configuration
++Environment=DB_ENGINE=django.db.backends.postgresql
++Environment=POSTGRES_HOST=internal_postgresql
++Environment=POSTGRES_PORT=5432
++Environment=POSTGRES_USER=tandoor
++Environment=POSTGRES_PASSWORD_FILE=/run/secrets/postgresql-password
++Environment=POSTGRES_DB=tandoor
++
++# LDAP Configuration
++Environment=LDAP_AUTH=1
++Environment=AUTH_LDAP_SERVER_URI=ldap://internal_ldap
++Environment=AUTH_LDAP_BIND_DN=
++Environment=AUTH_LDAP_BIND_PASSWORD=
++Environment=AUTH_LDAP_USER_SEARCH_BASE_DN=ou=people,dc=edtwardy,dc=hopto,dc=org
++
++[Service]
++Restart=always
++TimeoutStartSec=300
++
++[Unit]
++After=services-pre.target
++Requires=services-pre.target
++
++[Install]
++RequiredBy=reverse-proxy-pre.target
+```
+
+#. Create the Nginx configuration
+
+```
+diff --git a/tandoor/nginx.srv b/tandoor/nginx.srv
+index e69de29..44c817b 100644
+--- a/tandoor/nginx.srv
++++ b/tandoor/nginx.srv
+@@ -0,0 +1,27 @@
++upstream tandoor {
++    keepalive 32;
++    server public_tandoor:8080;
++}
++
++server {
++    if ($host = recipes.ethantwardy.com) {
++        return 301 https://$host$request_uri;
++    }
++
++    server_name recipes.ethantwardy.com;
++    listen 80;
++    return 404;
++}
++
++server {
++    listen 443 ssl http2;
++    listen [::]:443 ssl http2;
++    server_name recipes.ethantwardy.com;
++
++    location / {
++        proxy_set_header Host $http_host;
++        proxy_set_header X-Forwarded-Proto $scheme;
++        proxy_pass http://tandoor;
++        proxy_redirect http://tandoor https://recipes.ethantwardy.com;
++      }
++}
+```
+
+#. Add the subdirectory to the top-level `Makefile`
+
+```patch
 diff --git a/Makefile b/Makefile
-index 98bf6eb..1475546 100644
+index 8eff1e8..abb4e7a 100644
 --- a/Makefile
 +++ b/Makefile
-@@ -16,6 +16,7 @@ $(shell mkdir -p $(B))
- SUBDIRS += common
- SUBDIRS += nginx
- SUBDIRS += jellyfin
-+SUBDIRS += prowlarr
- SUBDIRS += tftp
- SUBDIRS += yocto
- SUBDIRS += vps
+@@ -28,6 +28,7 @@ SUBDIRS += redirect
+ SUBDIRS += blog
+ SUBDIRS += docs
+ SUBDIRS += postgresql
++SUBDIRS += tandoor
+ 
+ # Mask these packages for now. The applications don't work for one reason or
+ # another.
 ```
 
-3. Create the service Makefile:
+#. Add the package to `debian/control`
+
+```diff
+diff --git a/debian/control b/debian/control
+index 265a16c..e4b972c 100644
+--- a/debian/control
++++ b/debian/control
+@@ -49,6 +49,11 @@ Architecture: all
+ Depends: twardyece-common, golang-github-containernetworking-plugin-dnsname, squashfs-tools, squashfuse ${misc:Depends}
+ Description: Nginx instance for reverse-proxy to other applications
+ 
++Package: twardyece-tandoor
++Architecture: all
++Depends: twardyece-common, twardyece-nginx, twardyece-postgresql ${misc:Depends}
++Description: An instance of tandoor
++
+ Package: twardyece-jellyfin
+ Architecture: all
+ Depends: twardyece-common, twardyece-nginx, ${misc:Depends}
+```
+
+#. Create the install file for `dpkg`
 
 ```
-diff --git a/prowlarr/Makefile b/prowlarr/Makefile
-new file mode 100644
-index 0000000..bd2a19c
---- /dev/null
-+++ b/prowlarr/Makefile
-@@ -0,0 +1,13 @@
+diff --git a/debian/twardyece-tandoor.install b/debian/twardyece-tandoor.install
+index e69de29..88d2137 100644
+--- a/debian/twardyece-tandoor.install
++++ b/debian/twardyece-tandoor.install
+@@ -0,0 +1,4 @@
++usr/share/containers/systemd/tandoor.container
++usr/share/containers/systemd/tandoor-staticfiles.volume
++usr/share/containers/systemd/tandoor-mediafiles.volume
++usr/share/twardyece/routes/tandoor.conf
+```
+
+#. Create the `Makefile` for the package
+
+```
+diff --git a/tandoor/Makefile b/tandoor/Makefile
+index e69de29..68d068e 100644
+--- a/tandoor/Makefile
++++ b/tandoor/Makefile
+@@ -0,0 +1,11 @@
 +# Author: Ethan D. Twardy <ethan.twardy@gmail.com>
 +# Created: 12/25/2022
 +
-+SERVICE_NAME=prowlarr
++SERVICE_NAME=tandoor
 +include ../declarations.mk
 +
 +install:
-+	install -Dm644 docker-compose.yaml \
-+		$(DESTDIR)$(SERVICEDIR)/$(SERVICE_NAME).yaml
-+	install -Dm644 volumetric.yaml \
-+		$(DESTDIR)$(VOLUMETRICDIR)/$(SERVICE_NAME).yaml
-+	install -Dm644 nginx.yaml $(DESTDIR)$(NGINXDIR)/$(SERVICE_NAME).yaml
-+	$(call addRequiresTemplate,services-up.target,container@twardyece_prowlarr.service)
++	install -Dm644 tandoor.container -t $(DESTDIR)$(QUADLETDIR)
++	install -Dm644 tandoor-staticfiles.volume -t $(DESTDIR)$(QUADLETDIR)
++	install -Dm644 tandoor-mediafiles.volume -t $(DESTDIR)$(QUADLETDIR)
++	install -Dm644 nginx.srv $(DESTDIR)$(NGINXDIR)/$(SERVICE_NAME).conf
 ```
 
-4. Create the docker-compose file:
+#. Install package and start service
 
 ```
-diff --git a/prowlarr/docker-compose.yaml b/prowlarr/docker-compose.yaml
-new file mode 100644
-index 0000000..4dc0dc3
---- /dev/null
-+++ b/prowlarr/docker-compose.yaml
-@@ -0,0 +1,20 @@
-+---
-+version: "2.1"
-+services:
-+  prowlarr:
-+    image: lscr.io/linuxserver/prowlarr:latest
-+    environment:
-+      - TZ=America/Chicago
-+    volumes:
-+      - prowlarr:/config
-+    restart: unless-stopped
-+
-+# Must connect to the container network to communicate with slapd
-+networks:
-+  default:
-+    external:
-+      name: twardyece_front_net
-+
-+volumes:
-+  prowlarr:
-+    external: true
-```
-
-5. Create the Nginx service configuration file:
-
-```
-diff --git a/prowlarr/nginx.yaml b/prowlarr/nginx.yaml
-new file mode 100644
-index 0000000..fc8185a
---- /dev/null
-+++ b/prowlarr/nginx.yaml
-@@ -0,0 +1,35 @@
-+---
-+version: 1.0
-+configuration:
-+  - !top |
-+    upstream prowlarr {
-+        keepalive 32;
-+        server twardyece_prowlarr_1:9696;
-+    }
-+
-+  - !server
-+    name: twardyece
-+    configuration:
-+      - !location |
-+        location /prowlarr {
-+            return 302 $scheme://$host/prowlarr/;
-+        }
-+
-+      - !location |
-+        location /prowlarr/ {
-+            proxy_pass http://prowlarr;
-+            proxy_pass_request_headers on;
-+            proxy_set_header Host $host;
-+
-+            proxy_set_header X-Real-IP $remote_addr;
-+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-+            proxy_set_header X-Forwarded-Proto $scheme;
-+            proxy_set_header X-Forwarded-Host $http_host;
-+
-+            proxy_set_header Upgrade $http_upgrade;
-+            proxy_set_header Connection $http_connection;
-+
-+            # Disable buffering when the nginx proxy gets very busy during
-+            # streaming
-+            proxy_buffering off;
-+        }
-```
-
-6. Create the volumetric configuration file:
-
-```
-diff --git a/prowlarr/volumetric.yaml b/prowlarr/volumetric.yaml
-new file mode 100644
-index 0000000..1f2cff2
---- /dev/null
-+++ b/prowlarr/volumetric.yaml
-@@ -0,0 +1,8 @@
-+version: 1.0
-+volumes:
-+
-+  prowlarr:
-+    archive:
-+      name: prowlarr
-+      url: /mnt/Library/DockerVolumes/prowlarr-volume.tar.gz
-+      md5: null
-```
-
-7. Add the package to `debian/control`:
-
-```
-diff --git a/debian/control b/debian/control
-index aeccc43..6e4af77 100644
---- a/debian/control
-+++ b/debian/control
-@@ -39,6 +39,11 @@ Architecture: all
- Depends: twardyece-common, ${misc:Depends}
- Description: An instance of jellyfin
- 
-+Package: twardyece-prowlarr
-+Architecture: all
-+Depends: twardyece-common, twardyece-vpn, ${misc:Depends}
-+Description: An instance of Prowlarr
-+
- # Package: twardyece-dns
- # Architecture: all
- # Depends: twardyece-common, twardyece-nginx, ${misc:Depends}
-```
-
-8. Add a debian install file:
-
-```
-diff --git a/debian/twardyece-prowlarr.install b/debian/twardyece-prowlarr.install
-new file mode 100644
-index 0000000..089ee24
---- /dev/null
-+++ b/debian/twardyece-prowlarr.install
-@@ -0,0 +1,4 @@
-+etc/volumetric/volumes.d/prowlarr.yaml
-+usr/lib/systemd/system/services-up.target.requires/container@twardyece_prowlarr.service
-+usr/share/twardyece/prowlarr.yaml
-+usr/share/twardyece/routes/prowlarr.yaml
-```
-
-9. Create the volume with Podman:
-
-```
-$ sudo podman volume create prowlarr
-```
-
-10. Populate the volume with data (if necessary):
-
-```
-$ sudo podman info prowlarr
-$ echo 'secret' | sudo tee /var/lib/containers/storage/prowlarr/_data/secret.json
-```
-
-11. Make and install, restart the services:
-
-```
-$ make clean && make && make package && sudo make reinstall PACKAGE=prowlarr
-# Stop the containers
-$ sudo systemctl start services-down.target
-# Reload service files, since package installation created links. For some reason,
-# this isn't picked up by the systemd dpkg trigger.
-$ sudo systemctl daemon-reload
-# Restart volumetric to update the Nginx configuration.
-$ sudo systemctl restart volumetric.service
-$ sudo systemctl start services-up.target
-```
-
-12. Create the volume backup
-
-```
-$ sudo mount -o remount,rw /mnt/Library
-$ sudo DOCKER_HOST=unix:///var/run/podman/podman.sock volumetric-commit prowlarr
-$ sudo mount -o remount,ro /mnt/Library
-```
-
-13. Update the hash in the volumetric configuration file from the output of
-volumetric-commit:
-
-```
-[edtwardy@edtwardy build]$ sudo DOCKER_HOST=unix:///var/run/podman/podman.sock ./volumetric-commit/volumetric-commit postgres-data
-postgres-data: Renaming /mnt/Library/DockerVolumes/postgres-data-volume.tar.gz to /mnt/Library/DockerVolumes/postgres-data-volume-20220918-173051.tar.gz
-Volume file /mnt/Library/DockerVolumes/postgres-data-volume.tar.gz doesn't appear to exist. Assuming this is an initial commit.
-Pausing any containers that have this volume mounted...
-Archiving entry 1320 of 1320
-md5: 755604b0a05c2625095c1384258aa9b0
-Unpausing containers
+[edtwardy@edtwardy ~]$ sudo dpkg -i ../twardece-tandoor_1-1_all.deb
+[edtwardy@edtwardy ~]$ sudo systemctl daemon-reload
+[edtwardy@edtwardy ~]$ sudo systemctl start tandoor.service
 ```
