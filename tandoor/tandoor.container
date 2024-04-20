@@ -1,0 +1,39 @@
+[Container]
+ContainerName=public_tandoor
+Image=docker.io/vabene1111/recipes
+Network=public-services.network
+
+Volume=tandoor-staticfiles.volume:/opt/recipes/staticfiles
+Volume=tandoor-mediafiles.volume:/opt/recipes/mediafiles
+
+Secret=tandoor-postgresql-password,target=/run/secrets/postgresql-password
+Secret=tandoor-key,target=/run/secrets/tandoor-key
+
+# Secret key
+Environment=SECRET_KEY=/run/secrets/tandoor-key
+
+# Database configuration
+Environment=DB_ENGINE=django.db.backends.postgresql
+Environment=POSTGRES_HOST=internal_postgresql
+Environment=POSTGRES_PORT=5432
+Environment=POSTGRES_USER=tandoor
+Environment=POSTGRES_PASSWORD_FILE=/run/secrets/postgresql-password
+Environment=POSTGRES_DB=tandoor
+
+# LDAP Configuration
+Environment=LDAP_AUTH=1
+Environment=AUTH_LDAP_SERVER_URI=ldap://internal_ldap
+Environment=AUTH_LDAP_BIND_DN=
+Environment=AUTH_LDAP_BIND_PASSWORD=
+Environment=AUTH_LDAP_USER_SEARCH_BASE_DN=ou=people,dc=edtwardy,dc=hopto,dc=org
+
+[Service]
+Restart=always
+TimeoutStartSec=300
+
+[Unit]
+After=services-pre.target
+Requires=services-pre.target
+
+[Install]
+RequiredBy=reverse-proxy-pre.target

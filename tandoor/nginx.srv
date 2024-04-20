@@ -1,0 +1,27 @@
+upstream tandoor {
+    keepalive 32;
+    server public_tandoor:8080;
+}
+
+server {
+    if ($host = recipes.ethantwardy.com) {
+        return 301 https://$host$request_uri;
+    }
+
+    server_name recipes.ethantwardy.com;
+    listen 80;
+    return 404;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name recipes.ethantwardy.com;
+
+    location / {
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass http://tandoor;
+        proxy_redirect http://tandoor https://recipes.ethantwardy.com;
+      }
+}

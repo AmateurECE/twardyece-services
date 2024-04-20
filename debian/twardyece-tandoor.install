@@ -1,0 +1,4 @@
+usr/share/containers/systemd/tandoor.container
+usr/share/containers/systemd/tandoor-staticfiles.volume
+usr/share/containers/systemd/tandoor-mediafiles.volume
+usr/share/twardyece/routes/tandoor.conf
