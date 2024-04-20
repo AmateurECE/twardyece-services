@@ -35,7 +35,7 @@ Create subvolume './@tandoor_staticfiles'
 
 #. Create Quadlet volume unit files for the persistent volumes
 
-```
+```patch
 diff --git a/tandoor/tandoor-staticfiles.volume b/tandoor/tandoor-staticfiles.volume
 index e69de29..55b2e23 100644
 --- a/tandoor/tandoor-staticfiles.volume
@@ -50,7 +50,7 @@ index e69de29..55b2e23 100644
 
 #. Create the Quadlet container unit file
 
-```
+```patch
 diff --git a/tandoor/tandoor.container b/tandoor/tandoor.container
 index e69de29..951012f 100644
 --- a/tandoor/tandoor.container
@@ -99,7 +99,7 @@ index e69de29..951012f 100644
 
 #. Create the Nginx configuration
 
-```
+```patch
 diff --git a/tandoor/nginx.srv b/tandoor/nginx.srv
 index e69de29..44c817b 100644
 --- a/tandoor/nginx.srv
@@ -153,7 +153,7 @@ index 8eff1e8..abb4e7a 100644
 
 #. Add the package to `debian/control`
 
-```diff
+```patch
 diff --git a/debian/control b/debian/control
 index 265a16c..e4b972c 100644
 --- a/debian/control
@@ -174,7 +174,7 @@ index 265a16c..e4b972c 100644
 
 #. Create the install file for `dpkg`
 
-```
+```patch
 diff --git a/debian/twardyece-tandoor.install b/debian/twardyece-tandoor.install
 index e69de29..88d2137 100644
 --- a/debian/twardyece-tandoor.install
@@ -188,7 +188,7 @@ index e69de29..88d2137 100644
 
 #. Create the `Makefile` for the package
 
-```
+```patch
 diff --git a/tandoor/Makefile b/tandoor/Makefile
 index e69de29..68d068e 100644
 --- a/tandoor/Makefile
