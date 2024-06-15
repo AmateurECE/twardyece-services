@@ -210,7 +210,14 @@ index e69de29..68d068e 100644
 #. Install package and start service
 
 ```
-[edtwardy@edtwardy ~]$ sudo dpkg -i ../twardece-tandoor_1-1_all.deb
-[edtwardy@edtwardy ~]$ sudo systemctl daemon-reload
-[edtwardy@edtwardy ~]$ sudo systemctl start tandoor.service
+[edtwardy@edtwardy ~]$ make && make package
+[root@edtwardy ~]$ dpkg -i ../twardece-tandoor_1-1_all.deb
+[root@edtwardy ~]$ systemctl daemon-reload
+[root@edtwardy ~]$ systemctl start tandoor.service
+
+# Needed if this service include Nginx configuration
+[root@edtwardy ~]$ systemctl stop nginx.service
+[root@edtwardy ~]$ podman volume rm systemd-siteconf
+[root@edtwardy ~]$ systemctl restart siteconf-volume.service && sleep 1
+[root@edtwardy ~]$ systemctl restart nginx.service
 ```
