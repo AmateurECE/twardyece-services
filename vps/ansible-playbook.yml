@@ -52,3 +52,16 @@
         sysctl_set: yes
         state: present
         reload: yes
+    - name: Configure sshd
+      lineinfile:
+        path: "/etc/ssh/sshd_config"
+        regex: "^(#)?{{item.key}}"
+        line: "{{item.key}} {{item.value}}"
+        state: present
+      loop:
+        - { key: "Port", value: "10022" }
+        - { key: "AllowUsers", value: "ethantwardy" }
+        - { key: "PermitRootLogin", value: "prohibit-password" }
+        - { key: "PasswordAuthentication", value: "no" }
+      notify:
+        - restart sshd

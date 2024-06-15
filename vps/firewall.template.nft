@@ -5,14 +5,14 @@ table ip filter {
     chain inbound {
         type filter hook input priority 0; policy drop;
         ct state vmap { established: accept, related: accept, invalid: drop }
-        iifname {{vps_interface}} th dport { {{listen_port}}, 22 } accept
+        iifname {{vps_interface}} th dport { {{listen_port}}, 10022 } accept
         iifname {{server_interface}} accept
         icmp type echo-request limit rate 5/second accept
     }
 
     chain prerouting {
         type nat hook prerouting priority -100;
-        iifname {{vps_interface}} tcp dport { 80, 443, 9000 } dnat to \
+        iifname {{vps_interface}} tcp dport { 22, 80, 443, 9000 } dnat to \
             {{client_address}}
     }
 

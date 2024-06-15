@@ -38,7 +38,7 @@ EOF
 
 set -e
 
-PACKAGE_NAME=edtwardy-vps
+PACKAGE_NAME=twardyece-vps
 SHARE_DIR=/usr/share/$PACKAGE_NAME
 VPS_KEYS=$SHARE_DIR/vps-keys.conf
 source $VPS_KEYS
