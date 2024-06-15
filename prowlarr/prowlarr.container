@@ -10,9 +10,8 @@ Restart=always
 TimeoutStartSec=300
 
 [Unit]
-After=services-pre.target
+After=services-pre.target qbittorrent.service
 Requires=services-pre.target
 
 [Install]
 RequiredBy=reverse-proxy-pre.target
-After=qbittorrent.container
