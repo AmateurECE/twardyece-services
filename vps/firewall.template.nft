@@ -12,7 +12,7 @@ table ip filter {
 
     chain prerouting {
         type nat hook prerouting priority -100;
-        iifname {{vps_interface}} tcp dport { 80, 443 } dnat to \
+        iifname {{vps_interface}} tcp dport { 80, 443, 9000 } dnat to \
             {{client_address}}
     }
 

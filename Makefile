@@ -29,6 +29,7 @@ SUBDIRS += blog
 SUBDIRS += docs
 SUBDIRS += postgresql
 SUBDIRS += tandoor
+SUBDIRS += weechat
 
 # Mask these packages for now. The applications don't work for one reason or
 # another.

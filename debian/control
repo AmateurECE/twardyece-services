@@ -79,6 +79,11 @@ Architecture: all
 Depends: twardyece-common, ${misc:Depends}
 Description: A TFTP server serving arbitrary paths
 
+Package: twardyece-weechat
+Architecture: all
+Depends: twardyece-common, ${misc:Depends}
+Description: Weechat Relay service
+
 Package: twardyece-yocto
 Architecture: all
 Depends: twardyece-tftp, twardyece-nginx, ${misc:Depends}

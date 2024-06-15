@@ -1,0 +1,18 @@
+[Container]
+ContainerName=public_weechat
+Image=docker.io/weechat/weechat
+Network=public-services.network
+Volume=weechat.volume:/home/user/.weechat
+Exec=/usr/bin/weechat-headless -d /home/user/.weechat
+PublishPort=9000:9000
+
+[Service]
+Restart=always
+TimeoutStartSec=300
+
+[Unit]
+After=services-pre.target
+Requires=services-pre.target
+
+[Install]
+RequiredBy=services-up.target
