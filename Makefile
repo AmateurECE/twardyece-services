@@ -31,6 +31,7 @@ SUBDIRS += postgresql
 SUBDIRS += tandoor
 SUBDIRS += weechat
 SUBDIRS += miniflux
+SUBDIRS += cimmeria
 
 # Mask these packages for now. The applications don't work for one reason or
 # another.

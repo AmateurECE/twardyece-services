@@ -1,0 +1,20 @@
+[Container]
+ContainerName=public_cimmeria
+Image=ghcr.io/amateurece/cimmeria:latest
+Network=public-services.network
+
+Volume=cimmeria-db.volume:/data
+Environment=REPO_DB_URL=sqlite:///data/repo.db
+Environment=STATIC_BASE_URL=https://static.ethantwardy.com/conan
+Environment=RUST_BACKTRACE=1
+
+[Service]
+Restart=always
+TimeoutStartSec=300
+
+[Unit]
+After=services-pre.target postgresql.service
+Requires=services-pre.target postgresql.service
+
+[Install]
+RequiredBy=reverse-proxy-pre.target

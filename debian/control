@@ -89,6 +89,11 @@ Architecture: all
 Depends: twardyece-common, twardyece-postgresql, twardyece-nginx, ${misc:Depends}
 Description: Miniflux RSS Reader service
 
+Package: twardyece-cimmeria
+Architecture: all
+Depends: twardyece-common, ${misc:Depends}
+Description: Conan C++ Package Repository
+
 Package: twardyece-yocto
 Architecture: all
 Depends: twardyece-tftp, twardyece-nginx, ${misc:Depends}
