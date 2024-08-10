@@ -12,8 +12,7 @@ Restart=always
 TimeoutStartSec=300
 
 [Unit]
-After=reverse-proxy-pre.target
-Requires=reverse-proxy-pre.target
+Before=services-pre.target
 
 [Install]
-RequiredBy=reverse-proxy.target
+RequiredBy=services-pre.target
