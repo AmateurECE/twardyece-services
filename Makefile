@@ -30,6 +30,7 @@ SUBDIRS += docs
 SUBDIRS += postgresql
 SUBDIRS += tandoor
 SUBDIRS += weechat
+SUBDIRS += miniflux
 
 # Mask these packages for now. The applications don't work for one reason or
 # another.

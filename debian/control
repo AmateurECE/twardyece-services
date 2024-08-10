@@ -84,6 +84,11 @@ Architecture: all
 Depends: twardyece-common, ${misc:Depends}
 Description: Weechat Relay service
 
+Package: twardyece-miniflux
+Architecture: all
+Depends: twardyece-common, twardyece-postgresql, twardyece-nginx, ${misc:Depends}
+Description: Miniflux RSS Reader service
+
 Package: twardyece-yocto
 Architecture: all
 Depends: twardyece-tftp, twardyece-nginx, ${misc:Depends}

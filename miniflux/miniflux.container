@@ -1,0 +1,18 @@
+[Container]
+ContainerName=public_miniflux
+Image=docker.io/miniflux/miniflux
+Network=public-services.network
+
+Secret=miniflux-postgresql-url,target=/run/secrets/postgresql-url
+Environment=DATABASE_URL_FILE=/run/secrets/postgresql-url
+
+[Service]
+Restart=always
+TimeoutStartSec=300
+
+[Unit]
+After=services-pre.target postgresql.service
+Requires=services-pre.target postgresql.service
+
+[Install]
+RequiredBy=reverse-proxy-pre.target

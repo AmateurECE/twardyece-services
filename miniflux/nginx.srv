@@ -1,0 +1,27 @@
+upstream miniflux {
+    keepalive 32;
+    server public_miniflux:8080;
+}
+
+server {
+    if ($host = miniflux.ethantwardy.com) {
+        return 301 https://$host$request_uri;
+    }
+
+    server_name = miniflux.ethantwardy.com;
+    listen 80;
+    return 404;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name miniflux.ethantwardy.com;
+
+    location / {
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass http://miniflux;
+        proxy_redirect http://miniflux https://miniflux.ethantwardy.com;
+    }
+}
