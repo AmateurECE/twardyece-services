@@ -2,10 +2,10 @@
 # Created: 12/25/2022
 
 SERVICE_NAME=nginx
-BUILD_TARGETS += make-nginx-conf-release
+BUILD_TARGETS += make-nginx-conf/target/release/make-nginx-conf
 include ../declarations.mk
 
-make-nginx-conf-release:
+make-nginx-conf/target/release/make-nginx-conf:
 	(cd make-nginx-conf && cargo build --release)
 	strip $@
 
