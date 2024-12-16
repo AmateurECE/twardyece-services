@@ -1,0 +1,3 @@
+usr/share/containers/systemd/jellyfin-homevideos.container
+usr/share/containers/systemd/jellyfin-homevideos-config.volume
+usr/share/twardyece/routes/jellyfin-homevideos.conf

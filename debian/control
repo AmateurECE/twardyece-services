@@ -59,6 +59,11 @@ Architecture: all
 Depends: twardyece-common, twardyece-nginx, ${misc:Depends}
 Description: An instance of jellyfin
 
+Package: twardyece-jellyfin-homevideos
+Architecture: all
+Depends: twardyece-common, twardyece-nginx, ${misc:Depends}
+Description: An instance of jellyfin for home videos
+
 Package: twardyece-prowlarr
 Architecture: all
 Depends: twardyece-common, twardyece-vpn, twardyece-nginx, twardyece-qbittorrent, ${misc:Depends}
