@@ -2,7 +2,7 @@
 Description=Mount for TFTP service
 
 [Mount]
-What=/home/edtwardy/Git/Yocto/build/tmp/deploy/images
+What=/home/edtwardy/Git/meta-edtwardy/build/tmp-glibc/deploy/images
 Where=/mnt/Serve/tftp
 Type=none
 Options=bind
