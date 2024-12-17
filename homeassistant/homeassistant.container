@@ -1,0 +1,17 @@
+[Container]
+ContainerName=public_homeassistant
+Image=ghcr.io/home-assistant/home-assistant:stable
+Environment=TZ=America/Chicago
+Volume=homeassistant-config.volume:/config
+Network=public-services.network
+
+[Service]
+Restart=always
+TimeoutStartSec=300
+
+[Unit]
+After=services-pre.target
+Requires=services-pre.target
+
+[Install]
+RequiredBy=reverse-proxy-pre.target

@@ -1,0 +1,3 @@
+usr/share/containers/systemd/homeassistant.container
+usr/share/containers/systemd/homeassistant-config.volume
+usr/share/twardyece/routes/homeassistant.conf

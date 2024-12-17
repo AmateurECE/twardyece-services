@@ -33,6 +33,7 @@ SUBDIRS += weechat
 SUBDIRS += miniflux
 SUBDIRS += cimmeria
 SUBDIRS += jellyfin-homevideos
+SUBDIRS += homeassistant
 
 # Mask these packages for now. The applications don't work for one reason or
 # another.
