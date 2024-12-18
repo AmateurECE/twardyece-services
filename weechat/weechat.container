@@ -1,6 +1,6 @@
 [Container]
 ContainerName=public_weechat
-Image=docker.io/weechat/weechat
+Image=docker.io/weechat/weechat:4.4.2
 Network=public-services.network
 Volume=weechat.volume:/home/user/.weechat
 Exec=/usr/bin/weechat-headless -d /home/user/.weechat
