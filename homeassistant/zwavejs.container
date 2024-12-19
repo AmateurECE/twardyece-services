@@ -1,0 +1,17 @@
+[Container]
+ContainerName=private_zwavejs
+Image=docker.io/zwavejs/zwave-js-ui:latest
+AddDevice=/dev/serial/by-id/usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_14f72bfd27c4ec1191b682480af30733-if00-port0:/dev/zwave
+Volume=zwavejs-store.volume:/usr/src/app/store
+Network=public-services.network
+
+[Service]
+Restart=always
+TimeoutStartSec=300
+
+[Unit]
+After=services-pre.target
+Requires=services-pre.target
+
+[Install]
+RequiredBy=reverse-proxy-pre.target

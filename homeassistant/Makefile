@@ -8,3 +8,6 @@ install:
 	install -Dm644 homeassistant.container -t $(DESTDIR)$(QUADLETDIR)
 	install -Dm644 homeassistant-config.volume -t $(DESTDIR)$(QUADLETDIR)
 	install -Dm644 nginx.srv $(DESTDIR)$(NGINXDIR)/$(SERVICE_NAME).conf
+	: # Z-Wave JS service files
+	install -Dm644 zwavejs.container -t $(DESTDIR)$(QUADLETDIR)
+	install -Dm644 zwavejs-store.volume -t $(DESTDIR)$(QUADLETDIR)
