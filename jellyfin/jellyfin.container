@@ -1,6 +1,6 @@
 [Container]
 ContainerName=public_jellyfin
-Image=ghcr.io/linuxserver/jellyfin
+Image=lscr.io/linuxserver/jellyfin:latest
 Environment=PUID=1000
 Environment=PGID=1000
 Environment=TZ=America/Chicago
