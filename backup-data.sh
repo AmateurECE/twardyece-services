@@ -35,3 +35,9 @@ mkdir /mnt/Backup/postgresql/$(date +%Y-%m-%d)
 podman exec -it internal_postgresql \
   pg_dump -U postgres miniflux \
   >/mnt/Backup/postgresql/$date/miniflux.sql
+podman exec -it internal_postgresql \
+  pg_dump -U postgres tandoor \
+  >/mnt/Backup/postgresql/$date/tandoor.sql
+podman exec -it internal_postgresql \
+  pg_dump -U postgres gnucash \
+  >/mnt/Backup/postgresql/$date/gnucash.sql
