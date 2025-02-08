@@ -6,6 +6,7 @@ Environment=POSTGRES_PASSWORD_FILE=/run/secrets/postgresql-password
 Environment=PGDATA=/var/lib/postgresql/data/pgdata
 Network=public-services.network
 Volume=postgresql.volume:/var/lib/postgresql/data
+PublishPort=5432:5432
 
 [Service]
 Restart=always
