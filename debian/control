@@ -14,6 +14,11 @@ Architecture: all
 Depends: ${misc:Depends}
 Description: Common infrastructure for all self-hosted services
 
+Package: twardyece-data
+Architecture: all
+Depends: ${misc:Depends}
+Description: Common infrastructure for all self-hosted services
+
 Package: twardyece-redirect
 Architecture: all
 Depends: twardyece-nginx, ${misc:Depends}
