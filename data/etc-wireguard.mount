@@ -8,4 +8,5 @@ Type=btrfs
 Options=subvol=@wireguard_configs
 
 [Install]
-RequiredBy=wg-quick@.target
+RequiredBy=wg-quick@.service
+Before=wg-quick@.service
