@@ -1,2 +1,4 @@
 usr/lib/systemd/system/etc-wireguard.mount
 usr/lib/systemd/system/var-lib-containers-storage-secrets.mount
+usr/lib/systemd/system/local-fs.target.wants/etc-wireguard.mount
+usr/lib/systemd/system/local-fs.target.wants/var-lib-containers-storage-secrets.mount
