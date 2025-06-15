@@ -1,0 +1,11 @@
+table ip filter {
+    chain prerouting {
+        type nat hook prerouting priority -100;
+        iifname eth0 tcp dport 10022 dnat to 10.4.0.2
+    }
+
+    chain postrouting {
+        type nat hook postrouting priority 100;
+        oifname wg0 masquerade
+    }
+}

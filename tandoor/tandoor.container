@@ -27,6 +27,8 @@ Environment=AUTH_LDAP_BIND_DN=
 Environment=AUTH_LDAP_BIND_PASSWORD=
 Environment=AUTH_LDAP_USER_SEARCH_BASE_DN=ou=people,dc=edtwardy,dc=hopto,dc=org
 
+Environment=CSRF_TRUSTED_ORIGINS=https://recipes.ethantwardy.com
+
 [Service]
 Restart=always
 TimeoutStartSec=300

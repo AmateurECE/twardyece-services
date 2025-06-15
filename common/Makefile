@@ -18,3 +18,7 @@ install:
 	: # SSH configuration
 	install -Dm644 sshd.conf \
 		$(DESTDIR)/etc/ssh/sshd_config.d/ethantwardy.com.conf
+	: # services-pre.target requires wg0 to come up
+	$(call addRequiresTemplate,services-pre.target,wg-quick@wg0.service)
+	: # Ensure that wg0 comes up before services-pre.target is reached.
+	$(call dropinBefore,wg-quick@wg0.service,services-pre.target)

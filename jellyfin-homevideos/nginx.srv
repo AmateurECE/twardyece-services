@@ -1,21 +1,12 @@
-server {
-    listen 80;
-    listen [::]:80;
-    server_name homevideos.ethantwardy.com;
-
-    # Redirect HTTP to HTTPS
-    return 301 https://$host$request_uri;
-}
-
 upstream homevideos {
         keepalive 32;
         server public_jellyfin-homevideos:8096;
 }
 
 server {
-    listen 443 ssl http2;
-    listen [::]:443 ssl http2;
-    server_name homevideos.ethantwardy.com;
+    listen 80;
+    listen [::]:80;
+    server_name homevideos.ethantwardy.com homevideos.lan;
 
     # The default `client_max_body_size` is 1M, this might not be enough for
     # some posters, etc.

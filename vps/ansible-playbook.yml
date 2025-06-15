@@ -1,46 +1,11 @@
 ---
 - name: Linode Setup
-  hosts: 172.105.97.217
+  hosts: ethantwardy.com
   tasks:
-    - name: Install WireGuard
-      ansible.builtin.package:
-        name: wireguard-tools
-        state: latest
-    - name: Load wireguard.ko for this boot
-      modprobe:
-        name: wireguard
-        state: present
-    - name: Load wireguard.ko on boot
-      ansible.builtin.lineinfile:
-        path: /etc/modules
-        regexp: '^wireguard'
-        line: 'wireguard'
-    - name: Copy wg0.conf to node
-      ansible.builtin.copy:
-        src: "{{ wg_conf_vps }}"
-        dest: /etc/wireguard/wg0.conf
-        owner: root
-        group: root
-        mode: '0400'
-    - name: Copy wireguard publickey to node
-      ansible.builtin.copy:
-        src: "{{ wg_publickey_vps }}"
-        dest: /etc/wireguard/publickey
-        owner: root
-        group: root
-        mode: '0400'
-    - name: Install wireguard-tools-wg
-      ansible.builtin.package:
-        name: wireguard-tools-wg
-        state: latest
-    - name: Install nftables
-      ansible.builtin.package:
-        name: nftables
-        state: latest
     - name: Copy nftables ruleset
       ansible.builtin.copy:
-        src: /usr/share/edtwardy-vps/firewall.nft
-        dest: /etc/nftables.nft
+        src: vps/forward-ssh.nft
+        dest: /etc/nftables.nft.d/forward-ssh.nft
         owner: root
         group: root
         mode: '0644'
@@ -52,16 +17,3 @@
         sysctl_set: yes
         state: present
         reload: yes
-    - name: Configure sshd
-      lineinfile:
-        path: "/etc/ssh/sshd_config"
-        regex: "^(#)?{{item.key}}"
-        line: "{{item.key}} {{item.value}}"
-        state: present
-      loop:
-        - { key: "Port", value: "10022" }
-        - { key: "AllowUsers", value: "ethantwardy" }
-        - { key: "PermitRootLogin", value: "prohibit-password" }
-        - { key: "PasswordAuthentication", value: "no" }
-      notify:
-        - restart sshd

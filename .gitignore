@@ -13,9 +13,7 @@
 /debian/twardyece-jenkins/
 /debian/twardyece-nginx/
 /debian/twardyece-openldap/
-/debian/twardyece-redirect/
 /debian/twardyece-tftp/
-/debian/twardyece-vps/
 /debian/twardyece-yocto/
 /debian/twardyece-vpn/
 /debian/twardyece-blog/

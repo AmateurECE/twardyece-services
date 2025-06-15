@@ -8,40 +8,33 @@ DATA_DIR=/usr/share/twardyece/routes
 IMAGE=siteconf-volume.squashfs
 
 update_routes() {
-    rm -rf $LOCAL_STATE_DIR/conf
-    mkdir -p $LOCAL_STATE_DIR/conf
+  rm -rf $LOCAL_STATE_DIR/conf
+  mkdir -p $LOCAL_STATE_DIR/conf
 
-    # Copy whole service conf files over, if they exist
-    if compgen -G "$DATA_DIR/*.conf" > /dev/null; then
-        cp $DATA_DIR/*.conf $LOCAL_STATE_DIR/conf
-    fi
+  # Copy whole service conf files over, if they exist
+  if compgen -G "$DATA_DIR/*.conf" >/dev/null; then
+    cp $DATA_DIR/*.conf $LOCAL_STATE_DIR/conf
+  fi
 
-    # Copy anything in the routes/common directory
-    if compgen -G "$DATA_DIR/common/*.conf" > /dev/null; then
-        cp $DATA_DIR/common/*.conf $LOCAL_STATE_DIR/conf/common
-    fi
+  # Copy anything in the routes/common directory
+  if compgen -G "$DATA_DIR/common/*.conf" >/dev/null; then
+    cp $DATA_DIR/common/*.conf $LOCAL_STATE_DIR/conf/common
+  fi
 
-    # If there are service fragments, build a single conf from them
-    if compgen -G "$DATA_DIR/*.yaml" > /dev/null; then
-        make-nginx-conf $DATA_DIR/*.yaml \
-                        -o $LOCAL_STATE_DIR/conf/default.conf
-    fi
-
-    # Then, create a volume image from the outputs
-    mksquashfs $LOCAL_STATE_DIR/conf $LOCAL_STATE_DIR/$IMAGE -noappend
+  # Then, create a volume image from the outputs
+  mksquashfs $LOCAL_STATE_DIR/conf $LOCAL_STATE_DIR/$IMAGE -noappend
 }
 
 case "$1" in
-    configure|triggered)
-        printf '%s\n' "Updating routes"
-        update_routes
-    ;;
-    abort-upgrade|abort-remove|abort-deconfigure)
-    ;;
-    *)
-        echo "postinst called with unknown argument \`$1'" >&2
-        exit 1
-        ;;
+configure | triggered)
+  printf '%s\n' "Updating routes"
+  update_routes
+  ;;
+abort-upgrade | abort-remove | abort-deconfigure) ;;
+*)
+  echo "postinst called with unknown argument \`$1'" >&2
+  exit 1
+  ;;
 esac
 
 #DEBHELPER#

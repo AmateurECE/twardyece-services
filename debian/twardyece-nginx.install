@@ -1,15 +1,8 @@
 usr/share/containers/systemd/nginx.container
-usr/share/containers/systemd/acme-challenge.volume
 usr/share/containers/systemd/sitedata.volume
 usr/share/containers/systemd/siteconf.volume
-usr/share/containers/systemd/ssl-letsencrypt.volume
-usr/share/twardyece/routes/ssl.conf
-usr/share/twardyece/routes/nginx.yaml
 usr/share/twardyece/routes/ethantwardy.conf
-usr/lib/systemd/system/renew-certificates.service
-usr/lib/systemd/system/renew-certificates.timer
 usr/lib/systemd/system/reverse-proxy.target
 usr/lib/systemd/system/services-up.target.requires/reverse-proxy.target
-usr/bin/make-nginx-conf
-usr/bin/webservices-certbot
-etc/twardyece/luadns.ini
+usr/lib/systemd/system/services-pre.target.requires/wg-quick@wg0.service
+usr/lib/systemd/system/wg-quick@wg0.service.d/services-pre.target.conf

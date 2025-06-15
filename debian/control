@@ -2,7 +2,7 @@ Source: twardyece-services
 Section: contrib/web
 Priority: optional
 Maintainer: Ethan D. Twardy <ethan.twardy@gmail.com>
-Build-Depends: debhelper-compat (= 13), renderbars (>= 0.2.1)
+Build-Depends: debhelper-compat (= 13)
 Standards-Version: 4.5.1
 Homepage: https://github.com/AmateurECE/twardyece-services
 Vcs-Browser: https://github.com/AmateurECE/twardyece-services
@@ -18,11 +18,6 @@ Package: twardyece-data
 Architecture: all
 Depends: ${misc:Depends}
 Description: Common infrastructure for all self-hosted services
-
-Package: twardyece-redirect
-Architecture: all
-Depends: twardyece-nginx, ${misc:Depends}
-Description: Virtual host for Nginx to redirect from my previous hostname
 
 Package: twardyece-blog
 Architecture: all
@@ -113,11 +108,6 @@ Package: twardyece-yocto
 Architecture: all
 Depends: twardyece-tftp, twardyece-nginx, ${misc:Depends}
 Description: Infrastructure for serving Yocto artifacts
-
-Package: twardyece-vps
-Architecture: all
-Depends: twardyece-common, renderbars, ${misc:Depends}
-Description: Scripts for setup of a server (VPS) which supports web services
 
 Package: twardyece-vpn
 Architecture: all

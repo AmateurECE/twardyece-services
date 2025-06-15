@@ -4,8 +4,8 @@ upstream qbittorrent {
 }
 
 server {
-    listen 443 ssl;
-    listen [::]:443 ssl;
+    listen 80;
+    listen [::]:80;
     server_name torrents.ethantwardy.com;
 
     location / {
