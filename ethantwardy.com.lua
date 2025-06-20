@@ -12,7 +12,7 @@ txt(
 txt("_dmarc", "v=DMARC1; p=reject; rua=mailto:postmaster@ethantwardy.com;")
 txt("_mta-sts.ethantwardy.com.", "v=STSv1; id=20250619;")
 txt("_smtp._tls.ethantwardy.com.", "v=TLSRPTv1; rua=mailto:postmaster@ethantwardy.com;")
-tlsa("_25._tcp.mail", 3, "6a0864b49b44f9acdc71acbb13a5b5fa56fd298afa1613c1c87b66316e411b06")
+tlsa("_25._tcp", 3, "6a0864b49b44f9acdc71acbb13a5b5fa56fd298afa1613c1c87b66316e411b06")
 
 --- Needed to remain verified in Google Postmaster tools
 txt(_a, "google-site-verification=7Gpev4O9vRdmnM4THOpEM9b50byopvngKREYLTdEHTQ")
