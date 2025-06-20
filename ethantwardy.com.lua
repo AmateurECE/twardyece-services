@@ -12,7 +12,6 @@ txt(
 txt("_dmarc", "v=DMARC1; p=reject; rua=mailto:postmaster@ethantwardy.com;")
 txt("_mta-sts.ethantwardy.com.", "v=STSv1; id=20250619;")
 txt("_smtp._tls.ethantwardy.com.", "v=TLSRPTv1; rua=mailto:postmaster@ethantwardy.com;")
-ds(_a, 60420, "dd6a182321309f7236750bc71acb6c99dc5bd5e9b2a438138b9a8e7d75cff695")
 tlsa("_25._tcp.mail", 3, "6a0864b49b44f9acdc71acbb13a5b5fa56fd298afa1613c1c87b66316e411b06")
 
 --- Needed to remain verified in Google Postmaster tools
