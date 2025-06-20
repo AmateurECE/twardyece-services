@@ -12,6 +12,6 @@ server {
         proxy_set_header Host $http_host;
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_pass http://tandoor;
-        proxy_redirect http://tandoor https://recipes.ethantwardy.com;
+        proxy_redirect http://tandoor http://recipes.ethantwardy.com;
       }
 }
