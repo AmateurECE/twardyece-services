@@ -31,7 +31,7 @@ server {
     add_header Origin-Agent-Cluster "?1" always;
 
     location = / {
-        return 302 https://$host/web/;
+        return 302 http://$host/web/;
     }
 
     location / {

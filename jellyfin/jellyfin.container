@@ -11,6 +11,7 @@ Volume=/mnt/library/Shows:/data/Shows:ro
 Volume=/mnt/library/Music:/data/Music:ro
 Volume=/mnt/library/Audiobooks:/data/Audiobooks:ro
 Network=public-services.network
+PublishPort=8096:8096
 
 [Service]
 Restart=always
