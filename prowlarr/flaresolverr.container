@@ -1,8 +1,7 @@
 [Container]
-ContainerName=public_prowlarr
-Image=lscr.io/linuxserver/prowlarr:latest
+ContainerName=internal_flaresolverr
+Image=docker.io/flaresolverr/flaresolverr:latest
 Environment=TZ=America/Chicago
-Volume=prowlarr-config.volume:/config
 Network=public-services.network
 
 [Service]
@@ -10,7 +9,7 @@ Restart=always
 TimeoutStartSec=300
 
 [Unit]
-After=services-pre.target flaresolverr.service qbittorrent.service
+After=services-pre.target
 Requires=services-pre.target
 
 [Install]

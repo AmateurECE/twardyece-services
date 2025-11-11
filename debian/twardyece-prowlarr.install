@@ -1,3 +1,4 @@
 usr/share/containers/systemd/prowlarr.container
+usr/share/containers/systemd/flaresolverr.container
 usr/share/containers/systemd/prowlarr-config.volume
 usr/share/twardyece/routes/prowlarr.conf
