@@ -6,7 +6,7 @@ upstream tandoor {
 server {
     listen 80;
     listen [::]:80;
-    server_name recipes.ethantwardy.com;
+    server_name recipes.ethantwardy.com recipes.lan;
 
     location / {
         proxy_set_header Host $http_host;
