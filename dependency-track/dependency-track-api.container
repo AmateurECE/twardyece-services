@@ -1,0 +1,16 @@
+[Container]
+ContainerName=public_dependency-track-api
+Image=docker.io/dependencytrack/apiserver
+Network=public-services.network
+Volume=dependency-track.volume:/data
+
+[Service]
+Restart=always
+TimeoutStartSec=300
+
+[Unit]
+After=services-pre.target
+Requires=services-pre.target
+
+[Install]
+RequiredBy=reverse-proxy-pre.target

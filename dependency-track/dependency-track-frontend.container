@@ -1,0 +1,15 @@
+[Container]
+ContainerName=public_dependency-track-frontend
+Image=docker.io/dependencytrack/frontend
+Network=public-services.network
+
+[Service]
+Restart=always
+TimeoutStartSec=300
+
+[Unit]
+After=services-pre.target
+Requires=services-pre.target
+
+[Install]
+RequiredBy=reverse-proxy-pre.target

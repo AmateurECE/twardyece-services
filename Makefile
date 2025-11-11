@@ -13,32 +13,31 @@ BUILD_DIR = build
 B := $(shell pwd)/$(BUILD_DIR)
 $(shell mkdir -p $(B))
 
+SUBDIRS += blog
+SUBDIRS += cimmeria
 SUBDIRS += common
-SUBDIRS += nginx
+SUBDIRS += data
+SUBDIRS += dependency-track
+SUBDIRS += docs
+SUBDIRS += homeassistant
 SUBDIRS += jellyfin
+SUBDIRS += jellyfin-homevideos
+SUBDIRS += jenkins
+SUBDIRS += miniflux
+SUBDIRS += nginx
+SUBDIRS += openldap
+SUBDIRS += postgresql
 SUBDIRS += prowlarr
 SUBDIRS += qbittorrent
-SUBDIRS += tftp
-SUBDIRS += yocto
-SUBDIRS += vpn
-SUBDIRS += openldap
-SUBDIRS += jenkins
-SUBDIRS += blog
-SUBDIRS += docs
-SUBDIRS += postgresql
 SUBDIRS += tandoor
+SUBDIRS += tftp
+SUBDIRS += vpn
 SUBDIRS += weechat
-SUBDIRS += miniflux
-SUBDIRS += cimmeria
-SUBDIRS += jellyfin-homevideos
-SUBDIRS += homeassistant
-SUBDIRS += data
+SUBDIRS += yocto
 
 # Mask these packages for now. The applications don't work for one reason or
 # another.
-# SUBDIRS += compilations
 # SUBDIRS += dns
-# SUBDIRS += budget-tool
 
 all: build-subdirs
 

@@ -1,0 +1,4 @@
+usr/share/containers/systemd/dependency-track-api.container
+usr/share/containers/systemd/dependency-track-frontend.container
+usr/share/containers/systemd/dependency-track.volume
+usr/share/twardyece/routes/dependency-track.conf

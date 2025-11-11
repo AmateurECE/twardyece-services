@@ -19,6 +19,11 @@ Architecture: all
 Depends: ${misc:Depends}
 Description: Common infrastructure for all self-hosted services
 
+Package: twardyece-dependency-track
+Architecture: all
+Depends: ${misc:Depends}
+Description: Dependency Track deployment
+
 Package: twardyece-blog
 Architecture: all
 Depends: twardyece-nginx, twardyece-jenkins, ${misc:Depends}
