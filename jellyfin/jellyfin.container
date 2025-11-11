@@ -6,10 +6,10 @@ Environment=PGID=1000
 Environment=TZ=America/Chicago
 Environment=JELLYFIN_PublishedServerUrl=192.168.1.60
 Volume=jellyfin-config.volume:/config
-Volume=/mnt/Library/Movies:/data/Movies:ro
-Volume=/mnt/Library/Shows:/data/Shows:ro
-Volume=/mnt/Library/Music:/data/Music:ro
-Volume=/mnt/Library/Audiobooks:/data/Audiobooks:ro
+Volume=/mnt/library/Movies:/data/Movies:ro
+Volume=/mnt/library/Shows:/data/Shows:ro
+Volume=/mnt/library/Music:/data/Music:ro
+Volume=/mnt/library/Audiobooks:/data/Audiobooks:ro
 Network=public-services.network
 
 [Service]

@@ -5,9 +5,9 @@ Environment=PUID=1000
 Environment=PGID=1000
 Environment=TZ=America/Chicago
 Environment=WEBUI_PORT=30000
-Volume=/mnt/Library/Torrents:/downloads
+Volume=/mnt/volatile/Torrents:/downloads
 Volume=/mnt/TorrentFiles:/torrents
-Volume=/mnt/Library/Seeding:/seeding
+Volume=/mnt/volatile/Seeding:/seeding
 Volume=qbittorrent-config.volume:/config
 Network=public-services.network
 

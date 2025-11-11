@@ -1,0 +1,13 @@
+[Unit]
+Description=Mount for BTRFS Pool
+Before=podman.service,local-fs.target
+
+[Mount]
+What=LABEL=dataset
+Where=/mnt/dataset
+Type=btrfs
+Options=subvolid=5
+
+[Install]
+RequiredBy=podman.service
+

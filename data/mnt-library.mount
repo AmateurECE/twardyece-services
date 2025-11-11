@@ -1,0 +1,12 @@
+[Unit]
+Description=Mount for Library
+Before=podman.service,local-fs.target
+
+[Mount]
+What=LABEL=dataset
+Where=/mnt/library
+Type=btrfs
+Options=subvol=@library
+
+[Install]
+RequiredBy=podman.service
