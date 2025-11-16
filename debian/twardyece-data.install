@@ -5,4 +5,8 @@ usr/lib/systemd/system/mnt-dataset.mount
 usr/lib/systemd/system/mnt-services.mount
 usr/lib/systemd/system/var-lib-containers-storage-secrets.mount
 usr/lib/systemd/system/local-fs.target.wants/etc-wireguard.mount
+usr/lib/systemd/system/local-fs.target.wants/mnt-library.mount
+usr/lib/systemd/system/local-fs.target.wants/mnt-volatile.mount
+usr/lib/systemd/system/local-fs.target.wants/mnt-dataset.mount
+usr/lib/systemd/system/local-fs.target.wants/mnt-services.mount
 usr/lib/systemd/system/local-fs.target.wants/var-lib-containers-storage-secrets.mount
