@@ -45,7 +45,7 @@ index e69de29..55b2e23 100644
 +PodmanArgs=--driver=local
 +Type=btrfs
 +Options=subvol=@tandoor_staticfiles
-+Device=/dev/disk/by-uuid/05599193-00bc-4a81-9550-54623b2ec8c4
++Device=/dev/disk/by-label/services
 ```
 
 #. Create the Quadlet container unit file

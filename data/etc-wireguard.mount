@@ -3,7 +3,7 @@ Description=Mount for WireGuard configuration
 Before=local-fs.target
 
 [Mount]
-What=UUID=05599193-00bc-4a81-9550-54623b2ec8c4
+What=LABEL=services
 Where=/etc/wireguard
 Type=btrfs
 Options=subvol=@wireguard_configs

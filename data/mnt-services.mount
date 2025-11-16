@@ -3,7 +3,7 @@ Description=Mount for Library
 Before=podman.service,local-fs.target
 
 [Mount]
-What=UUID=05599193-00bc-4a81-9550-54623b2ec8c4
+What=LABEL=services
 Where=/mnt/services
 Type=btrfs
 Options=subvolid=5
