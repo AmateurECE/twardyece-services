@@ -1,0 +1,8 @@
+[Unit]
+Description=Daily check for new package versions
+
+[Timer]
+OnCalendar=daily
+
+[Install]
+WantedBy=timers.target

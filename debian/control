@@ -34,6 +34,11 @@ Architecture: all
 Depends: twardyece-nginx, twardyece-jenkins, ${misc:Depends}
 Description: Virtual host for Nginx to redirect from my previous hostname
 
+Package: twardyece-package-track
+Architecture: all
+Depends: twardyece-common, twardyece-postgresql, ${misc:Depends}
+Description: Package for package-track deployment
+
 Package: twardyece-postgresql
 Architecture: all
 Depends: twardyece-common, ${misc:Depends}

@@ -26,6 +26,7 @@ SUBDIRS += jenkins
 SUBDIRS += miniflux
 SUBDIRS += nginx
 SUBDIRS += openldap
+SUBDIRS += package-track
 SUBDIRS += postgresql
 SUBDIRS += prowlarr
 SUBDIRS += qbittorrent

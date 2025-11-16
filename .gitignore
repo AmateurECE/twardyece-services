@@ -19,6 +19,7 @@
 /debian/twardyece-miniflux/
 /debian/twardyece-nginx/
 /debian/twardyece-openldap/
+/debian/twardyece-package-track/
 /debian/twardyece-postgresql/
 /debian/twardyece-prowlarr/
 /debian/twardyece-qbittorrent/
