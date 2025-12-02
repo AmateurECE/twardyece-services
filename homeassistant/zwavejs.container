@@ -1,9 +1,10 @@
 [Container]
-ContainerName=private_zwavejs
+ContainerName=internal_zwavejs
 Image=docker.io/zwavejs/zwave-js-ui:latest
 AddDevice=/dev/serial/by-id/usb-Silicon_Labs_CP2102N_USB_to_UART_Bridge_Controller_14f72bfd27c4ec1191b682480af30733-if00-port0:/dev/zwave
 Volume=zwavejs-store.volume:/usr/src/app/store
-Network=public-services.network
+Network=host
+PublishPort=3000:3000
 
 [Service]
 Restart=always

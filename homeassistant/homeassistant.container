@@ -3,7 +3,9 @@ ContainerName=public_homeassistant
 Image=ghcr.io/home-assistant/home-assistant:stable
 Environment=TZ=America/Chicago
 Volume=homeassistant-config.volume:/config
-Network=public-services.network
+Network=host
+PublishPort=5353:5353
+PublishPort=8123:8123
 
 [Service]
 Restart=always
