@@ -1,5 +1,1 @@
 [Volume]
-PodmanArgs=--driver=local
-Type=btrfs
-Options=subvol=@postgresql_data
-Device=/dev/disk/by-label/services

@@ -1,5 +1,6 @@
 [Container]
 ContainerName=public_jenkins-controller
+HostName=jenkins.lan
 Image=localhost/amateurece/jenkins:latest
 Volume=jenkins-controller-config.volume:/config
 Volume=jenkins-controller-secrets.volume:/var/jenkins_home/secrets

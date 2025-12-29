@@ -1,7 +1,4 @@
 jenkins:
-  agentProtocols:
-  - "JNLP4-connect"
-  - "Ping"
   authorizationStrategy:
     loggedInUsersCanDoAnything:
       allowAnonymousRead: false
@@ -14,12 +11,11 @@ jenkins:
   - name: "docker-agent"
   markupFormatter: "plainText"
   mode: NORMAL
-  myViewsTabBar: "standard"
   nodes:
   - permanent:
       launcher:
         inbound:
-          tunnel: "public_jenkins-controller:50000"
+          tunnel: "jenkins.lan:50000"
           workDirSettings:
             disabled: false
             failIfWorkDirIsMissing: false

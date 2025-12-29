@@ -5,6 +5,7 @@ Network=public-services.network
 
 Secret=miniflux-postgresql-url,target=/run/secrets/postgresql-url
 Environment=DATABASE_URL_FILE=/run/secrets/postgresql-url
+Environment=RUN_MIGRATIONS=1
 
 [Service]
 Restart=always

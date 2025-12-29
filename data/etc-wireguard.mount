@@ -7,3 +7,6 @@ What=LABEL=services
 Where=/etc/wireguard
 Type=btrfs
 Options=subvol=@wireguard_configs
+
+[Install]
+RequiredBy=services-pre.target

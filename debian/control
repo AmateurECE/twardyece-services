@@ -11,7 +11,7 @@ Rules-Requires-Root: no
 
 Package: twardyece-common
 Architecture: all
-Depends: ${misc:Depends}
+Depends: podman, ${misc:Depends}
 Description: Common infrastructure for all self-hosted services
 
 Package: twardyece-data
@@ -111,7 +111,7 @@ Description: Infrastructure for serving Yocto artifacts
 
 Package: twardyece-vpn
 Architecture: all
-Depends: twardyece-common, ${misc:Depends}
+Depends: twardyece-common, wireguard-tools, resolvconf ${misc:Depends}
 Description: Setup of a VPN connection that supports a subset of services.
 
 Package: twardyece-openldap

@@ -5,7 +5,7 @@ Volume=sitedata.volume:/home/jenkins/sitedata
 Volume=jenkins-agent-secret.volume:/secrets:ro
 Environment=REPOSITORY_MOUNT=/home/jenkins/repository
 Environment=AGENT_NAME=docker-agent
-Environment=CONTROLLER_HOSTNAME=http://public_jenkins-controller:8080
+Environment=CONTROLLER_HOSTNAME=http://jenkins.lan:8080
 Environment=GIT_COMMITTER_NAME=jenkins
 Environment=GIT_COMMITTER_EMAIL=jenkins@localhost
 Network=public-services.network

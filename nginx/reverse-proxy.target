@@ -2,3 +2,6 @@
 Requires=reverse-proxy-pre.target
 After=reverse-proxy-pre.target
 Before=services-up.target
+
+[Install]
+WantedBy=multi-user.target
